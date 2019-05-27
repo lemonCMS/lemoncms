@@ -1,15 +1,15 @@
 {
-  "name": "react-morty",
+  "name": "@lemoncms/miniverse",
   "version": "1.0.0",
   "description": "rxjs state manager for React",
-  "repository": "Lemoncms/react-morty",
+  "repository": "http://github.com/lemoncms/lemoncms/miniverse",
   "license": "MIT",
   "authors": [
     "Raymond van Vuuren"
   ],
   "files": [],
   "main": "index.js",
-  "module": "esm/react-morty.js",
+  "module": "esm/miniverse.js",
   "sideEffects": false,
   "scripts": {
     "build": "rollup -c",

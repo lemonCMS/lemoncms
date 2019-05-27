@@ -1,0 +1,50 @@
+{
+  "esm/miniverse.js": {
+    "bundled": 13898,
+    "minified": 6567,
+    "gzipped": 2197,
+    "treeshaked": {
+      "rollup": {
+        "code": 174,
+        "import_statements": 168
+      },
+      "webpack": {
+        "code": 1327
+      }
+    }
+  },
+  "umd/miniverse.js": {
+    "bundled": 173174,
+    "minified": 50132,
+    "gzipped": 14179
+  },
+  "umd/miniverse.min.js": {
+    "bundled": 171966,
+    "minified": 49540,
+    "gzipped": 13885
+  },
+  "esm/@lemoncms/miniverse.js": {
+    "bundled": 13896,
+    "minified": 6565,
+    "gzipped": 2193,
+    "treeshaked": {
+      "rollup": {
+        "code": 174,
+        "import_statements": 168
+      },
+      "webpack": {
+        "code": 1327
+      }
+    }
+  },
+  "umd/@lemoncms/miniverse.js": {
+    "bundled": 173172,
+    "minified": 50130,
+    "gzipped": 14176
+  },
+  "umd/@lemoncms/miniverse.min.js": {
+    "bundled": 171966,
+    "minified": 49540,
+    "gzipped": 13885
+  }
+}

@@ -1,4 +1,4 @@
-import { Miniverse } from 'react-morty';
+import { Miniverse } from 'miniverse';
 import Github from './__mock__/Github-mock';
 import axiosMock from 'axios';
 

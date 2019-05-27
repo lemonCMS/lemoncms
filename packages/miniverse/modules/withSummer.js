@@ -5,8 +5,6 @@ import { deepEqual } from 'fast-equals';
 import PropTypes from 'prop-types';
 import MeeSeeksContext from './MeeSeeksContext';
 
-let mounted = false;
-
 /**
  *
  * @param conf
@@ -104,7 +102,7 @@ export default (conf = null) => Component => {
       oldState[service][watcher] = JSON.parse(JSON.stringify(data));
 
       if (!deepEqual(this.state, oldState)) {
-        if (mounted) {
+        if (this.mounted) {
           this.setState(oldState);
         }
 
@@ -117,7 +115,7 @@ export default (conf = null) => Component => {
      * @returns {*}
      */
     render() {
-      mounted = true;
+      this.mounted = true;
       const newProps = Object.assign({}, { ...this.cache }, { ...this.state });
       return <Component {...this.props} {...newProps} {...this.context} />;
     }

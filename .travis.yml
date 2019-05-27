@@ -12,7 +12,7 @@ before_script:
 - ([[ -z "$BUILD_ENV" ]] || npm run build -- --no-website)
 # react-router CJS build is imported by react-router-config tests,
 # so we need to build it before running react-router-config tests
-- ([[ "$BUILD_ENV" = "cjs" ]] || (cd packages/react-router && BUILD_ENV=cjs npm run build))
+- ([[ "$BUILD_ENV" = "cjs" ]] || (cd packages/miniverse && BUILD_ENV=cjs npm run build))
 script:
 - npm test
 jobs:
@@ -31,7 +31,7 @@ jobs:
         tags: true
   - stage: Deploy Website
     if: branch = website
-    env: PUBLIC_PATH=/react-router/
+    env: PUBLIC_PATH=/lemoncms/
     # The website is built as part of the deploy script,
     # so we don't need to build it yet.
     before_script: npm run build -- --no-website

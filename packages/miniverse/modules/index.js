@@ -11,7 +11,7 @@ if (__DEV__) {
       // TODO: Add link to article that explains in detail how to avoid
       // loading 2 different builds.
       throw new Error(
-        `You are loading the ${secondaryBuildName} build of React Morty ` +
+        `You are loading the ${secondaryBuildName} build of Miniverse ` +
         `on a page that is already running the ${initialBuildName} ` +
         `build, so things won't work right.`
       );

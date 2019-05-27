@@ -8,7 +8,7 @@ function exec(cmd) {
 const cwd = process.cwd();
 
 [
-  "react-morty",
+  "miniverse",
 ].forEach(packageName => {
   process.chdir(path.resolve(__dirname, "../packages/" + packageName));
   exec("npm test");

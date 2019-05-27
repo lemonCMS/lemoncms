@@ -60,8 +60,8 @@ Calling `npm run build` from the root directory will build every package. If you
 ```bash
 # build everything
 npm run build
-# build react-morty
-cd packages/react-morty
+# build miniverse
+cd packages/miniverse
 npm run build
 ```
 
@@ -73,7 +73,7 @@ Calling `npm test` from the root directory will run **every** package's tests. I
 # all tests
 npm test
 # react-router-morty tests
-cd packages/react-morty
+cd packages/miniverse
 npm test
 ```
 

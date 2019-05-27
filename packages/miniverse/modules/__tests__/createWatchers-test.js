@@ -2,7 +2,7 @@ import {
   createWatchers,
   unsubscribeWatchers,
   Miniverse
-} from 'react-morty';
+} from 'miniverse';
 import Github from './__mock__/Github-mock';
 import axios from 'axios';
 
