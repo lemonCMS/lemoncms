@@ -25,10 +25,6 @@ describe('Sticky', () => {
       map[event] = cb;
     });
 
-    global.document.onreadystatechange = jest.fn(event => {
-      console.log(event);
-    });
-
     jest.spyOn(Sticky.prototype, 'setRef').mockImplementationOnce(function (ref) {
       this.placeHolder = ref;
     });
@@ -72,7 +68,6 @@ describe('Sticky', () => {
     component.update();
     cherio = component.render();
     expect(cherio.find('div').last().attr('style')).toBe('height: 120px;');
-    console.log(cherio.html());
 
     map.scroll(0, 0);
     global.pageYOffset = 0;
@@ -80,12 +75,9 @@ describe('Sticky', () => {
     component.update();
     cherio = component.render();
     expect(cherio.find('div').last().attr('style')).toBe('height: 120px;');
-    console.log(cherio.html());
   });
 
   it('should do a full mount', () => {
-
-
     /**
      * Extra wrapper div for enzyme to be able to select the
      * last child that lives within a React.Fragment

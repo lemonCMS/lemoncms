@@ -19,7 +19,6 @@ class Index extends Component {
     super(props);
     this.setRef = this.setRef.bind(this);
     this.setSticky = this.setSticky.bind(this);
-    console.log(window.innerHeight);
   }
 
   componentDidMount() {
@@ -48,7 +47,6 @@ class Index extends Component {
   getScrollTop = () => {
     this.rect = this.sticky.getBoundingClientRect();
     this.scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    console.log('DDD', this.rect, this.scrollTop);
   };
 
   setFixedProps = () => {
@@ -108,15 +106,6 @@ class Index extends Component {
       this.domState.scrollTop = this.scrollTop + this.rect.top;
       this.domState.scrollWidth = this.rect.right - this.rect.left;
     }
-
-      console.log(
-      this.rect.top,
-      Math.round(this.props.offset),
-      this.domState.scrollTop,
-      this.scrollTop,
-      this.props.offset,
-      this.domState.hasStyle
-    );
 
     if (Math.round(this.rect.top) <= Math.round(this.props.offset) && Math.round(this.domState.scrollTop) <= Math.round(this.scrollTop + this.props.offset)) {
       if (this.domState.hasStyle === false) {

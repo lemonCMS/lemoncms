@@ -48,27 +48,27 @@
     "gzipped": 13880
   },
   "esm/lemoncms-miniverse.js": {
-    "bundled": 13926,
-    "minified": 6591,
-    "gzipped": 2192,
+    "bundled": 17722,
+    "minified": 8257,
+    "gzipped": 2677,
     "treeshaked": {
       "rollup": {
-        "code": 174,
-        "import_statements": 168
+        "code": 305,
+        "import_statements": 299
       },
       "webpack": {
-        "code": 1327
+        "code": 1591
       }
     }
   },
   "umd/lemoncms-miniverse.js": {
-    "bundled": 173195,
-    "minified": 50139,
-    "gzipped": 14170
+    "bundled": 235633,
+    "minified": 68749,
+    "gzipped": 19559
   },
   "umd/lemoncms-miniverse.min.js": {
-    "bundled": 171985,
-    "minified": 49545,
-    "gzipped": 13880
+    "bundled": 201990,
+    "minified": 58418,
+    "gzipped": 16682
   }
 }

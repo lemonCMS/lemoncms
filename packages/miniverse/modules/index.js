@@ -24,9 +24,11 @@ if (__DEV__) {
 export { default as createWatchers } from "./createWatchers";
 export { unsubscribeWatchers as unsubscribeWatchers } from "./createWatchers";
 export { default as propName } from "./propName";
+export { default as propNameAuth } from "./propNameAuth";
 export { default as runHooks } from "./runHooks";
 export { default as MiniverseContext } from "./MiniverseContext";
 export { default as Miniverse } from "./Miniverse";
 export { default as Store } from "./Store";
 export { default as provideHooks } from "./provideHooks";
+export { default as withMiniverse } from "./withMiniverse";
 

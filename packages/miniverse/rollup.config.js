@@ -82,7 +82,7 @@ const umd = [
     output: {
       file: `umd/${pkg.name}.js`,
       format: "umd",
-      name: "ReactRouter",
+      name: "Miniverse",
       globals
     },
     external: Object.keys(globals),
@@ -101,7 +101,8 @@ const umd = [
       commonjs({
         include: /node_modules/,
         namedExports: {
-          "node_modules/react-is/index.js": ["isValidElementType"]
+          "node_modules/react-is/index.js": ["isValidElementType"],
+          "node_modules/fast-equals/dist/fast-equals.js": ["deepEqual"],
         }
       }),
       replace({
@@ -135,7 +136,8 @@ const umd = [
       commonjs({
         include: /node_modules/,
         namedExports: {
-          "node_modules/react-is/index.js": ["isValidElementType"]
+          "node_modules/react-is/index.js": ["isValidElementType"],
+          "node_modules/fast-equals/dist/fast-equals.js": ["deepEqual"],
         }
       }),
       replace({
