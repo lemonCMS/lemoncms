@@ -1,6 +1,6 @@
 {
   "name": "lemoncms-miniverse",
-  "version": "1.0.0",
+  "version": "0.0.0-alfa-0.0.1",
   "description": "rxjs state manager for React",
   "repository": "http://github.com/lemoncms/lemoncms/miniverse",
   "license": "MIT",
