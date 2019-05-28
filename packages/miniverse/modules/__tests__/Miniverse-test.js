@@ -19,8 +19,6 @@ const helpers = {
 };
 
 describe('Miniverse should be valid', () => {
-
-
   test('should construct Github', () => {
     const miniverse = new Miniverse({ Github });
     expect(() => {
