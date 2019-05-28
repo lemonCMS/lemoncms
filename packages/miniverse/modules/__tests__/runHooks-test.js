@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Rick from '../Rick';
+import RunHooks from '../runHooks';
 import Miniverse from '../Miniverse';
 import Github from './__mock__/Github-mock';
 import Component from './components/DecoratedComponent';
@@ -11,12 +11,12 @@ import WatchComponent from './components/WatchComponent';
 import PlainComponent from './components/PlainComponent';
 import axios from 'axios';
 import mockTinyWarning from 'tiny-warning';
-import MeeSeeksContext from '../MeeSeeksContext';
+import MiniverseContext from '../MiniverseContext';
 
 jest.mock("tiny-warning");
 jest.mock("axios");
 
-describe('Rick should do it', () => {
+describe('RunHooks should do it', () => {
   test('Should retreive data', (done) => {
     const initiatedServiceProvider = new Miniverse({
       Github
@@ -32,7 +32,7 @@ describe('Rick should do it', () => {
         data: { results: ["cat.jpg"] }
       })
     );
-    const rick = new Rick('fetch', components, providers);
+    const rick = new RunHooks('fetch', components, providers);
     rick.subscribe(() => {
       process.nextTick(() => {
         initiatedServiceProvider.eject().subscribe((data) => {
@@ -60,7 +60,7 @@ describe('Rick should do it', () => {
     );
 
     expect(() => {
-      const rick = new Rick('fetch', components, providers);
+      const rick = new RunHooks('fetch', components, providers);
       rick.subscribe(() => {
         process.nextTick(() => {
 
@@ -84,7 +84,7 @@ describe('Rick should do it', () => {
 
     const components = [];
     components.push(PlainComponent);
-    const rick = new Rick('fetch', components, providers);
+    const rick = new RunHooks('fetch', components, providers);
     rick.subscribe(() => {
       initiatedServiceProvider.eject().subscribe((data) => {
         expect(data.Github['https://api.github.com/users']).not.toBeDefined();
@@ -109,7 +109,7 @@ describe('Rick should do it', () => {
         data: { results: ["cat.jpg"] }
       })
     );
-    const rick = new Rick('fetch', components, providers);
+    const rick = new RunHooks('fetch', components, providers);
     rick.subscribe(() => {
       process.nextTick(() => {
         initiatedServiceProvider.eject().subscribe(() => {
@@ -136,7 +136,7 @@ describe('Rick should do it', () => {
         data: { results: ["cat.jpg"] }
       })
     );
-    const rick = new Rick('fetch', components, providers);
+    const rick = new RunHooks('fetch', components, providers);
     rick.subscribe(() => {
 
     }, (error) => {
@@ -162,7 +162,7 @@ describe('Rick should do it', () => {
         data: { results: ["cat.jpg"] }
       })
     );
-    const rick = new Rick('fetch', components, providers);
+    const rick = new RunHooks('fetch', components, providers);
     rick.subscribe(() => {
 
     }, (error) => {
@@ -189,12 +189,12 @@ describe('Rick should do it', () => {
         data: { results: ["cat.jpg"] }
       })
     );
-    const rick = new Rick('fetch', components, providers);
+    const rick = new RunHooks('fetch', components, providers);
     rick.subscribe(() => {
       const tree = renderer
-        .create(<MeeSeeksContext.Provider value={providers}>
+        .create(<MiniverseContext.Provider value={providers}>
           <WatchComponent />
-        </MeeSeeksContext.Provider>);
+        </MiniverseContext.Provider>);
       process.nextTick(() => {
         const output = tree.toJSON();
         expect(output).toMatchSnapshot();

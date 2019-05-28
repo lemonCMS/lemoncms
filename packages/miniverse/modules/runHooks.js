@@ -2,7 +2,7 @@ import { ReplaySubject } from 'rxjs';
 import warning from 'tiny-warning';
 import propName from './propName';
 
-export default class Rick {
+export default class RunHooks {
   /**
    *
    * @type {null}
@@ -155,7 +155,7 @@ export default class Rick {
     }
 
     if (this.hooks.length === 0) {
-      warning(true, 'Rick has run more times then he could handle.' +
+      warning(true, 'RunHooks has run more times then he could handle.' +
         `Should run: ${this.willRun}, Has run: ${this.hasRun}` +
         '@morty should return rxjs zip()');
       this.next();

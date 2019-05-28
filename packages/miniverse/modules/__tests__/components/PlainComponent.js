@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import withSummer from '../../withSummer';
+import withSummer from '../../withMiniverse';
 let i = 0;
 
 @withSummer({

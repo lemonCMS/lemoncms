@@ -1,5 +1,5 @@
 {
-  "name": "@lemoncms/miniverse",
+  "name": "lemoncms-miniverse",
   "version": "1.0.0",
   "description": "rxjs state manager for React",
   "repository": "http://github.com/lemoncms/lemoncms/miniverse",

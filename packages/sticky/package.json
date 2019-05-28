@@ -1,5 +1,5 @@
 {
-  "name": "@lemoncms/sticky",
+  "name": "lemoncms-sticky",
   "version": "1.0.0",
   "description": "React sticky component",
   "repository": "http://github.com/lemoncms/lemoncms/sticky",
@@ -9,7 +9,7 @@
   ],
   "files": [],
   "main": "index.js",
-  "module": "esm/@lemoncms/sticky.js",
+  "module": "esm/lemoncms-sticky.js",
   "sideEffects": false,
   "scripts": {
     "build": "rollup -c",

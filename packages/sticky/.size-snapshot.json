@@ -1,0 +1,98 @@
+{
+  "esm/@slumdogjs/sticky.js": {
+    "bundled": 6610,
+    "minified": 4580,
+    "gzipped": 1462,
+    "treeshaked": {
+      "rollup": {
+        "code": 3809,
+        "import_statements": 183
+      },
+      "webpack": {
+        "code": 4942
+      }
+    }
+  },
+  "umd/@slumdogjs/sticky.js": {
+    "bundled": 50044,
+    "minified": 18493,
+    "gzipped": 5638
+  },
+  "umd/@slumdogjs/sticky.min.js": {
+    "bundled": 17684,
+    "minified": 8501,
+    "gzipped": 2746
+  },
+  "esm/@lemoncms/sticky.js": {
+    "bundled": 5995,
+    "minified": 3914,
+    "gzipped": 1228,
+    "treeshaked": {
+      "rollup": {
+        "code": 3681,
+        "import_statements": 183
+      },
+      "webpack": {
+        "code": 4808
+      }
+    }
+  },
+  "umd/@lemoncms/sticky.js": {
+    "bundled": 50305,
+    "minified": 17864,
+    "gzipped": 5446
+  },
+  "umd/@lemoncms/sticky.min.js": {
+    "bundled": 17907,
+    "minified": 8183,
+    "gzipped": 2738
+  },
+  "esm/@lemoncms/miniverse.js": {
+    "bundled": 1213,
+    "minified": 781,
+    "gzipped": 474,
+    "treeshaked": {
+      "rollup": {
+        "code": 89,
+        "import_statements": 77
+      },
+      "webpack": {
+        "code": 1120
+      }
+    }
+  },
+  "umd/@lemoncms/miniverse.js": {
+    "bundled": 1818,
+    "minified": 899,
+    "gzipped": 535
+  },
+  "umd/@lemoncms/miniverse.min.js": {
+    "bundled": 1084,
+    "minified": 588,
+    "gzipped": 353
+  },
+  "esm/lemoncms-sticky.js": {
+    "bundled": 5995,
+    "minified": 3914,
+    "gzipped": 1228,
+    "treeshaked": {
+      "rollup": {
+        "code": 3681,
+        "import_statements": 183
+      },
+      "webpack": {
+        "code": 4808
+      }
+    }
+  },
+  "umd/lemoncms-sticky.js": {
+    "bundled": 50305,
+    "minified": 17864,
+    "gzipped": 5446
+  },
+  "umd/lemoncms-sticky.min.js": {
+    "bundled": 17907,
+    "minified": 8183,
+    "gzipped": 2738
+  }
+}

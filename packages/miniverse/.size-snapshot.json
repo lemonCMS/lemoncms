@@ -24,9 +24,9 @@
     "gzipped": 13885
   },
   "esm/@lemoncms/miniverse.js": {
-    "bundled": 13896,
-    "minified": 6565,
-    "gzipped": 2193,
+    "bundled": 13926,
+    "minified": 6591,
+    "gzipped": 2192,
     "treeshaked": {
       "rollup": {
         "code": 174,
@@ -38,13 +38,37 @@
     }
   },
   "umd/@lemoncms/miniverse.js": {
-    "bundled": 173172,
-    "minified": 50130,
-    "gzipped": 14176
+    "bundled": 173195,
+    "minified": 50139,
+    "gzipped": 14170
   },
   "umd/@lemoncms/miniverse.min.js": {
-    "bundled": 171966,
-    "minified": 49540,
-    "gzipped": 13885
+    "bundled": 171985,
+    "minified": 49545,
+    "gzipped": 13880
+  },
+  "esm/lemoncms-miniverse.js": {
+    "bundled": 13926,
+    "minified": 6591,
+    "gzipped": 2192,
+    "treeshaked": {
+      "rollup": {
+        "code": 174,
+        "import_statements": 168
+      },
+      "webpack": {
+        "code": 1327
+      }
+    }
+  },
+  "umd/lemoncms-miniverse.js": {
+    "bundled": 173195,
+    "minified": 50139,
+    "gzipped": 14170
+  },
+  "umd/lemoncms-miniverse.min.js": {
+    "bundled": 171985,
+    "minified": 49545,
+    "gzipped": 13880
   }
 }

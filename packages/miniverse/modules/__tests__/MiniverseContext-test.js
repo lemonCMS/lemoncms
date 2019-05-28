@@ -2,7 +2,7 @@ import React from "react";
 import renderer from 'react-test-renderer';
 import Decorated from './components/DecoratedComponent';
 import PassedThroughComponent from './__mock__/PassedThroughComponent';
-import MeeSeeksContext from '../MeeSeeksContext';
+import MiniverseContext from '../MiniverseContext';
 import Miniverse from '../Miniverse';
 import Github from './__mock__/Github-mock';
 import axios from 'axios';
@@ -20,14 +20,14 @@ const helpers = {
 const sP = new Miniverse({ Github });
 sP.setHelpers(helpers);
 const Mock = () => (
-  <MeeSeeksContext.Provider value={{ serviceProvider: sP }}>
+  <MiniverseContext.Provider value={{ serviceProvider: sP }}>
     <Decorated />
-  </MeeSeeksContext.Provider>);
+  </MiniverseContext.Provider>);
 
 const PassedThroughMock = () => (
-  <MeeSeeksContext.Provider value={{ serviceProvider: sP }}>
+  <MiniverseContext.Provider value={{ serviceProvider: sP }}>
     <PassedThroughComponent />
-  </MeeSeeksContext.Provider>
+  </MiniverseContext.Provider>
 );
 
 beforeEach(() => {

@@ -1,7 +1,7 @@
 "use strict";
 
 if (process.env.NODE_ENV === "production") {
-  module.exports = require("./cjs/miniverse.min.js");
+  module.exports = require("./cjs/lemoncms-miniverse.min.js");
 } else {
-  module.exports = require("./cjs/miniverse.js");
+  module.exports = require("./cjs/lemoncms-miniverse.js");
 }

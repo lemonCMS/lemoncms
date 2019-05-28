@@ -3,7 +3,7 @@ import warning from 'tiny-warning';
 import { createWatchers, unsubscribeWatchers } from './createWatchers';
 import { deepEqual } from 'fast-equals';
 import PropTypes from 'prop-types';
-import MeeSeeksContext from './MeeSeeksContext';
+import MiniverseContext from './MiniverseContext';
 
 /**
  *
@@ -13,16 +13,11 @@ import MeeSeeksContext from './MeeSeeksContext';
 export default (conf = null) => Component => {
   if (!conf) {
     return props => (
-      <MeeSeeksContext.Consumer>{context => <Component {...props} {...context} />}</MeeSeeksContext.Consumer>
+      <MiniverseContext.Consumer>{context => <Component {...props} {...context} />}</MiniverseContext.Consumer>
     );
   }
 
   class Subscriber extends React.PureComponent {
-    /**
-     *
-     * @type {Array}
-     */
-    watchers = [];
 
     /**
      *
@@ -126,7 +121,7 @@ export default (conf = null) => Component => {
   };
 
   return props => (
-    <MeeSeeksContext.Consumer>{context => <Subscriber {...props} {...context} />}</MeeSeeksContext.Consumer>
+    <MiniverseContext.Consumer>{context => <Subscriber {...props} {...context} />}</MiniverseContext.Consumer>
   );
 };
 

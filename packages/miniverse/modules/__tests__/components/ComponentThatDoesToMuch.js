@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import provideHooks from '../../provideHooks';
-import withSummer from '../../withSummer';
+import withSummer from '../../withMiniverse';
 import {of} from 'rxjs';
 
 let i = 0;
