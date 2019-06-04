@@ -30,7 +30,7 @@ const Message = props => {
 };
 
 Message.propTypes = {
-  type: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(['success', 'error']).isRequired,
   className: PropTypes.string,
   context: PropTypes.shape({
     status: PropTypes.shape({
@@ -45,7 +45,7 @@ Message.propTypes = {
 
 Message.defaultProps = {
   className: '',
-  context: {}
+  context: {},
 };
 
 export default consumer(Message);

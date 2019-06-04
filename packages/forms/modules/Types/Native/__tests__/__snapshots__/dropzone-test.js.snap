@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Message should render 1`] = `
+<form
+  className=""
+  onSubmit={[Function]}
+>
+  <div
+    className="ffc-field"
+  >
+    <section
+      className="file-upload-dropzone"
+    >
+      <div
+        onBlur={[Function]}
+        onClick={[Function]}
+        onDragEnter={[Function]}
+        onDragLeave={[Function]}
+        onDragOver={[Function]}
+        onDrop={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        tabIndex={0}
+      >
+        <input
+          autoComplete="off"
+          multiple={true}
+          onChange={[Function]}
+          onClick={[Function]}
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+          tabIndex={-1}
+          type="file"
+        />
+        <button
+          className="btn btn-primary"
+          type="button"
+        >
+          select files...
+        </button>
+      </div>
+    </section>
+  </div>
+  <button
+    type="submit"
+  >
+    do it
+  </button>
+</form>
+`;

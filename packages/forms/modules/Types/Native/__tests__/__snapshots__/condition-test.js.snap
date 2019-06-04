@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Condition should render with children \`hidden\` 1`] = `
+<form
+  className=""
+  onSubmit={[Function]}
+>
+  <div
+    className="ffc-field form-group row"
+  >
+    <input
+      className="ffc-input form-control col-sm-7 col"
+      name="field2"
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      placeholder="field2 placeholder"
+      type="text"
+      value=""
+    />
+  </div>
+</form>
+`;
+
+exports[`Condition should render with children \`visible\` 1`] = `
+<form
+  className=""
+  onSubmit={[Function]}
+>
+  <div
+    className="ffc-field form-group row"
+  >
+    <input
+      className="ffc-input form-control col-sm-7 col"
+      name="field2"
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      placeholder="field2 placeholder"
+      type="text"
+      value=""
+    />
+  </div>
+</form>
+`;
+
+exports[`Condition should render without children \`hidden\` 1`] = `
+<form
+  className=""
+  onSubmit={[Function]}
+/>
+`;
+
+exports[`Condition should render without children \`visible\` 1`] = `
+<form
+  className=""
+  onSubmit={[Function]}
+/>
+`;

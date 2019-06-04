@@ -1,0 +1,451 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Input type should render input checkbox 1`] = `
+<form
+  className=""
+  onSubmit={[Function]}
+>
+  <div
+    className="ffc-field form-group row"
+  >
+    <div
+      className="ffc-input form-control col-sm-7 col"
+    >
+      <div
+        className="form-check"
+      >
+        <input
+          checked={false}
+          className="form-check-label"
+          disabled={null}
+          id="field_0"
+          name="field"
+          onChange={[Function]}
+          type="checkbox"
+          value={1}
+        />
+         
+        <label
+          className="form-check-label"
+          htmlFor="field_0"
+        >
+          value 1
+        </label>
+      </div>
+      <div
+        className="form-check"
+      >
+        <input
+          checked={false}
+          className="form-check-label"
+          disabled={null}
+          id="field_1"
+          name="field"
+          onChange={[Function]}
+          type="checkbox"
+          value={2}
+        />
+         
+        <label
+          className="form-check-label"
+          htmlFor="field_1"
+        >
+          value 2
+        </label>
+      </div>
+      <div
+        className="form-check"
+      >
+        <input
+          checked={false}
+          className="form-check-label"
+          disabled={null}
+          id="field_2"
+          name="field"
+          onChange={[Function]}
+          type="checkbox"
+          value={3}
+        />
+         
+        <label
+          className="form-check-label"
+          htmlFor="field_2"
+        >
+          value 3
+        </label>
+      </div>
+    </div>
+  </div>
+</form>
+`;
+
+exports[`Input type should render input password 1`] = `
+<form
+  className=""
+  onSubmit={[Function]}
+>
+  <div
+    className="ffc-field form-group row"
+  >
+    <input
+      className="ffc-input form-control col-sm-7 col"
+      name="field"
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      placeholder="a nice placeholder"
+      type="password"
+      value=""
+    />
+  </div>
+</form>
+`;
+
+exports[`Input type should render input radio 1`] = `
+<form
+  className=""
+  onSubmit={[Function]}
+>
+  <div
+    className="ffc-field form-group row"
+  >
+    <div
+      className="ffc-input form-control col-sm-7 col"
+    >
+      <div
+        className="form-check"
+      >
+        <input
+          checked={false}
+          className="form-check-label"
+          id="field_0"
+          name="field"
+          onChange={[Function]}
+          type="radio"
+          value={1}
+        />
+         
+        <label
+          className="form-check-label"
+          htmlFor="field_0"
+        >
+          value 1
+        </label>
+      </div>
+      <div
+        className="form-check"
+      >
+        <input
+          checked={false}
+          className="form-check-label"
+          id="field_1"
+          name="field"
+          onChange={[Function]}
+          type="radio"
+          value={2}
+        />
+         
+        <label
+          className="form-check-label"
+          htmlFor="field_1"
+        >
+          value 2
+        </label>
+      </div>
+      <div
+        className="form-check"
+      >
+        <input
+          checked={false}
+          className="form-check-label"
+          id="field_2"
+          name="field"
+          onChange={[Function]}
+          type="radio"
+          value={3}
+        />
+         
+        <label
+          className="form-check-label"
+          htmlFor="field_2"
+        >
+          value 3
+        </label>
+      </div>
+    </div>
+  </div>
+</form>
+`;
+
+exports[`Input type should render input radio with checked value \`string\` 1`] = `
+<form
+  className=""
+  onSubmit={[Function]}
+>
+  <div
+    className="ffc-field form-group row"
+  >
+    <div
+      className="ffc-input form-control col-sm-7 col"
+    >
+      <div
+        className="form-check"
+      >
+        <input
+          checked={false}
+          className="form-check-label"
+          id="field_0"
+          name="field"
+          onChange={[Function]}
+          type="radio"
+          value={1}
+        />
+         
+        <label
+          className="form-check-label"
+          htmlFor="field_0"
+        >
+          value 1
+        </label>
+      </div>
+      <div
+        className="form-check"
+      >
+        <input
+          checked={true}
+          className="form-check-label"
+          id="field_1"
+          name="field"
+          onChange={[Function]}
+          type="radio"
+          value={2}
+        />
+         
+        <label
+          className="form-check-label"
+          htmlFor="field_1"
+        >
+          value 2
+        </label>
+      </div>
+      <div
+        className="form-check"
+      >
+        <input
+          checked={false}
+          className="form-check-label"
+          id="field_2"
+          name="field"
+          onChange={[Function]}
+          type="radio"
+          value={3}
+        />
+         
+        <label
+          className="form-check-label"
+          htmlFor="field_2"
+        >
+          value 3
+        </label>
+      </div>
+    </div>
+  </div>
+</form>
+`;
+
+exports[`Input type should render input radio with checked value 1`] = `
+<form
+  className=""
+  onSubmit={[Function]}
+>
+  <div
+    className="ffc-field form-group row"
+  >
+    <div
+      className="ffc-input form-control col-sm-7 col"
+    >
+      <div
+        className="form-check"
+      >
+        <input
+          checked={false}
+          className="form-check-label"
+          id="field_0"
+          name="field"
+          onChange={[Function]}
+          type="radio"
+          value={1}
+        />
+         
+        <label
+          className="form-check-label"
+          htmlFor="field_0"
+        >
+          value 1
+        </label>
+      </div>
+      <div
+        className="form-check"
+      >
+        <input
+          checked={false}
+          className="form-check-label"
+          id="field_1"
+          name="field"
+          onChange={[Function]}
+          type="radio"
+          value={2}
+        />
+         
+        <label
+          className="form-check-label"
+          htmlFor="field_1"
+        >
+          value 2
+        </label>
+      </div>
+      <div
+        className="form-check"
+      >
+        <input
+          checked={true}
+          className="form-check-label"
+          id="field_2"
+          name="field"
+          onChange={[Function]}
+          type="radio"
+          value={3}
+        />
+         
+        <label
+          className="form-check-label"
+          htmlFor="field_2"
+        >
+          value 3
+        </label>
+      </div>
+    </div>
+  </div>
+</form>
+`;
+
+exports[`Input type should render input select 1`] = `
+<form
+  className=""
+  onSubmit={[Function]}
+>
+  <div
+    className="ffc-field form-group row"
+  >
+    <select
+      className="ffc-input form-control col-sm-7 col"
+      name="field"
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      placeholder="a nice placeholder"
+    >
+      <option
+        selected={false}
+        value={1}
+      >
+        value 1
+      </option>
+      <option
+        selected={false}
+        value={2}
+      >
+        value 2
+      </option>
+      <option
+        selected={true}
+        value={3}
+      >
+        value 3
+      </option>
+    </select>
+  </div>
+</form>
+`;
+
+exports[`Input type should render input select with selected option 1`] = `
+<form
+  className=""
+  onSubmit={[Function]}
+>
+  <div
+    className="ffc-field form-group row"
+  >
+    <select
+      className="ffc-input form-control col-sm-7 col"
+      name="field"
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      placeholder="a nice placeholder"
+    >
+      <option
+        selected={false}
+        value={1}
+      >
+        value 1
+      </option>
+      <option
+        selected={false}
+        value={2}
+      >
+        value 2
+      </option>
+      <option
+        selected={true}
+        value={3}
+      >
+        value 3
+      </option>
+    </select>
+  </div>
+</form>
+`;
+
+exports[`Input type should render input text 1`] = `
+<form
+  className=""
+  onSubmit={[Function]}
+>
+  <div
+    className="ffc-field form-group row"
+  >
+    <input
+      className="ffc-input form-control col-sm-7 col"
+      name="field"
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      placeholder="a nice placeholder"
+      type="text"
+      value=""
+    />
+  </div>
+</form>
+`;
+
+exports[`Input type should render input textarea 1`] = `
+<form
+  className=""
+  onSubmit={[Function]}
+>
+  <div
+    className="ffc-field form-group row"
+  >
+    <textarea
+      className="ffc-input form-control col-sm-7 col"
+      name="field"
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      placeholder="a nice placeholder"
+      rows={10}
+    />
+  </div>
+</form>
+`;
