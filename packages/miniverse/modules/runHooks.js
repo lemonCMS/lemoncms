@@ -1,5 +1,4 @@
-import { BehaviorSubject } from 'rxjs';
-import { last } from 'rxjs/operators';
+import { ReplaySubject } from 'rxjs';
 import warning from 'tiny-warning';
 import propName from './propName';
 
@@ -62,7 +61,7 @@ export default class RunHooks {
     this.components = components;
     this.name = name;
     this.locals = locals;
-    this.sub$ = new BehaviorSubject();
+    this.sub$ = new ReplaySubject();
     this.reset();
   }
 
@@ -150,7 +149,7 @@ export default class RunHooks {
 
     if (!this.shouldRun) {
       this.next();
-      // this.complete();
+      this.complete();
       return;
     }
 
