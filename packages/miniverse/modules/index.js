@@ -1,7 +1,7 @@
 if (__DEV__) {
   if (typeof window !== "undefined") {
     const global = window;
-    const key = "__react_morty_build__";
+    const key = "__react_miniverse_build__";
     const buildNames = { cjs: "CommonJS", esm: "ES modules", umd: "UMD" };
 
     if (global[key] && global[key] !== process.env.BUILD_FORMAT) {
