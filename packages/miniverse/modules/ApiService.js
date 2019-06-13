@@ -225,7 +225,7 @@ export class ApiService {
     }
 
     if (typeof process.browser === 'undefined') {
-      if (conf.baseUrl && this.baseUrl.server) {
+      if (conf.baseUrl && conf.baseUrl.server) {
         return conf.baseUrl.server;
       }
     }
