@@ -3,7 +3,7 @@ import {
   ReplaySubject,
   zip,
 } from 'rxjs';
-import { ajax } from 'rxjs/ajax';
+import { ApiService } from './ApiService';
 
 class Miniverse {
   /**
@@ -32,11 +32,29 @@ class Miniverse {
 
   /**
    *
-   * @param services
+   * @type {ApiService}
    */
-  constructor(services) {
+  apiService = null;
+
+  /**
+   *
+   * @param services
+   * @param apiService
+   */
+  constructor(services, apiService = null) {
+
+    if (apiService === null) {
+      this.apiService = new ApiService()
+    } else {
+      this.apiService = apiService;
+    }
+
     this.services = this.objectMap(services, Service => {
-      return new Service(this);
+      const service = new Service(this, this.apiService);
+      if (typeof service.init === 'function') {
+        service.setConfCallback(service.init());
+      }
+      return service;
     });
   }
 
@@ -107,17 +125,6 @@ class Miniverse {
 
   /**
    *
-   * @returns {*}
-   */
-  getClient() {
-    if (this.client === undefined) {
-      this.client = ajax;
-    }
-    return this.client;
-  }
-
-  /**
-   *
    * @param object
    * @param mapFn
    * @returns {{}}
@@ -137,6 +144,7 @@ class Miniverse {
 
     if (nextAfter === 0) {
       subject.next({});
+      subject.complete();
     }
 
     toExport.forEach(key => {
@@ -145,6 +153,7 @@ class Miniverse {
         nextAfter -= 1;
         if (nextAfter <= 0) {
           subject.next(preparedExport);
+          subject.complete();
         }
       });
     });

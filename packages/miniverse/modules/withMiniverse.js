@@ -1,6 +1,9 @@
 import React from 'react';
 import warning from 'tiny-warning';
-import { createWatchers, unsubscribeWatchers } from './createWatchers';
+import {
+  createWatchers,
+  unsubscribeWatchers
+} from './createWatchers';
 import { deepEqual } from 'fast-equals';
 import PropTypes from 'prop-types';
 import MiniverseContext from './MiniverseContext';
@@ -23,7 +26,9 @@ export default (conf = null) => Component => {
      *
      * @type {{}}
      */
-    state = {};
+    state = {
+      updated: 0
+    };
 
     /**
      *
@@ -51,6 +56,12 @@ export default (conf = null) => Component => {
 
     /**
      *
+     * @type {{}}
+     */
+    data = {};
+
+    /**
+     *
      * @param props
      * @param context
      */
@@ -59,9 +70,12 @@ export default (conf = null) => Component => {
       const { serviceProvider } = props;
       this.provider = serviceProvider;
       this.deepLocation = conf.name || Component.displayName || Component.name || Component.constructor.name;
+      this.state = {
+        updated: 0
+      };
       const callback = {
         next: (service, watcher, data) => {
-          this.state = this.updateState(service, watcher, data);
+          this.updateState(service, watcher, data);
         },
         error: (service, watcher, error) => {
           warning(true, error);
@@ -86,7 +100,7 @@ export default (conf = null) => Component => {
      * @returns {any}
      */
     updateState = (service, watcher, data) => {
-      const oldState = JSON.parse(JSON.stringify(this.state));
+      const oldState = JSON.parse(JSON.stringify(this.data));
       if (typeof oldState[service] === 'undefined') {
         oldState[service] = {};
       }
@@ -96,12 +110,12 @@ export default (conf = null) => Component => {
 
       oldState[service][watcher] = JSON.parse(JSON.stringify(data));
 
-      if (!deepEqual(this.state, oldState)) {
+      if (!deepEqual(this.data, oldState)) {
+        this.data = oldState;
         if (this.mounted) {
-          this.setState(oldState);
+          const { updated } = this.state;
+          this.setState({updated: updated + 1});
         }
-
-        return oldState;
       }
     };
 
@@ -111,7 +125,7 @@ export default (conf = null) => Component => {
      */
     render() {
       this.mounted = true;
-      const newProps = Object.assign({}, { ...this.cache }, { ...this.state });
+      const newProps = Object.assign({}, { ...this.cache }, { ...this.data });
       return <Component {...this.props} {...newProps} {...this.context} />;
     }
   }

@@ -1,5 +1,4 @@
 import { ReplaySubject } from 'rxjs';
-import axios from 'axios';
 
 class Store {
   /**
@@ -21,10 +20,22 @@ class Store {
 
   /**
    *
-   * @param miniverses
+   * @type {{}}
    */
-  constructor(miniverses) {
-    this.miniverse = miniverses;
+  requestSubjects = {};
+
+  /**
+   *
+   * @type {null}
+   */
+  apiConfig = {};
+
+  /**
+   *
+   * @param miniverse
+   */
+  constructor(miniverse) {
+    this.miniverse = miniverse;
   }
 
   /**
@@ -43,10 +54,25 @@ class Store {
    */
   insert(data) {
     Object.keys(data).forEach(key => {
-      const subject  = this.createSubject(key);
+      const subject = this.importSubject(key);
       subject.next(data[key]);
     });
     return this.miniverse._waitAllDone(this.subjects);
+  }
+
+  /**
+   * Import an already hash url
+   *
+   * @param hash
+   * @returns {*}
+   */
+  importSubject(hash) {
+    if (this.subjects[hash]) {
+      return this.subjects[hash];
+    }
+
+    this.subjects[hash] = new ReplaySubject();
+    return this.subjects[hash];
   }
 
   /**
@@ -55,12 +81,14 @@ class Store {
    * @returns {*}
    */
   createSubject(url) {
-    if (this.subjects[url]) {
-      return this.subjects[url];
+    const hash = this.hashCode(url);
+
+    if (this.subjects[hash]) {
+      return this.subjects[hash];
     }
 
-    this.subjects[url] = new ReplaySubject();
-    return this.subjects[url];
+    this.subjects[hash] = new ReplaySubject();
+    return this.subjects[hash];
   }
 
   /**
@@ -130,41 +158,159 @@ class Store {
 
   /**
    *
-   * @param url
-   * @param params
-   * @param headers
    * @returns {*}
    */
-  get = (url, params = {}, headers = {}) => {
-    const subject = this.createSubject(url);
-    // Send a GET request
-    axios({
-      method: 'get',
-      url,
-      params,
-      headers
-    })
-      .then(response => {
-        subject.next(response.data);
-      })
-      .catch(error => {
-        subject.error(error);
-      });
-    return subject;
+  getApiService = () => {
+    return this.miniverse.apiService;
   };
 
   /**
    * Reset given subject
    *
-   * @param url
+   * @param path
    * @param data
    */
-  reset(url, data = null) {
-    const subject = this.createSubject(url);
+  reset(path, data = null) {
+    const subject = this.createSubject(path, true);
     subject.next(data);
     return subject;
   }
 
+  /**
+   *
+   * @param type
+   * @param path
+   * @param query
+   * @param body
+   * @param headers
+   * @param rest
+   * @param subject
+   */
+  runApi = (type, { path, query, body, headers, ...rest }, subject) => {
+    /**
+     * Clear running request to the same endpoint
+     * @type {number}
+     */
+    const hashCode = this.hashCode(`${type}/${path}`);
+    if (typeof this.requestSubjects[hashCode] !== 'undefined') {
+      this.requestSubjects[hashCode].unsubscribe();
+      delete this.requestSubjects[hashCode];
+    }
+
+    this.requestSubjects[hashCode] = this.miniverse.apiService[type]({path, query, body, headers, ...rest}, this.apiConfig).subscribe(
+      request => {
+        subject.next(request.response);
+      },
+      error => {
+        subject.error(error);
+      },
+      () => {
+        delete this.requestSubjects[hashCode];
+      }
+    );
+  };
+
+  /**
+   *
+   * @param path
+   * @param query
+   * @param headers
+   * @param rest
+   * @returns {*}
+   */
+  get = ({ path, query, headers, ...rest }) => {
+    const subject = this.createSubject(path, query);
+    this.runApi('get', { path, query, headers, ...rest }, subject);
+    return subject;
+  };
+
+  /**
+   *
+   * @param path
+   * @param query
+   * @param params
+   * @param headers
+   * @param rest
+   * @returns {*}
+   */
+  put = ({ path, query, params, headers, ...rest }) => {
+    const subject = this.createSubject(path, query);
+    this.runApi('put', { path, query, headers, ...rest }, subject);
+    return subject;  };
+
+  /**
+   *
+   * @param path
+   * @param query
+   * @param params
+   * @param headers
+   * @param rest
+   * @returns {*}
+   */
+  post = ({ path, query, params, headers, ...rest }) => {
+    const subject = this.createSubject(path, query);
+    this.runApi('post', { path, query, headers, ...rest }, subject);
+    return subject;  };
+
+  /**
+   *
+   * @param path
+   * @param query
+   * @param params
+   * @param headers
+   * @param rest
+   * @returns {*|Observable<AjaxResponse>|AjaxObservable|Promise<AxiosResponse<T>>}
+   */
+  patch = ({ path, query, params, headers, ...rest }) => {
+    const subject = this.createSubject(path, query);
+    this.runApi('patch', { path, query, headers, ...rest }, subject);
+    return subject;
+  };
+
+  /**
+   *
+   * @param path
+   * @param query
+   * @param params
+   * @param headers
+   * @param rest
+   * @returns {*}
+   */
+  delete = ({ path, query, params, headers, ...rest }) => {
+    const subject = this.createSubject(path, query);
+    this.runApi('delete', { path, query, headers, ...rest }, subject);
+    return subject;
+  };
+
+  /**
+   *
+   * @param callback
+   */
+  setConfCallback(config) {
+    this.apiConfig = config;
+  }
+
+  /**
+   *
+   * @param string
+   * @returns {number}
+   */
+  hashCode = (string) => {
+    if (typeof string === 'undefined') {
+      return 0;
+    }
+
+    let hash = 0;
+    if (string.length == 0) {
+      return hash;
+    }
+    for (let i = 0; i < string.length; i++) {
+      const char = string.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
+  }
 }
 
 export default Store;

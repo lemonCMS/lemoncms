@@ -1,16 +1,30 @@
 import Store from '../../Store';
 
 class Github extends Store {
+
+  init() {
+    return {
+      'baseUrl': 'https://github.com'
+    }
+
+    /*return {
+      baseUrl: {
+        server: 'http://',
+        client: '/api'
+      }
+    }*/
+  }
+
   getUsers() {
-    return this.get('https://api.github.com/users');
+    return this.get({path: 'users'});
   }
 
   watchUsers(location, callback) {
-    return this.watch('https://api.github.com/users', location, callback);
+    return this.watch('users', location, callback);
   }
 
   resetUsers() {
-    return this.reset('https://api.github.com/users');
+    return this.reset('users');
   }
 }
 

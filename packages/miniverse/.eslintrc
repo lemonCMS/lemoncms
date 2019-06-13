@@ -20,7 +20,8 @@
     "no-console": "off"
   },
   "globals": {
-    "__DEV__": true
+    "__DEV__": true,
+    "__SERVER__": true
   },
   "settings": {
     "react": {

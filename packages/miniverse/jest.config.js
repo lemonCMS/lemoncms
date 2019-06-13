@@ -20,7 +20,7 @@ module.exports = {
     "^miniverse$": mappedModule
   },
   modulePaths: ["<rootDir>/node_modules"],
-  setupFiles: ["raf/polyfill"],
+  setupFiles: ["raf/polyfill", "<rootDir>/enzyme.js"],
   testMatch: ["**/__tests__/**/*-test.js"],
   testURL: "http://localhost/"
 };

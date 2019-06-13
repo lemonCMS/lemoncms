@@ -18,7 +18,7 @@ let i = 0;
 class TestComponent extends React.Component {
   render() {
     i += 1;
-    return (<div>Rerenderd: {i} {JSON.stringify(this.props.github)}</div>);
+    return (<div>Rendered: <span>{i}</span> {JSON.stringify(this.props.github)}</div>);
   }
 }
 

@@ -9,15 +9,17 @@ import ComponentThatDoesToMuch from './components/ComponentThatDoesToMuch';
 import ComponentWithError from './components/ComponentWithError';
 import WatchComponent from './components/WatchComponent';
 import PlainComponent from './components/PlainComponent';
-import axios from 'axios';
 import mockTinyWarning from 'tiny-warning';
 import MiniverseContext from '../MiniverseContext';
+import { ajax } from 'rxjs/ajax';
+import { of } from 'rxjs';
 
 jest.mock("tiny-warning");
-jest.mock("axios");
+jest.mock("rxjs/ajax");
+
 
 describe('RunHooks should do it', () => {
-  test('Should retreive data', (done) => {
+  test('Should retrieve data', (done) => {
     const initiatedServiceProvider = new Miniverse({
       Github
     });
@@ -27,16 +29,16 @@ describe('RunHooks should do it', () => {
 
     const components = [];
     components.push(Component);
-    axios.mockImplementationOnce(() =>
-      Promise.resolve({
-        data: { results: ["cat.jpg"] }
+    ajax.mockImplementationOnce(() =>
+      of({
+        response: { results: ["cat.jpg"] }
       })
     );
     const rick = new RunHooks('fetch', components, providers);
     rick.subscribe(() => {
       process.nextTick(() => {
         initiatedServiceProvider.eject().subscribe((data) => {
-          expect(data.Github['https://api.github.com/users']).toBeDefined();
+          expect(data.Github['111578632']).toBeDefined();
           done();
         });
       });
@@ -53,9 +55,9 @@ describe('RunHooks should do it', () => {
 
     const components = [];
     components.push(ComponentFakeHook);
-    axios.mockImplementationOnce(() =>
-      Promise.resolve({
-        data: { results: ["cat.jpg"] }
+    ajax.mockImplementationOnce(() =>
+      of({
+        response: { results: ["cat.jpg"] }
       })
     );
 
@@ -65,7 +67,7 @@ describe('RunHooks should do it', () => {
         process.nextTick(() => {
 
           initiatedServiceProvider.eject().subscribe((data) => {
-            expect(data.Github['https://api.github.com/users']).not.toBeDefined();
+            expect(data.Github['111578632']).not.toBeDefined();
           });
         });
       });
@@ -87,11 +89,11 @@ describe('RunHooks should do it', () => {
     const rick = new RunHooks('fetch', components, providers);
     rick.subscribe(() => {
       initiatedServiceProvider.eject().subscribe((data) => {
-        expect(data.Github['https://api.github.com/users']).not.toBeDefined();
+        expect(data.Github['111578632']).not.toBeDefined();
         done();
       });
     });
-  })
+  });
 
   test('Should throw warning about to many renders', (done) => {
     const initiatedServiceProvider = new Miniverse({
@@ -104,9 +106,9 @@ describe('RunHooks should do it', () => {
     const components = [];
     components.push(ComponentThatDoesToMuch);
     components.push(ComponentThatDoesToMuch);
-    axios.mockImplementationOnce(() =>
-      Promise.resolve({
-        data: { results: ["cat.jpg"] }
+    ajax.mockImplementationOnce(() =>
+      of({
+        response: { results: ["cat.jpg"] }
       })
     );
     const rick = new RunHooks('fetch', components, providers);
@@ -118,7 +120,7 @@ describe('RunHooks should do it', () => {
         });
       });
     });
-  })
+  });
 
   test('Should resolve a error with multiple componentns', (done) => {
     const initiatedServiceProvider = new Miniverse({
@@ -131,9 +133,9 @@ describe('RunHooks should do it', () => {
     const components = [];
     components.push(ComponentWithError);
     components.push(ComponentThatDoesToMuch);
-    axios.mockImplementationOnce(() =>
-      Promise.resolve({
-        data: { results: ["cat.jpg"] }
+    ajax.mockImplementationOnce(() =>
+      of({
+        response: { results: ["cat.jpg"] }
       })
     );
     const rick = new RunHooks('fetch', components, providers);
@@ -157,9 +159,9 @@ describe('RunHooks should do it', () => {
 
     const components = [];
     components.push(ComponentWithError);
-    axios.mockImplementationOnce(() =>
-      Promise.resolve({
-        data: { results: ["cat.jpg"] }
+    ajax.mockImplementationOnce(() =>
+      of({
+        response: { results: ["cat.jpg"] }
       })
     );
     const rick = new RunHooks('fetch', components, providers);
@@ -184,9 +186,9 @@ describe('RunHooks should do it', () => {
     const components = [];
     components.push(Component);
     components.push(WatchComponent);
-    axios.mockImplementationOnce(() =>
-      Promise.resolve({
-        data: { results: ["cat.jpg"] }
+    ajax.mockImplementationOnce(() =>
+      of({
+        response: { results: ["cat.jpg"] }
       })
     );
     const rick = new RunHooks('fetch', components, providers);

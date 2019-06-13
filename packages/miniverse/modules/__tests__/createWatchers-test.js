@@ -4,9 +4,12 @@ import {
   Miniverse
 } from 'miniverse';
 import Github from './__mock__/Github-mock';
-import axios from 'axios';
-
-jest.mock("axios");
+import { ajax } from 'rxjs/ajax';
+import {
+  of,
+  throwError
+} from 'rxjs';
+jest.mock("rxjs/ajax");
 
 const miniverse = new Miniverse({
   Github
@@ -61,9 +64,9 @@ describe('CreateWatchers', () => {
   });
 
   test('should have called callback next', done => {
-    axios.mockImplementationOnce(() =>
-      Promise.resolve({
-        data: { results: ["cat.jpg"] }
+    ajax.mockImplementationOnce(() =>
+      of({
+        response: { results: ["cat.jpg"] }
       })
     );
 
@@ -84,8 +87,8 @@ describe('CreateWatchers', () => {
   });
 
   test('should have called callback error', done => {
-    axios.mockImplementationOnce(() =>
-      Promise.reject('error')
+    ajax.mockImplementationOnce(() =>
+      throwError('error')
     );
 
     const callBack = {

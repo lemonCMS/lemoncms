@@ -5,6 +5,7 @@ const nodeResolve = require("rollup-plugin-node-resolve");
 const json = require("rollup-plugin-json");
 const { sizeSnapshot } = require("rollup-plugin-size-snapshot");
 const { uglify } = require("rollup-plugin-uglify");
+const { terser } = require("rollup-plugin-terser");
 
 const pkg = require("./package.json");
 
@@ -74,7 +75,7 @@ const esm = [
   }
 ];
 
-const globals = { react: "React" };
+const globals = { react: "React", 'rxjs/ajax': 'ajax'};
 
 const umd = [
   {
@@ -117,7 +118,7 @@ const umd = [
     output: {
       file: `umd/${pkg.name}.min.js`,
       format: "umd",
-      name: "ReactRouter",
+      name: "Miniverse",
       globals
     },
     external: Object.keys(globals),
@@ -136,7 +137,6 @@ const umd = [
       commonjs({
         include: /node_modules/,
         namedExports: {
-          "node_modules/react-is/index.js": ["isValidElementType"],
           "node_modules/fast-equals/dist/fast-equals.js": ["deepEqual"],
         }
       }),
@@ -145,7 +145,7 @@ const umd = [
         "process.env.BUILD_FORMAT": JSON.stringify("umd")
       }),
       sizeSnapshot(),
-      uglify()
+      terser()
     ]
   }
 ];

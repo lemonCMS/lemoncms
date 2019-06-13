@@ -1,24 +1,27 @@
 import React from "react";
+import { mount } from 'enzyme';
 import renderer from 'react-test-renderer';
 import Decorated from './components/DecoratedComponent';
 import PassedThroughComponent from './__mock__/PassedThroughComponent';
 import MiniverseContext from '../MiniverseContext';
 import Miniverse from '../Miniverse';
 import Github from './__mock__/Github-mock';
-import axios from 'axios';
 import mockTinyWarning from 'tiny-warning';
+import { ajax } from 'rxjs/ajax';
+import {
+  of,
+  throwError
+} from 'rxjs';
 
-jest.mock("axios");
+jest.mock("rxjs/ajax");
+
 jest.mock("tiny-warning");
-const helpers = {
-  client: axios,
-  testHelper: () => {
-    return true;
-  }
-};
+let sP = null;
+beforeEach(() => {
+  sP = new Miniverse({ Github });
+  jest.resetAllMocks();
+});
 
-const sP = new Miniverse({ Github });
-sP.setHelpers(helpers);
 const Mock = () => (
   <MiniverseContext.Provider value={{ serviceProvider: sP }}>
     <Decorated />
@@ -30,16 +33,9 @@ const PassedThroughMock = () => (
   </MiniverseContext.Provider>
 );
 
-beforeEach(() => {
-  // Clear all instances and calls to constructor and all methods:
-  axios.mockClear();
+describe('Miniverse', () => {
 
-});
-
-
-describe('Summer', () => {
-
-  test("Should just render child component",  (done) => {
+  test("Should just render child component", (done) => {
     const tree = renderer
       .create(<PassedThroughMock />);
     process.nextTick(() => {
@@ -49,15 +45,15 @@ describe('Summer', () => {
     });
   });
 
-  test("Should just log error",  (done) => {
-    axios.mockImplementationOnce(() =>
-      Promise.reject('error')
+  test("Should just log error", (done) => {
+    ajax.mockImplementationOnce(() =>
+      throwError('error')
     );
     sP.getService('Github').getUsers();
 
     const tree = renderer
       .create(<Mock />);
-    expect(axios).toHaveBeenCalledTimes(1);
+    expect(ajax).toHaveBeenCalledTimes(1);
     process.nextTick(() => {
       const output = tree.toJSON();
       expect(output).toMatchSnapshot();
@@ -67,39 +63,91 @@ describe('Summer', () => {
   });
 
 
-  test("Should fetch, watch and render Github users",  (done) => {
-    axios.mockImplementationOnce(() =>
-      Promise.resolve({
-        data: { github: true }
+  test("Should fetch, watch and render Github users", (done) => {
+    ajax.mockImplementationOnce(() =>
+      of({
+        response: { data: { github: true } }
       })
     );
 
     sP.getService('Github').getUsers();
 
-    const tree = renderer
-      .create(<Mock />);
+    const component = mount(<Mock />);
 
-    expect(axios).toHaveBeenCalledTimes(1);
+    expect(ajax).toHaveBeenCalledTimes(1);
 
     process.nextTick(() => {
-      const output = tree.toJSON();
-      expect(output).toMatchSnapshot();
       const subjects = sP.getService('Github').getLocations();
       expect(Object.keys(sP.getService('Github').getLocations())).toHaveLength(1);
       Object.keys(subjects).forEach(resource => {
-        expect( Object.keys(subjects[resource])).toHaveLength(1)
+        expect(Object.keys(subjects[resource])).toHaveLength(1)
       });
 
-      tree.unmount();
+
+      const wrapped = component.find('TestComponent');
+      // console.log(component.debug());
+      expect(wrapped).toBeDefined();
+      expect(wrapped.props().github.users.data.github).toBeTruthy();
+      expect(component.find('span').text()).toEqual("2");
       process.nextTick(() => {
+        component.unmount();
+
         expect(Object.keys(subjects)).toHaveLength(1);
         Object.keys(subjects).forEach(resource => {
-          expect( Object.keys(subjects[resource])).toHaveLength(0)
+          expect(Object.keys(subjects[resource])).toHaveLength(0)
         });
         done();
       });
     });
+  });
 
 
+  test("Should fetch, watch and render and update Github users", (done) => {
+    ajax
+      .mockImplementationOnce(() =>
+        of({ response: { data: { github: true } } })
+      )
+      .mockImplementationOnce(() =>
+        of({ response: { data: { github: false } } })
+      )
+    ;
+
+    sP.getService('Github').getUsers();
+
+    const component = mount(<Mock />);
+
+    expect(ajax).toHaveBeenCalledTimes(1);
+
+    process.nextTick(() => {
+      const subjects = sP.getService('Github').getLocations();
+      expect(Object.keys(sP.getService('Github').getLocations())).toHaveLength(1);
+      Object.keys(subjects).forEach(resource => {
+        expect(Object.keys(subjects[resource])).toHaveLength(1)
+      });
+
+      let wrapped = null;
+      wrapped = component.find('TestComponent');
+      // console.log(component.debug());
+      expect(wrapped).toBeDefined();
+      expect(wrapped.props().github.users.data.github).toBeTruthy();
+
+      sP.getService('Github').getUsers();
+      expect(ajax).toHaveBeenCalledTimes(2);
+
+      process.nextTick(() => {
+        component.update();
+        wrapped = component.find('TestComponent');
+        expect(wrapped.props().github.users.data.github).toEqual(false);
+
+        sP.getService('Github').resetUsers();
+        expect(ajax).toHaveBeenCalledTimes(2);
+        process.nextTick(() => {
+          component.update();
+          wrapped = component.find('TestComponent');
+          expect(wrapped.props().github.users).toEqual(null);
+          done();
+        });
+      });
+    });
   });
 });

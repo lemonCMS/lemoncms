@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import provideHooks from '../../provideHooks';
-import withSummer from '../../withMiniverse';
+import withMiniverse from '../../withMiniverse';
 let i = 0;
 @provideHooks({
   fetch: 'a string!!'
 })
-@withSummer({
+@withMiniverse({
   watch: {
     github: ['users']
   }

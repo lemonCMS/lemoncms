@@ -1,23 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Summer Should fetch, watch and render Github users 1`] = `
+exports[`Miniverse Should fetch, watch and render Github users 1`] = `
 <div>
   Rerenderd: 
-  3
+  1
    
+  {"users":{"data":{"github":true}}}
 </div>
 `;
 
-exports[`Summer Should just log error 1`] = `
+exports[`Miniverse Should just log error 1`] = `
 <div>
-  Rerenderd: 
-  2
+  Rendered: 
+  <span>
+    1
+  </span>
    
   {"users":"error"}
 </div>
 `;
 
-exports[`Summer Should just render child component 1`] = `
+exports[`Miniverse Should just render child component 1`] = `
 <div>
   Rerenderd: 
   1
