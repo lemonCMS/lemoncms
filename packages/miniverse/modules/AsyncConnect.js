@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Route, withRouter } from 'react-router';
 import NProgress from 'nprogress';
-import { runHooks as RunHooks } from 'react-miniverse';
-import asyncMatchRoutes from '../../utils/asyncMatchRoutes';
+import { runHooks as RunHooks } from './runHooks';
+import asyncMatchRoutes from './asyncMatchRoutes';
 
 const Error = () => (
   <div>
@@ -30,8 +30,6 @@ class AsyncConnect extends Component {
   };
 
   constructor(props) {
-    console.log(props);
-
     super(props);
     this.runMiniverse = this.runMiniverse.bind(this);
     this.state = {

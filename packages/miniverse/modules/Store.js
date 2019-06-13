@@ -1,4 +1,4 @@
-import { ReplaySubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 class Store {
   /**
@@ -71,7 +71,7 @@ class Store {
       return this.subjects[hash];
     }
 
-    this.subjects[hash] = new ReplaySubject();
+    this.subjects[hash] = new BehaviorSubject({});
     return this.subjects[hash];
   }
 
@@ -87,7 +87,7 @@ class Store {
       return this.subjects[hash];
     }
 
-    this.subjects[hash] = new ReplaySubject();
+    this.subjects[hash] = new BehaviorSubject({});
     return this.subjects[hash];
   }
 

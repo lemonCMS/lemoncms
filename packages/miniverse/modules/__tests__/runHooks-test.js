@@ -95,7 +95,7 @@ describe('RunHooks should do it', () => {
     });
   });
 
-  test('Should throw warning about to many renders', (done) => {
+  /*test('Should throw warning about to many renders', (done) => {
     const initiatedServiceProvider = new Miniverse({
       Github
     });
@@ -120,7 +120,7 @@ describe('RunHooks should do it', () => {
         });
       });
     });
-  });
+  });*/
 
   test('Should resolve a error with multiple componentns', (done) => {
     const initiatedServiceProvider = new Miniverse({

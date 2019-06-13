@@ -1,4 +1,5 @@
-import { ReplaySubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import { last } from 'rxjs/operators';
 import warning from 'tiny-warning';
 import propName from './propName';
 
@@ -61,7 +62,7 @@ export default class RunHooks {
     this.components = components;
     this.name = name;
     this.locals = locals;
-    this.sub$ = new ReplaySubject();
+    this.sub$ = new BehaviorSubject();
     this.reset();
   }
 
@@ -77,7 +78,6 @@ export default class RunHooks {
   }) => {
     this.run();
     this.sub$.subscribe(next, error, complete);
-
   };
 
   /**
@@ -134,7 +134,7 @@ export default class RunHooks {
         const hook = hooks[name];
 
         if (typeof hook !== 'function') {
-          throw new Error('decorator provideHooks MUST contain "fetch" or "watch" functions');
+          throw new Error('decorator provideHooks MUST contain "fetch" or "defer" functions');
         }
 
         return { hook, component };
@@ -150,7 +150,7 @@ export default class RunHooks {
 
     if (!this.shouldRun) {
       this.next();
-      this.complete();
+      // this.complete();
       return;
     }
 

@@ -176,68 +176,6 @@ describe('Api', () => {
       });
   })
 
-  it('should HEAD and succeed', (done) => {
-    ajax.mockImplementationOnce(() =>
-      of({ response: { results: ["cat.jpg"] } })
-    );
-
-    miniverse.getService('Github')
-      .head({ path: 'some-path' })
-      .subscribe({
-        next: (response) => {
-          expect(response.results).toBeDefined();
-          done();
-        }
-      });
-
-  })
-
-  it('should HEAD and fail with 404', (done) => {
-    ajax.mockImplementationOnce(() =>
-      throwError(404)
-    );
-
-    miniverse.getService('Github')
-      .head({ path: 'some-path' })
-      .subscribe({
-        error: (response) => {
-          expect(response).toEqual(404);
-          done();
-        }
-      });
-  })
-
-  it('should OPTIONS and succeed', (done) => {
-    ajax.mockImplementationOnce(() =>
-      of({ response: { results: ["cat.jpg"] } })
-    );
-
-    miniverse.getService('Github')
-      .options({ path: 'some-path' })
-      .subscribe({
-        next: (response) => {
-          expect(response.results).toBeDefined();
-          done();
-        }
-      });
-
-  })
-
-  it('should OPTIONS and fail with 404', (done) => {
-    ajax.mockImplementationOnce(() =>
-      throwError(404)
-    );
-
-    miniverse.getService('Github')
-      .options({ path: 'some-path' })
-      .subscribe({
-        error: (response) => {
-          expect(response).toEqual(404);
-          done();
-        }
-      });
-  })
-
   it('should set TOKEN', (done) => {
     ajax.mockImplementationOnce(() =>
       of({})

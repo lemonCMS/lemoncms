@@ -1,10 +1,10 @@
 import React from 'react';
 import provideHooks from '../../provideHooks';
-import { ReplaySubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @provideHooks({
   fetch: ({ serviceProvider }) => {
-    const sub$ = new ReplaySubject();
+    const sub$ = new BehaviorSubject({});
     sub$.error('SOMETHING IS WRONG');
     return serviceProvider.zip(sub$);
   }
