@@ -14,5 +14,8 @@
     "prettier": "^1.14.3",
     "pretty-quick": "^1.4.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "query-string": "^6.7.0",
+    "xhr2": "^0.2.0"
+  }
 }

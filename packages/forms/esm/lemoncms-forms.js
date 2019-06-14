@@ -137,14 +137,19 @@ ContextWrapper.defaultProps = {
 var Form$1 = function Form$$1(props) {
   var children = props.children,
       className = props.className,
-      formProps = _objectWithoutPropertiesLoose(props, ["children", "className"]);
+      debug = props.debug,
+      listen = props.listen,
+      formProps = _objectWithoutPropertiesLoose(props, ["children", "className", "debug", "listen"]);
 
   return React.createElement(Form, _extends({}, formProps, {
     render: function render(_ref) {
       var handleSubmit = _ref.handleSubmit,
           rest = _objectWithoutPropertiesLoose(_ref, ["handleSubmit"]);
 
-      return React.createElement(ContextWrapper, rest, React.createElement("form", {
+      return React.createElement(ContextWrapper, _extends({}, rest, {
+        debug: debug,
+        listen: listen
+      }), React.createElement("form", {
         onSubmit: handleSubmit,
         className: className
       }, children));
@@ -156,11 +161,17 @@ Form$1.propTypes = {
   className: PropTypes.string,
   validate: PropTypes.func,
   onSubmit: PropTypes.func.isRequired,
-  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+  debug: PropTypes.bool,
+  listen: PropTypes.func,
+  initialValues: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.array, PropTypes.object]))
 };
 Form$1.defaultProps = {
   className: '',
-  validate: function validate() {}
+  validate: function validate() {},
+  listen: function listen() {},
+  debug: false,
+  initialValues: {}
 };
 
 function Context(Component) {
@@ -171,8 +182,12 @@ function Context(Component) {
         render: function render(_ref) {
           var input = _ref.input,
               meta = _ref.meta;
+
+          var type = input.type,
+              allOther = _objectWithoutPropertiesLoose(input, ["type"]);
+
           return React.createElement(Component, _extends({
-            input: input,
+            input: allOther,
             meta: meta,
             context: context
           }, props));
@@ -208,7 +223,7 @@ function Context$1(Component) {
       className: classNames('ffc-help', formText)
     }, text);
     var showError = computedInvalid && error && React.createElement("div", {
-      className: classNames('ffc-erro', formError)
+      className: classNames('ffc-error', formError)
     }, error);
     return React.createElement("div", {
       className: classNames('ffc-field', {
@@ -640,7 +655,7 @@ var Password = function Password(props) {
       formControl = props.formControl,
       computedInvalid = props.computedInvalid;
   return React.createElement("input", _extends({
-    type: "password",
+    type: 'password',
     placeholder: placeholder,
     className: classNames('ffc-input', {
       'is-invalid': computedInvalid
@@ -684,7 +699,8 @@ var Radio = function Radio(props) {
       className: classNames('form-check-label'),
       onChange: function onChange(event) {
         return _onChange(event, key, option);
-      }
+      },
+      checked: String(input.value) === String(option.props.value)
     }), ' ', React.createElement("label", {
       htmlFor: input.name + "_" + key,
       className: classNames('form-check-label')
@@ -715,12 +731,24 @@ var Select = function Select(props) {
       placeholder = props.placeholder,
       formControl = props.formControl,
       computedInvalid = props.computedInvalid;
+
+  var value = input.value,
+      rest = _objectWithoutPropertiesLoose(input, ["value"]);
+
+  var options = Array.isArray(children) ? children : [children];
+  var list = options.map(function (option, key) {
+    return React.createElement("option", {
+      key: key,
+      value: option.props.value,
+      selected: String(input.value) === String(option.props.value)
+    }, option.props.children);
+  });
   return React.createElement("select", _extends({
     placeholder: placeholder,
     className: classNames('ffc-input', {
       'is-invalid': computedInvalid
     }, formControl)
-  }, input), children);
+  }, rest), list);
 };
 
 Select.propTypes = {
@@ -770,13 +798,17 @@ var Textarea = function Textarea(props) {
       formControl = props.formControl,
       computedInvalid = props.computedInvalid,
       rows = props.rows;
+
+  var value = input.value,
+      rest = _objectWithoutPropertiesLoose(input, ["value"]);
+
   return React.createElement("textarea", _extends({
     placeholder: placeholder,
     className: classNames('ffc-input', {
       'is-invalid': computedInvalid
     }, formControl),
     rows: rows
-  }, input));
+  }, rest));
 };
 
 Textarea.propTypes = {

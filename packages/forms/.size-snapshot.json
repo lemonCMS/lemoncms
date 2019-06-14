@@ -1,0 +1,26 @@
+{
+  "esm/lemoncms-forms.js": {
+    "bundled": 24066,
+    "minified": 14473,
+    "gzipped": 3572,
+    "treeshaked": {
+      "rollup": {
+        "code": 11950,
+        "import_statements": 482
+      },
+      "webpack": {
+        "code": 13694
+      }
+    }
+  },
+  "umd/lemoncms-forms.js": {
+    "bundled": 233905,
+    "minified": 80928,
+    "gzipped": 25158
+  },
+  "umd/lemoncms-forms.min.js": {
+    "bundled": 200333,
+    "minified": 70744,
+    "gzipped": 22383
+  }
+}

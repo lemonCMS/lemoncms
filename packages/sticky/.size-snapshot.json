@@ -94,5 +94,29 @@
     "bundled": 17653,
     "minified": 7994,
     "gzipped": 2691
+  },
+  "esm/react-sticky.js": {
+    "bundled": 5747,
+    "minified": 3725,
+    "gzipped": 1177,
+    "treeshaked": {
+      "rollup": {
+        "code": 3492,
+        "import_statements": 183
+      },
+      "webpack": {
+        "code": 4619
+      }
+    }
+  },
+  "umd/react-sticky.js": {
+    "bundled": 50051,
+    "minified": 17675,
+    "gzipped": 5400
+  },
+  "umd/react-sticky.min.js": {
+    "bundled": 17653,
+    "minified": 7994,
+    "gzipped": 2691
   }
 }

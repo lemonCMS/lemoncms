@@ -1,12 +1,10 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react'), require('classnames'), require('react-dropzone')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'react', 'classnames', 'react-dropzone'], factory) :
-  (factory((global.Miniverse = {}),global.React,global.classNames,global.Dropzone));
-}(this, (function (exports,React,classNames,Dropzone) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'react'], factory) :
+  (factory((global.Miniverse = {}),global.React));
+}(this, (function (exports,React) { 'use strict';
 
   var React__default = 'default' in React ? React['default'] : React;
-  classNames = classNames && classNames.hasOwnProperty('default') ? classNames['default'] : classNames;
-  Dropzone = Dropzone && Dropzone.hasOwnProperty('default') ? Dropzone['default'] : Dropzone;
 
   function _extends() {
     _extends = Object.assign || function (target) {
@@ -1169,39 +1167,6 @@
     return target;
   }
 
-  function _extends$2() {
-    _extends$2 = Object.assign || function (target) {
-      for (var i = 1; i < arguments.length; i++) {
-        var source = arguments[i];
-
-        for (var key in source) {
-          if (Object.prototype.hasOwnProperty.call(source, key)) {
-            target[key] = source[key];
-          }
-        }
-      }
-
-      return target;
-    };
-
-    return _extends$2.apply(this, arguments);
-  }
-
-  function _objectWithoutPropertiesLoose$2(source, excluded) {
-    if (source == null) return {};
-    var target = {};
-    var sourceKeys = Object.keys(source);
-    var key, i;
-
-    for (i = 0; i < sourceKeys.length; i++) {
-      key = sourceKeys[i];
-      if (excluded.indexOf(key) >= 0) continue;
-      target[key] = source[key];
-    }
-
-    return target;
-  }
-
   //      
   var toPath = function toPath(key) {
     if (key === null || key === undefined || !key.length) {
@@ -1287,13 +1252,13 @@
         }
 
         var _removed = current[key],
-            _final = _objectWithoutPropertiesLoose$2(current, [key].map(_toPropertyKey));
+            _final = _objectWithoutPropertiesLoose(current, [key].map(_toPropertyKey));
 
         return _final;
       } // set result in key
 
 
-      return _extends$2({}, current, (_extends2 = {}, _extends2[key] = _result, _extends2));
+      return _extends({}, current, (_extends2 = {}, _extends2[key] = _result, _extends2));
     } // array set
 
 
@@ -1631,7 +1596,7 @@
       formState: {
         dirtySinceLastSubmit: false,
         errors: {},
-        initialValues: initialValues && _extends$2({}, initialValues),
+        initialValues: initialValues && _extends({}, initialValues),
         invalid: false,
         pristine: true,
         submitting: false,
@@ -1639,7 +1604,7 @@
         submitSucceeded: false,
         valid: true,
         validating: 0,
-        values: initialValues ? _extends$2({}, initialValues) : {}
+        values: initialValues ? _extends({}, initialValues) : {}
       },
       lastFormState: undefined
     };
@@ -1666,12 +1631,12 @@
       if (state.fields[from]) {
         var _extends2, _extends3;
 
-        state.fields = _extends$2({}, state.fields, (_extends2 = {}, _extends2[to] = _extends$2({}, state.fields[from], {
+        state.fields = _extends({}, state.fields, (_extends2 = {}, _extends2[to] = _extends({}, state.fields[from], {
           name: to,
           lastFieldState: undefined
         }), _extends2));
         delete state.fields[from];
-        state.fieldSubscribers = _extends$2({}, state.fieldSubscribers, (_extends3 = {}, _extends3[to] = state.fieldSubscribers[from], _extends3));
+        state.fieldSubscribers = _extends({}, state.fieldSubscribers, (_extends3 = {}, _extends3[to] = state.fieldSubscribers[from], _extends3));
         delete state.fieldSubscribers[from];
         var value = getIn(state.formState.values, from);
         state.formState.values = setIn(state.formState.values, from, undefined) || {};
@@ -1726,7 +1691,7 @@
       var promises = [];
 
       if (validate) {
-        var errorsOrPromise = validate(_extends$2({}, state.formState.values)); // clone to avoid writing
+        var errorsOrPromise = validate(_extends({}, state.formState.values)); // clone to avoid writing
 
         if (isPromise(errorsOrPromise)) {
           var asyncValidationPromiseKey = nextAsyncValidationKey++;
@@ -1832,7 +1797,7 @@
       }, []));
 
       var processErrors = function processErrors() {
-        var merged = _extends$2({}, limitedFieldLevelValidation ? formState.errors : {}, recordLevelErrors);
+        var merged = _extends({}, limitedFieldLevelValidation ? formState.errors : {}, recordLevelErrors);
 
         var forEachError = function forEachError(fn) {
           fieldKeys.forEach(function (name) {
@@ -2060,7 +2025,7 @@
         if (previous) {
           // can only blur registered fields
           delete formState.active;
-          fields[name] = _extends$2({}, previous, {
+          fields[name] = _extends({}, previous, {
             active: false,
             touched: true
           });
@@ -2088,7 +2053,7 @@
 
           if (previous) {
             // only track modified for registered fields
-            fields[name] = _extends$2({}, previous, {
+            fields[name] = _extends({}, previous, {
               modified: true
             });
           }
@@ -2411,7 +2376,7 @@
         formState.submitting = true;
         formState.submitFailed = false;
         formState.submitSucceeded = false;
-        formState.lastSubmittedValues = _extends$2({}, formState.values); // onSubmit is either sync, callback or async with a Promise
+        formState.lastSubmittedValues = _extends({}, formState.values); // onSubmit is either sync, callback or async with a Promise
 
         var result = onSubmit(formState.values, api, complete);
 
@@ -3449,14 +3414,19 @@
   var Form$$1 = function Form$$1(props) {
     var children = props.children,
         className = props.className,
-        formProps = _objectWithoutPropertiesLoose(props, ["children", "className"]);
+        debug = props.debug,
+        listen = props.listen,
+        formProps = _objectWithoutPropertiesLoose(props, ["children", "className", "debug", "listen"]);
 
     return React__default.createElement(ReactFinalForm, _extends({}, formProps, {
       render: function render(_ref) {
         var handleSubmit = _ref.handleSubmit,
             rest = _objectWithoutPropertiesLoose(_ref, ["handleSubmit"]);
 
-        return React__default.createElement(ContextWrapper, rest, React__default.createElement("form", {
+        return React__default.createElement(ContextWrapper, _extends({}, rest, {
+          debug: debug,
+          listen: listen
+        }), React__default.createElement("form", {
           onSubmit: handleSubmit,
           className: className
         }, children));
@@ -3468,12 +3438,67 @@
     className: propTypes.string,
     validate: propTypes.func,
     onSubmit: propTypes.func.isRequired,
-    children: propTypes.oneOfType([propTypes.object, propTypes.array]).isRequired
+    children: propTypes.oneOfType([propTypes.object, propTypes.array]).isRequired,
+    debug: propTypes.bool,
+    listen: propTypes.func,
+    initialValues: propTypes.objectOf(propTypes.oneOfType([propTypes.string, propTypes.number, propTypes.array, propTypes.object]))
   };
   Form$$1.defaultProps = {
     className: '',
-    validate: function validate() {}
+    validate: function validate() {},
+    listen: function listen() {},
+    debug: false,
+    initialValues: {}
   };
+
+  var classnames = createCommonjsModule(function (module) {
+  /*!
+    Copyright (c) 2017 Jed Watson.
+    Licensed under the MIT License (MIT), see
+    http://jedwatson.github.io/classnames
+  */
+  /* global define */
+
+  (function () {
+
+  	var hasOwn = {}.hasOwnProperty;
+
+  	function classNames () {
+  		var classes = [];
+
+  		for (var i = 0; i < arguments.length; i++) {
+  			var arg = arguments[i];
+  			if (!arg) continue;
+
+  			var argType = typeof arg;
+
+  			if (argType === 'string' || argType === 'number') {
+  				classes.push(arg);
+  			} else if (Array.isArray(arg) && arg.length) {
+  				var inner = classNames.apply(null, arg);
+  				if (inner) {
+  					classes.push(inner);
+  				}
+  			} else if (argType === 'object') {
+  				for (var key in arg) {
+  					if (hasOwn.call(arg, key) && arg[key]) {
+  						classes.push(key);
+  					}
+  				}
+  			}
+  		}
+
+  		return classes.join(' ');
+  	}
+
+  	if (module.exports) {
+  		classNames.default = classNames;
+  		module.exports = classNames;
+  	} else {
+  		window.classNames = classNames;
+  	}
+  }());
+  });
 
   function Context(Component) {
     var TmpClass = function TmpClass(props) {
@@ -3483,8 +3508,12 @@
           render: function render(_ref) {
             var input = _ref.input,
                 meta = _ref.meta;
+
+            var type = input.type,
+                allOther = _objectWithoutPropertiesLoose(input, ["type"]);
+
             return React__default.createElement(Component, _extends({
-              input: input,
+              input: allOther,
               meta: meta,
               context: context
             }, props));
@@ -3517,18 +3546,18 @@
       var computedInvalid = submitFailed && invalid;
       var isDisabled = disabled && checkCondition(disabled);
       var showText = !computedInvalid && text && React__default.createElement("div", {
-        className: classNames('ffc-help', formText)
+        className: classnames('ffc-help', formText)
       }, text);
       var showError = computedInvalid && error && React__default.createElement("div", {
-        className: classNames('ffc-erro', formError)
+        className: classnames('ffc-error', formError)
       }, error);
       return React__default.createElement("div", {
-        className: classNames('ffc-field', {
+        className: classnames('ffc-field', {
           'text-danger': computedInvalid
         }, formGroup)
       }, label && React__default.createElement("label", {
         htmlFor: name,
-        className: classNames('ffc-label', formLabel)
+        className: classnames('ffc-label', formLabel)
       }, label), React__default.createElement(Component, _extends({}, props, {
         computedInvalid: computedInvalid,
         isDisabled: isDisabled
@@ -3605,18 +3634,18 @@
         disabled: isDisabled,
         id: input.name + "_" + key,
         value: option.props.value,
-        className: classNames('form-check-label'),
+        className: classnames('form-check-label'),
         checked: checked,
         onChange: function onChange(event) {
           return _onChange(event, key, option);
         }
       }), ' ', React__default.createElement("label", {
         htmlFor: input.name + "_" + key,
-        className: classNames('form-check-label')
+        className: classnames('form-check-label')
       }, option.props.children));
     });
     return React__default.createElement("div", {
-      className: classNames('ffc-input', {
+      className: classnames('ffc-input', {
         'is-invalid': computedInvalid
       }, formControl)
     }, list);
@@ -3675,6 +3704,1186 @@
     });
   });
 
+  /*! *****************************************************************************
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+  this file except in compliance with the License. You may obtain a copy of the
+  License at http://www.apache.org/licenses/LICENSE-2.0
+
+  THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+  WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+  MERCHANTABLITY OR NON-INFRINGEMENT.
+
+  See the Apache Version 2.0 License for specific language governing permissions
+  and limitations under the License.
+  ***************************************************************************** */
+
+  function __awaiter(thisArg, _arguments, P, generator) {
+      return new (P || (P = Promise))(function (resolve, reject) {
+          function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+          function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+          function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+          step((generator = generator.apply(thisArg, _arguments || [])).next());
+      });
+  }
+
+  function __generator(thisArg, body) {
+      var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+      return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+      function verb(n) { return function (v) { return step([n, v]); }; }
+      function step(op) {
+          if (f) throw new TypeError("Generator is already executing.");
+          while (_) try {
+              if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+              if (y = 0, t) op = [op[0] & 2, t.value];
+              switch (op[0]) {
+                  case 0: case 1: t = op; break;
+                  case 4: _.label++; return { value: op[1], done: false };
+                  case 5: _.label++; y = op[1]; op = [0]; continue;
+                  case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                  default:
+                      if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                      if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                      if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                      if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                      if (t[2]) _.ops.pop();
+                      _.trys.pop(); continue;
+              }
+              op = body.call(thisArg, _);
+          } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+          if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+      }
+  }
+
+  function __read(o, n) {
+      var m = typeof Symbol === "function" && o[Symbol.iterator];
+      if (!m) return o;
+      var i = m.call(o), r, ar = [], e;
+      try {
+          while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+      }
+      catch (error) { e = { error: error }; }
+      finally {
+          try {
+              if (r && !r.done && (m = i["return"])) m.call(i);
+          }
+          finally { if (e) throw e.error; }
+      }
+      return ar;
+  }
+
+  function __spread() {
+      for (var ar = [], i = 0; i < arguments.length; i++)
+          ar = ar.concat(__read(arguments[i]));
+      return ar;
+  }
+
+  var COMMON_MIME_TYPES = new Map([
+      ['avi', 'video/avi'],
+      ['gif', 'image/gif'],
+      ['ico', 'image/x-icon'],
+      ['jpeg', 'image/jpeg'],
+      ['jpg', 'image/jpeg'],
+      ['mkv', 'video/x-matroska'],
+      ['mov', 'video/quicktime'],
+      ['mp4', 'video/mp4'],
+      ['pdf', 'application/pdf'],
+      ['png', 'image/png'],
+      ['zip', 'application/zip'],
+      ['doc', 'application/msword'],
+      ['docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+  ]);
+  function toFileWithPath(file, path) {
+      var f = withMimeType(file);
+      if (typeof f.path !== 'string') { // on electron, path is already set to the absolute path
+          var webkitRelativePath = file.webkitRelativePath;
+          Object.defineProperty(f, 'path', {
+              value: typeof path === 'string'
+                  ? path
+                  // If <input webkitdirectory> is set,
+                  // the File will have a {webkitRelativePath} property
+                  // https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/webkitdirectory
+                  : typeof webkitRelativePath === 'string' && webkitRelativePath.length > 0
+                      ? webkitRelativePath
+                      : file.name,
+              writable: false,
+              configurable: false,
+              enumerable: true
+          });
+      }
+      return f;
+  }
+  function withMimeType(file) {
+      var name = file.name;
+      var hasExtension = name && name.lastIndexOf('.') !== -1;
+      if (hasExtension && !file.type) {
+          var ext = name.split('.')
+              .pop().toLowerCase();
+          var type = COMMON_MIME_TYPES.get(ext);
+          if (type) {
+              Object.defineProperty(file, 'type', {
+                  value: type,
+                  writable: false,
+                  configurable: false,
+                  enumerable: true
+              });
+          }
+      }
+      return file;
+  }
+
+  var FILES_TO_IGNORE = [
+      // Thumbnail cache files for macOS and Windows
+      '.DS_Store',
+      'Thumbs.db' // Windows
+  ];
+  /**
+   * Convert a DragEvent's DataTrasfer object to a list of File objects
+   * NOTE: If some of the items are folders,
+   * everything will be flattened and placed in the same list but the paths will be kept as a {path} property.
+   * @param evt
+   */
+  function fromEvent(evt) {
+      return __awaiter(this, void 0, void 0, function () {
+          return __generator(this, function (_a) {
+              return [2 /*return*/, isDragEvt(evt) && evt.dataTransfer
+                      ? getDataTransferFiles(evt.dataTransfer, evt.type)
+                      : getInputFiles(evt)];
+          });
+      });
+  }
+  function isDragEvt(value) {
+      return !!value.dataTransfer;
+  }
+  function getInputFiles(evt) {
+      var files = isInput(evt.target)
+          ? evt.target.files
+              ? fromList(evt.target.files)
+              : []
+          : [];
+      return files.map(function (file) { return toFileWithPath(file); });
+  }
+  function isInput(value) {
+      return value !== null;
+  }
+  function getDataTransferFiles(dt, type) {
+      return __awaiter(this, void 0, void 0, function () {
+          var items, files;
+          return __generator(this, function (_a) {
+              switch (_a.label) {
+                  case 0:
+                      if (!dt.items) return [3 /*break*/, 2];
+                      items = fromList(dt.items)
+                          .filter(function (item) { return item.kind === 'file'; });
+                      // According to https://html.spec.whatwg.org/multipage/dnd.html#dndevents,
+                      // only 'dragstart' and 'drop' has access to the data (source node)
+                      if (type !== 'drop') {
+                          return [2 /*return*/, items];
+                      }
+                      return [4 /*yield*/, Promise.all(items.map(toFilePromises))];
+                  case 1:
+                      files = _a.sent();
+                      return [2 /*return*/, noIgnoredFiles(flatten(files))];
+                  case 2: return [2 /*return*/, noIgnoredFiles(fromList(dt.files)
+                          .map(function (file) { return toFileWithPath(file); }))];
+              }
+          });
+      });
+  }
+  function noIgnoredFiles(files) {
+      return files.filter(function (file) { return FILES_TO_IGNORE.indexOf(file.name) === -1; });
+  }
+  // IE11 does not support Array.from()
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from#Browser_compatibility
+  // https://developer.mozilla.org/en-US/docs/Web/API/FileList
+  // https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItemList
+  function fromList(items) {
+      var files = [];
+      // tslint:disable: prefer-for-of
+      for (var i = 0; i < items.length; i++) {
+          var file = items[i];
+          files.push(file);
+      }
+      return files;
+  }
+  // https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItem
+  function toFilePromises(item) {
+      if (typeof item.webkitGetAsEntry !== 'function') {
+          return fromDataTransferItem(item);
+      }
+      var entry = item.webkitGetAsEntry();
+      // Safari supports dropping an image node from a different window and can be retrieved using
+      // the DataTransferItem.getAsFile() API
+      // NOTE: FileSystemEntry.file() throws if trying to get the file
+      if (entry && entry.isDirectory) {
+          return fromDirEntry(entry);
+      }
+      return fromDataTransferItem(item);
+  }
+  function flatten(items) {
+      return items.reduce(function (acc, files) { return __spread(acc, (Array.isArray(files) ? flatten(files) : [files])); }, []);
+  }
+  function fromDataTransferItem(item) {
+      var file = item.getAsFile();
+      if (!file) {
+          return Promise.reject(item + " is not a File");
+      }
+      var fwp = toFileWithPath(file);
+      return Promise.resolve(fwp);
+  }
+  // https://developer.mozilla.org/en-US/docs/Web/API/FileSystemEntry
+  function fromEntry(entry) {
+      return __awaiter(this, void 0, void 0, function () {
+          return __generator(this, function (_a) {
+              return [2 /*return*/, entry.isDirectory ? fromDirEntry(entry) : fromFileEntry(entry)];
+          });
+      });
+  }
+  // https://developer.mozilla.org/en-US/docs/Web/API/FileSystemDirectoryEntry
+  function fromDirEntry(entry) {
+      var reader = entry.createReader();
+      return new Promise(function (resolve, reject) {
+          var entries = [];
+          function readEntries() {
+              var _this = this;
+              // https://developer.mozilla.org/en-US/docs/Web/API/FileSystemDirectoryEntry/createReader
+              // https://developer.mozilla.org/en-US/docs/Web/API/FileSystemDirectoryReader/readEntries
+              reader.readEntries(function (batch) { return __awaiter(_this, void 0, void 0, function () {
+                  var files, err_1, items;
+                  return __generator(this, function (_a) {
+                      switch (_a.label) {
+                          case 0:
+                              if (!!batch.length) return [3 /*break*/, 5];
+                              _a.label = 1;
+                          case 1:
+                              _a.trys.push([1, 3, , 4]);
+                              return [4 /*yield*/, Promise.all(entries)];
+                          case 2:
+                              files = _a.sent();
+                              resolve(files);
+                              return [3 /*break*/, 4];
+                          case 3:
+                              err_1 = _a.sent();
+                              reject(err_1);
+                              return [3 /*break*/, 4];
+                          case 4: return [3 /*break*/, 6];
+                          case 5:
+                              items = Promise.all(batch.map(fromEntry));
+                              entries.push(items);
+                              // Continue reading
+                              readEntries();
+                              _a.label = 6;
+                          case 6: return [2 /*return*/];
+                      }
+                  });
+              }); }, function (err) {
+                  reject(err);
+              });
+          }
+          readEntries();
+      });
+  }
+  // https://developer.mozilla.org/en-US/docs/Web/API/FileSystemFileEntry
+  function fromFileEntry(entry) {
+      return __awaiter(this, void 0, void 0, function () {
+          return __generator(this, function (_a) {
+              return [2 /*return*/, new Promise(function (resolve, reject) {
+                      entry.file(function (file) {
+                          var fwp = toFileWithPath(file, entry.fullPath);
+                          resolve(fwp);
+                      }, function (err) {
+                          reject(err);
+                      });
+                  })];
+          });
+      });
+  }
+
+  var dist = createCommonjsModule(function (module) {
+  module.exports=function(t){function n(e){if(r[e])return r[e].exports;var o=r[e]={i:e,l:!1,exports:{}};return t[e].call(o.exports,o,o.exports,n),o.l=!0,o.exports}var r={};return n.m=t,n.c=r,n.d=function(t,r,e){n.o(t,r)||Object.defineProperty(t,r,{configurable:!1,enumerable:!0,get:e});},n.n=function(t){var r=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(r,"a",r),r},n.o=function(t,n){return Object.prototype.hasOwnProperty.call(t,n)},n.p="",n(n.s=13)}([function(t,n){var r=t.exports="undefined"!=typeof window&&window.Math==Math?window:"undefined"!=typeof self&&self.Math==Math?self:Function("return this")();"number"==typeof __g&&(__g=r);},function(t,n){t.exports=function(t){return "object"==typeof t?null!==t:"function"==typeof t};},function(t,n){var r=t.exports={version:"2.5.0"};"number"==typeof __e&&(__e=r);},function(t,n,r){t.exports=!r(4)(function(){return 7!=Object.defineProperty({},"a",{get:function(){return 7}}).a});},function(t,n){t.exports=function(t){try{return !!t()}catch(t){return !0}};},function(t,n){var r={}.toString;t.exports=function(t){return r.call(t).slice(8,-1)};},function(t,n,r){var e=r(32)("wks"),o=r(9),i=r(0).Symbol,u="function"==typeof i;(t.exports=function(t){return e[t]||(e[t]=u&&i[t]||(u?i:o)("Symbol."+t))}).store=e;},function(t,n,r){var e=r(0),o=r(2),i=r(8),u=r(22),c=r(10),f=function(t,n,r){var a,s,p,l,v=t&f.F,y=t&f.G,h=t&f.S,d=t&f.P,x=t&f.B,g=y?e:h?e[n]||(e[n]={}):(e[n]||{}).prototype,m=y?o:o[n]||(o[n]={}),b=m.prototype||(m.prototype={});y&&(r=n);for(a in r)s=!v&&g&&void 0!==g[a],p=(s?g:r)[a],l=x&&s?c(p,e):d&&"function"==typeof p?c(Function.call,p):p,g&&u(g,a,p,t&f.U),m[a]!=p&&i(m,a,l),d&&b[a]!=p&&(b[a]=p);};e.core=o,f.F=1,f.G=2,f.S=4,f.P=8,f.B=16,f.W=32,f.U=64,f.R=128,t.exports=f;},function(t,n,r){var e=r(16),o=r(21);t.exports=r(3)?function(t,n,r){return e.f(t,n,o(1,r))}:function(t,n,r){return t[n]=r,t};},function(t,n){var r=0,e=Math.random();t.exports=function(t){return "Symbol(".concat(void 0===t?"":t,")_",(++r+e).toString(36))};},function(t,n,r){var e=r(24);t.exports=function(t,n,r){if(e(t),void 0===n)return t;switch(r){case 1:return function(r){return t.call(n,r)};case 2:return function(r,e){return t.call(n,r,e)};case 3:return function(r,e,o){return t.call(n,r,e,o)}}return function(){return t.apply(n,arguments)}};},function(t,n){t.exports=function(t){if(void 0==t)throw TypeError("Can't call method on  "+t);return t};},function(t,n,r){var e=r(28),o=Math.min;t.exports=function(t){return t>0?o(e(t),9007199254740991):0};},function(t,n,r){n.__esModule=!0,n.default=function(t,n){if(t&&n){var r=Array.isArray(n)?n:n.split(","),e=t.name||"",o=t.type||"",i=o.replace(/\/.*$/,"");return r.some(function(t){var n=t.trim();return "."===n.charAt(0)?e.toLowerCase().endsWith(n.toLowerCase()):n.endsWith("/*")?i===n.replace(/\/.*$/,""):o===n})}return !0},r(14),r(34);},function(t,n,r){r(15),t.exports=r(2).Array.some;},function(t,n,r){var e=r(7),o=r(25)(3);e(e.P+e.F*!r(33)([].some,!0),"Array",{some:function(t){return o(this,t,arguments[1])}});},function(t,n,r){var e=r(17),o=r(18),i=r(20),u=Object.defineProperty;n.f=r(3)?Object.defineProperty:function(t,n,r){if(e(t),n=i(n,!0),e(r),o)try{return u(t,n,r)}catch(t){}if("get"in r||"set"in r)throw TypeError("Accessors not supported!");return "value"in r&&(t[n]=r.value),t};},function(t,n,r){var e=r(1);t.exports=function(t){if(!e(t))throw TypeError(t+" is not an object!");return t};},function(t,n,r){t.exports=!r(3)&&!r(4)(function(){return 7!=Object.defineProperty(r(19)("div"),"a",{get:function(){return 7}}).a});},function(t,n,r){var e=r(1),o=r(0).document,i=e(o)&&e(o.createElement);t.exports=function(t){return i?o.createElement(t):{}};},function(t,n,r){var e=r(1);t.exports=function(t,n){if(!e(t))return t;var r,o;if(n&&"function"==typeof(r=t.toString)&&!e(o=r.call(t)))return o;if("function"==typeof(r=t.valueOf)&&!e(o=r.call(t)))return o;if(!n&&"function"==typeof(r=t.toString)&&!e(o=r.call(t)))return o;throw TypeError("Can't convert object to primitive value")};},function(t,n){t.exports=function(t,n){return {enumerable:!(1&t),configurable:!(2&t),writable:!(4&t),value:n}};},function(t,n,r){var e=r(0),o=r(8),i=r(23),u=r(9)("src"),c=Function.toString,f=(""+c).split("toString");r(2).inspectSource=function(t){return c.call(t)},(t.exports=function(t,n,r,c){var a="function"==typeof r;a&&(i(r,"name")||o(r,"name",n)),t[n]!==r&&(a&&(i(r,u)||o(r,u,t[n]?""+t[n]:f.join(String(n)))),t===e?t[n]=r:c?t[n]?t[n]=r:o(t,n,r):(delete t[n],o(t,n,r)));})(Function.prototype,"toString",function(){return "function"==typeof this&&this[u]||c.call(this)});},function(t,n){var r={}.hasOwnProperty;t.exports=function(t,n){return r.call(t,n)};},function(t,n){t.exports=function(t){if("function"!=typeof t)throw TypeError(t+" is not a function!");return t};},function(t,n,r){var e=r(10),o=r(26),i=r(27),u=r(12),c=r(29);t.exports=function(t,n){var r=1==t,f=2==t,a=3==t,s=4==t,p=6==t,l=5==t||p,v=n||c;return function(n,c,y){for(var h,d,x=i(n),g=o(x),m=e(c,y,3),b=u(g.length),_=0,w=r?v(n,b):f?v(n,0):void 0;b>_;_++)if((l||_ in g)&&(h=g[_],d=m(h,_,x),t))if(r)w[_]=d;else if(d)switch(t){case 3:return !0;case 5:return h;case 6:return _;case 2:w.push(h);}else if(s)return !1;return p?-1:a||s?s:w}};},function(t,n,r){var e=r(5);t.exports=Object("z").propertyIsEnumerable(0)?Object:function(t){return "String"==e(t)?t.split(""):Object(t)};},function(t,n,r){var e=r(11);t.exports=function(t){return Object(e(t))};},function(t,n){var r=Math.ceil,e=Math.floor;t.exports=function(t){return isNaN(t=+t)?0:(t>0?e:r)(t)};},function(t,n,r){var e=r(30);t.exports=function(t,n){return new(e(t))(n)};},function(t,n,r){var e=r(1),o=r(31),i=r(6)("species");t.exports=function(t){var n;return o(t)&&(n=t.constructor,"function"!=typeof n||n!==Array&&!o(n.prototype)||(n=void 0),e(n)&&null===(n=n[i])&&(n=void 0)),void 0===n?Array:n};},function(t,n,r){var e=r(5);t.exports=Array.isArray||function(t){return "Array"==e(t)};},function(t,n,r){var e=r(0),o=e["__core-js_shared__"]||(e["__core-js_shared__"]={});t.exports=function(t){return o[t]||(o[t]={})};},function(t,n,r){var e=r(4);t.exports=function(t,n){return !!t&&e(function(){n?t.call(null,function(){},1):t.call(null);})};},function(t,n,r){r(35),t.exports=r(2).String.endsWith;},function(t,n,r){var e=r(7),o=r(12),i=r(36),u="".endsWith;e(e.P+e.F*r(38)("endsWith"),"String",{endsWith:function(t){var n=i(this,t,"endsWith"),r=arguments.length>1?arguments[1]:void 0,e=o(n.length),c=void 0===r?e:Math.min(o(r),e),f=String(t);return u?u.call(n,f,c):n.slice(c-f.length,c)===f}});},function(t,n,r){var e=r(37),o=r(11);t.exports=function(t,n,r){if(e(n))throw TypeError("String#"+r+" doesn't accept regex!");return String(o(t))};},function(t,n,r){var e=r(1),o=r(5),i=r(6)("match");t.exports=function(t){var n;return e(t)&&(void 0!==(n=t[i])?!!n:"RegExp"==o(t))};},function(t,n,r){var e=r(6)("match");t.exports=function(t){var n=/./;try{"/./"[t](n);}catch(r){try{return n[e]=!1,!"/./"[t](n)}catch(t){}}return !0};}]);
+  });
+
+  var accepts = unwrapExports(dist);
+
+  // that MIME type will always be accepted
+
+  function fileAccepted(file, accept) {
+    return file.type === 'application/x-moz-file' || accepts(file, accept);
+  }
+  function fileMatchSize(file, maxSize, minSize) {
+    return file.size <= maxSize && file.size >= minSize;
+  }
+  function allFilesAccepted(files, accept) {
+    return files.every(function (file) {
+      return fileAccepted(file, accept);
+    });
+  } // React's synthetic events has event.isPropagationStopped,
+  // but to remain compatibility with other libs (Preact) fall back
+  // to check event.cancelBubble
+
+  function isPropagationStopped(event) {
+    if (typeof event.isPropagationStopped === 'function') {
+      return event.isPropagationStopped();
+    } else if (typeof event.cancelBubble !== 'undefined') {
+      return event.cancelBubble;
+    }
+
+    return false;
+  }
+  function isEvtWithFiles(event) {
+    if (!event.dataTransfer) {
+      return !!event.target && !!event.target.files;
+    } // https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/types
+    // https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/Recommended_drag_types#file
+
+
+    return Array.prototype.some.call(event.dataTransfer.types, function (type) {
+      return type === 'Files' || type === 'application/x-moz-file';
+    });
+  }
+
+  function onDocumentDragOver(event) {
+    event.preventDefault();
+  }
+
+  function isIe(userAgent) {
+    return userAgent.indexOf('MSIE') !== -1 || userAgent.indexOf('Trident/') !== -1;
+  }
+
+  function isEdge(userAgent) {
+    return userAgent.indexOf('Edge/') !== -1;
+  }
+
+  function isIeOrEdge() {
+    var userAgent = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window.navigator.userAgent;
+    return isIe(userAgent) || isEdge(userAgent);
+  }
+  /**
+   * This is intended to be used to compose event handlers
+   * They are executed in order until one of them calls `event.isPropagationStopped()`.
+   * Note that the check is done on the first invoke too,
+   * meaning that if propagation was stopped before invoking the fns,
+   * no handlers will be executed.
+   *
+   * @param {Function} fns the event hanlder functions
+   * @return {Function} the event handler to add to an element
+   */
+
+  function composeEventHandlers() {
+    for (var _len = arguments.length, fns = new Array(_len), _key = 0; _key < _len; _key++) {
+      fns[_key] = arguments[_key];
+    }
+
+    return function (event) {
+      for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+        args[_key2 - 1] = arguments[_key2];
+      }
+
+      return fns.some(function (fn) {
+        if (!isPropagationStopped(event) && fn) {
+          fn.apply(void 0, [event].concat(args));
+        }
+
+        return isPropagationStopped(event);
+      });
+    };
+  }
+
+  function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+  function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+  function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+  function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+  function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+  function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+  function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+  function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+  function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+  function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+  function _typeof$1(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$1 = function _typeof(obj) { return typeof obj; }; } else { _typeof$1 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$1(obj); }
+
+  function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$2(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+  function _objectWithoutPropertiesLoose$2(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+  /**
+   * Convenience wrapper component for the `useDropzone` hook
+   *
+   * ```jsx
+   * <Dropzone>
+   *   {({getRootProps, getInputProps}) => (
+   *     <div {...getRootProps()}>
+   *       <input {...getInputProps()} />
+   *       <p>Drag 'n' drop some files here, or click to select files</p>
+   *     </div>
+   *   )}
+   * </Dropzone>
+   * ```
+   */
+
+  var Dropzone = React.forwardRef(function (_ref, ref) {
+    var children = _ref.children,
+        params = _objectWithoutProperties(_ref, ["children"]);
+
+    var _useDropzone = useDropzone(params),
+        open = _useDropzone.open,
+        props = _objectWithoutProperties(_useDropzone, ["open"]);
+
+    React.useEffect(function () {
+      if (typeof ref === 'function') {
+        ref({
+          open: open
+        });
+      } else if (_typeof$1(ref) === 'object' && ref !== null) {
+        ref.current = {
+          open: open
+        };
+      }
+
+      return function () {
+        if (typeof ref === 'function') {
+          ref(null);
+        } else if (_typeof$1(ref) === 'object' && ref !== null) {
+          ref.current = null;
+        }
+      };
+    }, [ref]); // TODO: Figure out why react-styleguidist cannot create docs if we don't return a jsx element
+
+    return React__default.createElement(React.Fragment, null, children(_objectSpread({}, props, {
+      open: open
+    })));
+  });
+  Dropzone.displayName = 'Dropzone';
+  Dropzone.propTypes = {
+    /**
+     * Render function that exposes the dropzone state and prop getter fns
+     *
+     * @param {object} params
+     * @param {Function} params.getRootProps Returns the props you should apply to the root drop container you render
+     * @param {Function} params.getInputProps Returns the props you should apply to hidden file input you render
+     * @param {Function} params.open Open the native file selection dialog
+     * @param {boolean} params.isFocused Dropzone area is in focus
+     * @param {boolean} params.isFileDialogActive File dialog is opened
+     * @param {boolean} params.isDragActive Active drag is in progress
+     * @param {boolean} params.isDragAccept Dragged files are accepted
+     * @param {boolean} params.isDragReject Some dragged files are rejected
+     * @param {File[]} params.draggedFiles Files in active drag
+     * @param {File[]} params.acceptedFiles Accepted files
+     * @param {File[]} params.rejectedFiles Rejected files
+     */
+    children: propTypes.func,
+
+    /**
+     * Set accepted file types.
+     * See https://github.com/okonet/attr-accept for more information.
+     * Keep in mind that mime type determination is not reliable across platforms. CSV files,
+     * for example, are reported as text/plain under macOS but as application/vnd.ms-excel under
+     * Windows. In some cases there might not be a mime type set at all.
+     * See: https://github.com/react-dropzone/react-dropzone/issues/276
+     */
+    accept: propTypes.oneOfType([propTypes.string, propTypes.arrayOf(propTypes.string)]),
+
+    /**
+     * Allow drag 'n' drop (or selection from the file dialog) of multiple files
+     */
+    multiple: propTypes.bool,
+
+    /**
+     * If false, allow dropped items to take over the current browser window
+     */
+    preventDropOnDocument: propTypes.bool,
+
+    /**
+     * If true, disables click to open the native file selection dialog
+     */
+    noClick: propTypes.bool,
+
+    /**
+     * If true, disables SPACE/ENTER to open the native file selection dialog.
+     * Note that it also stops tracking the focus state.
+     */
+    noKeyboard: propTypes.bool,
+
+    /**
+     * If true, disables drag 'n' drop
+     */
+    noDrag: propTypes.bool,
+
+    /**
+     * If true, stops drag event propagation to parents
+     */
+    noDragEventsBubbling: propTypes.bool,
+
+    /**
+     * Minimum file size (in bytes)
+     */
+    minSize: propTypes.number,
+
+    /**
+     * Maximum file size (in bytes)
+     */
+    maxSize: propTypes.number,
+
+    /**
+     * Enable/disable the dropzone
+     */
+    disabled: propTypes.bool,
+
+    /**
+     * Use this to provide a custom file aggregator
+     *
+     * @param {(DragEvent|Event)} event A drag event or input change event (if files were selected via the file dialog)
+     */
+    getFilesFromEvent: propTypes.func,
+
+    /**
+     * Cb for when closing the file dialog with no selection
+     */
+    onFileDialogCancel: propTypes.func,
+
+    /**
+     * Cb for when the `dragenter` event occurs.
+     *
+     * @param {DragEvent} event
+     */
+    onDragEnter: propTypes.func,
+
+    /**
+     * Cb for when the `dragleave` event occurs
+     *
+     * @param {DragEvent} event
+     */
+    onDragLeave: propTypes.func,
+
+    /**
+     * Cb for when the `dragover` event occurs
+     *
+     * @param {DragEvent} event
+     */
+    onDragOver: propTypes.func,
+
+    /**
+     * Cb for when the `drop` event occurs.
+     * Note that this callback is invoked after the `getFilesFromEvent` callback is done.
+     *
+     * Files are accepted or rejected based on the `accept`, `multiple`, `minSize` and `maxSize` props.
+     * `accept` must be a valid [MIME type](http://www.iana.org/assignments/media-types/media-types.xhtml) according to [input element specification](https://www.w3.org/wiki/HTML/Elements/input/file) or a valid file extension.
+     * If `multiple` is set to false and additional files are droppped,
+     * all files besides the first will be rejected.
+     * Any file which does not have a size in the [`minSize`, `maxSize`] range, will be rejected as well.
+     *
+     * Note that the `onDrop` callback will always be invoked regardless if the dropped files were accepted or rejected.
+     * If you'd like to react to a specific scenario, use the `onDropAccepted`/`onDropRejected` props.
+     *
+     * `onDrop` will provide you with an array of [File](https://developer.mozilla.org/en-US/docs/Web/API/File) objects which you can then process and send to a server.
+     * For example, with [SuperAgent](https://github.com/visionmedia/superagent) as a http/ajax library:
+     *
+     * ```js
+     * function onDrop(acceptedFiles) {
+     *   const req = request.post('/upload')
+     *   acceptedFiles.forEach(file => {
+     *     req.attach(file.name, file)
+     *   })
+     *   req.end(callback)
+     * }
+     * ```
+     *
+     * @param {File[]} acceptedFiles
+     * @param {File[]} rejectedFiles
+     * @param {(DragEvent|Event)} event A drag event or input change event (if files were selected via the file dialog)
+     */
+    onDrop: propTypes.func,
+
+    /**
+     * Cb for when the `drop` event occurs.
+     * Note that if no files are accepted, this callback is not invoked.
+     *
+     * @param {File[]} files
+     * @param {(DragEvent|Event)} event
+     */
+    onDropAccepted: propTypes.func,
+
+    /**
+     * Cb for when the `drop` event occurs.
+     * Note that if no files are rejected, this callback is not invoked.
+     *
+     * @param {object[]} files
+     * @param {(DragEvent|Event)} event
+     */
+    onDropRejected: propTypes.func
+  };
+  /**
+   * A function that is invoked for the `dragenter`,
+   * `dragover` and `dragleave` events.
+   * It is not invoked if the items are not files (such as link, text, etc.).
+   *
+   * @callback dragCb
+   * @param {DragEvent} event
+   */
+
+  /**
+   * A function that is invoked for the `drop` or input change event.
+   * It is not invoked if the items are not files (such as link, text, etc.).
+   *
+   * @callback dropCb
+   * @param {File[]} acceptedFiles List of accepted files
+   * @param {File[]} rejectedFiles List of rejected files
+   * @param {(DragEvent|Event)} event A drag event or input change event (if files were selected via the file dialog)
+   */
+
+  /**
+   * A function that is invoked for the `drop` or input change event.
+   * It is not invoked if the items are files (such as link, text, etc.).
+   *
+   * @callback dropAcceptedCb
+   * @param {File[]} files List of accepted files that meet the given criteria
+   * (`accept`, `multiple`, `minSize`, `maxSize`)
+   * @param {(DragEvent|Event)} event A drag event or input change event (if files were selected via the file dialog)
+   */
+
+  /**
+   * A function that is invoked for the `drop` or input change event.
+   *
+   * @callback dropRejectedCb
+   * @param {File[]} files List of rejected files that do not meet the given criteria
+   * (`accept`, `multiple`, `minSize`, `maxSize`)
+   * @param {(DragEvent|Event)} event A drag event or input change event (if files were selected via the file dialog)
+   */
+
+  /**
+   * A function that is used aggregate files,
+   * in a asynchronous fashion, from drag or input change events.
+   *
+   * @callback getFilesFromEvent
+   * @param {(DragEvent|Event)} event A drag event or input change event (if files were selected via the file dialog)
+   * @returns {(File[]|Promise<File[]>)}
+   */
+
+  /**
+   * An object with the current dropzone state and some helper functions.
+   *
+   * @typedef {object} DropzoneState
+   * @property {Function} getRootProps Returns the props you should apply to the root drop container you render
+   * @property {Function} getInputProps Returns the props you should apply to hidden file input you render
+   * @property {Function} open Open the native file selection dialog
+   * @property {boolean} isFocused Dropzone area is in focus
+   * @property {boolean} isFileDialogActive File dialog is opened
+   * @property {boolean} isDragActive Active drag is in progress
+   * @property {boolean} isDragAccept Dragged files are accepted
+   * @property {boolean} isDragReject Some dragged files are rejected
+   * @property {File[]} draggedFiles Files in active drag
+   * @property {File[]} acceptedFiles Accepted files
+   * @property {File[]} rejectedFiles Rejected files
+   */
+
+  var initialState = {
+    isFocused: false,
+    isFileDialogActive: false,
+    isDragActive: false,
+    isDragAccept: false,
+    isDragReject: false,
+    draggedFiles: [],
+    acceptedFiles: [],
+    rejectedFiles: []
+    /**
+     * A React hook that creates a drag 'n' drop area.
+     *
+     * ```jsx
+     * function MyDropzone(props) {
+     *   const {getRootProps, getInputProps} = useDropzone({
+     *     onDrop: acceptedFiles => {
+     *       // do something with the File objects, e.g. upload to some server
+     *     }
+     *   });
+     *   return (
+     *     <div {...getRootProps()}>
+     *       <input {...getInputProps()} />
+     *       <p>Drag and drop some files here, or click to select files</p>
+     *     </div>
+     *   )
+     * }
+     * ```
+     *
+     * @function useDropzone
+     *
+     * @param {object} props
+     * @param {string|string[]} [props.accept] Set accepted file types.
+     * See https://github.com/okonet/attr-accept for more information.
+     * Keep in mind that mime type determination is not reliable across platforms. CSV files,
+     * for example, are reported as text/plain under macOS but as application/vnd.ms-excel under
+     * Windows. In some cases there might not be a mime type set at all.
+     * See: https://github.com/react-dropzone/react-dropzone/issues/276
+     * @param {boolean} [props.multiple=true] Allow drag 'n' drop (or selection from the file dialog) of multiple files
+     * @param {boolean} [props.preventDropOnDocument=true] If false, allow dropped items to take over the current browser window
+     * @param {boolean} [props.noClick=false] If true, disables click to open the native file selection dialog
+     * @param {boolean} [props.noKeyboard=false] If true, disables SPACE/ENTER to open the native file selection dialog.
+     * Note that it also stops tracking the focus state.
+     * @param {boolean} [props.noDrag=false] If true, disables drag 'n' drop
+     * @param {boolean} [props.noDragEventsBubbling=false] If true, stops drag event propagation to parents
+     * @param {number} [props.minSize=0] Minimum file size (in bytes)
+     * @param {number} [props.maxSize=Infinity] Maximum file size (in bytes)
+     * @param {boolean} [props.disabled=false] Enable/disable the dropzone
+     * @param {getFilesFromEvent} [props.getFilesFromEvent] Use this to provide a custom file aggregator
+     * @param {Function} [props.onFileDialogCancel] Cb for when closing the file dialog with no selection
+     * @param {dragCb} [props.onDragEnter] Cb for when the `dragenter` event occurs.
+     * @param {dragCb} [props.onDragLeave] Cb for when the `dragleave` event occurs
+     * @param {dragCb} [props.onDragOver] Cb for when the `dragover` event occurs
+     * @param {dropCb} [props.onDrop] Cb for when the `drop` event occurs.
+     * Note that this callback is invoked after the `getFilesFromEvent` callback is done.
+     *
+     * Files are accepted or rejected based on the `accept`, `multiple`, `minSize` and `maxSize` props.
+     * `accept` must be a valid [MIME type](http://www.iana.org/assignments/media-types/media-types.xhtml) according to [input element specification](https://www.w3.org/wiki/HTML/Elements/input/file) or a valid file extension.
+     * If `multiple` is set to false and additional files are droppped,
+     * all files besides the first will be rejected.
+     * Any file which does not have a size in the [`minSize`, `maxSize`] range, will be rejected as well.
+     *
+     * Note that the `onDrop` callback will always be invoked regardless if the dropped files were accepted or rejected.
+     * If you'd like to react to a specific scenario, use the `onDropAccepted`/`onDropRejected` props.
+     *
+     * `onDrop` will provide you with an array of [File](https://developer.mozilla.org/en-US/docs/Web/API/File) objects which you can then process and send to a server.
+     * For example, with [SuperAgent](https://github.com/visionmedia/superagent) as a http/ajax library:
+     *
+     * ```js
+     * function onDrop(acceptedFiles) {
+     *   const req = request.post('/upload')
+     *   acceptedFiles.forEach(file => {
+     *     req.attach(file.name, file)
+     *   })
+     *   req.end(callback)
+     * }
+     * ```
+     * @param {dropAcceptedCb} [props.onDropAccepted]
+     * @param {dropRejectedCb} [props.onDropRejected]
+     *
+     * @returns {DropzoneState}
+     */
+
+  };
+  function useDropzone() {
+    var _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+        accept = _ref2.accept,
+        _ref2$disabled = _ref2.disabled,
+        disabled = _ref2$disabled === void 0 ? false : _ref2$disabled,
+        _ref2$getFilesFromEve = _ref2.getFilesFromEvent,
+        getFilesFromEvent = _ref2$getFilesFromEve === void 0 ? fromEvent : _ref2$getFilesFromEve,
+        _ref2$maxSize = _ref2.maxSize,
+        maxSize = _ref2$maxSize === void 0 ? Infinity : _ref2$maxSize,
+        _ref2$minSize = _ref2.minSize,
+        minSize = _ref2$minSize === void 0 ? 0 : _ref2$minSize,
+        _ref2$multiple = _ref2.multiple,
+        multiple = _ref2$multiple === void 0 ? true : _ref2$multiple,
+        onDragEnter = _ref2.onDragEnter,
+        onDragLeave = _ref2.onDragLeave,
+        onDragOver = _ref2.onDragOver,
+        onDrop = _ref2.onDrop,
+        onDropAccepted = _ref2.onDropAccepted,
+        onDropRejected = _ref2.onDropRejected,
+        onFileDialogCancel = _ref2.onFileDialogCancel,
+        _ref2$preventDropOnDo = _ref2.preventDropOnDocument,
+        preventDropOnDocument = _ref2$preventDropOnDo === void 0 ? true : _ref2$preventDropOnDo,
+        _ref2$noClick = _ref2.noClick,
+        noClick = _ref2$noClick === void 0 ? false : _ref2$noClick,
+        _ref2$noKeyboard = _ref2.noKeyboard,
+        noKeyboard = _ref2$noKeyboard === void 0 ? false : _ref2$noKeyboard,
+        _ref2$noDrag = _ref2.noDrag,
+        noDrag = _ref2$noDrag === void 0 ? false : _ref2$noDrag,
+        _ref2$noDragEventsBub = _ref2.noDragEventsBubbling,
+        noDragEventsBubbling = _ref2$noDragEventsBub === void 0 ? false : _ref2$noDragEventsBub;
+
+    var rootRef = React.useRef(null);
+    var inputRef = React.useRef(null);
+
+    var _useReducer = React.useReducer(reducer, initialState),
+        _useReducer2 = _slicedToArray(_useReducer, 2),
+        state = _useReducer2[0],
+        dispatch = _useReducer2[1];
+
+    var isFocused = state.isFocused,
+        isFileDialogActive = state.isFileDialogActive,
+        draggedFiles = state.draggedFiles; // Fn for opening the file dialog programmatically
+
+    var openFileDialog = function openFileDialog() {
+      if (inputRef.current) {
+        dispatch({
+          type: 'openDialog'
+        });
+        inputRef.current.value = null;
+        inputRef.current.click();
+      }
+    }; // Update file dialog active state when the window is focused on
+
+
+    var onWindowFocus = function onWindowFocus() {
+      // Execute the timeout only if the file dialog is opened in the browser
+      if (isFileDialogActive) {
+        setTimeout(function () {
+          if (inputRef.current) {
+            var files = inputRef.current.files;
+
+            if (!files.length) {
+              dispatch({
+                type: 'closeDialog'
+              });
+
+              if (typeof onFileDialogCancel === 'function') {
+                onFileDialogCancel();
+              }
+            }
+          }
+        }, 300);
+      }
+    };
+
+    React.useEffect(function () {
+      window.addEventListener('focus', onWindowFocus, false);
+      return function () {
+        window.removeEventListener('focus', onWindowFocus, false);
+      };
+    }, [inputRef, isFileDialogActive, onFileDialogCancel]); // Cb to open the file dialog when SPACE/ENTER occurs on the dropzone
+
+    var onKeyDownCb = React.useCallback(function (event) {
+      // Ignore keyboard events bubbling up the DOM tree
+      if (!rootRef.current || !rootRef.current.isEqualNode(event.target)) {
+        return;
+      }
+
+      if (event.keyCode === 32 || event.keyCode === 13) {
+        event.preventDefault();
+        openFileDialog();
+      }
+    }, [rootRef, inputRef]); // Update focus state for the dropzone
+
+    var onFocusCb = React.useCallback(function () {
+      dispatch({
+        type: 'focus'
+      });
+    }, []);
+    var onBlurCb = React.useCallback(function () {
+      dispatch({
+        type: 'blur'
+      });
+    }, []); // Cb to open the file dialog when click occurs on the dropzone
+
+    var onClickCb = React.useCallback(function (event) {
+      // Prevent click events from propagating to the <input> when the click event
+      // originated from a <label> that wraps the dropzone
+      event.preventDefault();
+
+      if (noClick) {
+        return;
+      } // In IE11/Edge the file-browser dialog is blocking, therefore, use setTimeout()
+      // to ensure React can handle state changes
+      // See: https://github.com/react-dropzone/react-dropzone/issues/450
+
+
+      if (isIeOrEdge()) {
+        setTimeout(openFileDialog, 0);
+      } else {
+        openFileDialog();
+      }
+    }, [inputRef, noClick]);
+
+    var _useState = React.useState([]),
+        _useState2 = _slicedToArray(_useState, 2),
+        dragTargets = _useState2[0],
+        setDragTargets = _useState2[1];
+
+    var onDocumentDrop = function onDocumentDrop(event) {
+      if (rootRef.current && rootRef.current.contains(event.target)) {
+        // If we intercepted an event for our instance, let it propagate down to the instance's onDrop handler
+        return;
+      }
+
+      event.preventDefault();
+      setDragTargets([]);
+    };
+
+    React.useEffect(function () {
+      if (preventDropOnDocument) {
+        document.addEventListener('dragover', onDocumentDragOver, false);
+        document.addEventListener('drop', onDocumentDrop, false);
+      }
+
+      return function () {
+        if (preventDropOnDocument) {
+          document.removeEventListener('dragover', onDocumentDragOver);
+          document.removeEventListener('drop', onDocumentDrop);
+        }
+      };
+    }, [rootRef, preventDropOnDocument]);
+    var onDragEnterCb = React.useCallback(function (event) {
+      event.preventDefault(); // Persist here because we need the event later after getFilesFromEvent() is done
+
+      event.persist();
+      stopPropagation(event); // Count the dropzone and any children that are entered.
+
+      if (dragTargets.indexOf(event.target) === -1) {
+        setDragTargets([].concat(_toConsumableArray(dragTargets), [event.target]));
+      }
+
+      if (isEvtWithFiles(event)) {
+        Promise.resolve(getFilesFromEvent(event)).then(function (draggedFiles) {
+          if (isPropagationStopped(event) && !noDragEventsBubbling) {
+            return;
+          }
+
+          dispatch({
+            draggedFiles: draggedFiles,
+            isDragActive: true,
+            type: 'setDraggedFiles'
+          });
+
+          if (onDragEnter) {
+            onDragEnter(event);
+          }
+        });
+      }
+    }, [dragTargets, getFilesFromEvent, onDragEnter, noDragEventsBubbling]);
+    var onDragOverCb = React.useCallback(function (event) {
+      event.preventDefault();
+      event.persist();
+      stopPropagation(event);
+
+      if (event.dataTransfer) {
+        try {
+          event.dataTransfer.dropEffect = 'copy';
+        } catch (_unused) {}
+        /* eslint-disable-line no-empty */
+
+      }
+
+      if (isEvtWithFiles(event) && onDragOver) {
+        onDragOver(event);
+      }
+
+      return false;
+    }, [onDragOver, noDragEventsBubbling]);
+    var onDragLeaveCb = React.useCallback(function (event) {
+      event.preventDefault();
+      event.persist();
+      stopPropagation(event); // Only deactivate once the dropzone and all children have been left
+
+      var targets = _toConsumableArray(dragTargets.filter(function (target) {
+        return target !== event.target && rootRef.current && rootRef.current.contains(target);
+      }));
+
+      setDragTargets(targets);
+
+      if (targets.length > 0) {
+        return;
+      }
+
+      dispatch({
+        isDragActive: false,
+        type: 'setDraggedFiles',
+        draggedFiles: []
+      });
+
+      if (isEvtWithFiles(event) && onDragLeave) {
+        onDragLeave(event);
+      }
+    }, [rootRef, dragTargets, onDragLeave, noDragEventsBubbling]);
+    var onDropCb = React.useCallback(function (event) {
+      event.preventDefault(); // Persist here because we need the event later after getFilesFromEvent() is done
+
+      event.persist();
+      stopPropagation(event);
+      setDragTargets([]);
+      dispatch({
+        type: 'reset'
+      });
+
+      if (isEvtWithFiles(event)) {
+        Promise.resolve(getFilesFromEvent(event)).then(function (files) {
+          if (isPropagationStopped(event) && !noDragEventsBubbling) {
+            return;
+          }
+
+          var acceptedFiles = [];
+          var rejectedFiles = [];
+          files.forEach(function (file) {
+            if (fileAccepted(file, accept) && fileMatchSize(file, maxSize, minSize)) {
+              acceptedFiles.push(file);
+            } else {
+              rejectedFiles.push(file);
+            }
+          });
+
+          if (!multiple && acceptedFiles.length > 1) {
+            rejectedFiles.push.apply(rejectedFiles, _toConsumableArray(acceptedFiles.splice(0))); // Reject everything and empty accepted files
+          }
+
+          dispatch({
+            acceptedFiles: acceptedFiles,
+            rejectedFiles: rejectedFiles,
+            type: 'setFiles'
+          });
+
+          if (onDrop) {
+            onDrop(acceptedFiles, rejectedFiles, event);
+          }
+
+          if (rejectedFiles.length > 0 && onDropRejected) {
+            onDropRejected(rejectedFiles, event);
+          }
+
+          if (acceptedFiles.length > 0 && onDropAccepted) {
+            onDropAccepted(acceptedFiles, event);
+          }
+        });
+      }
+    }, [multiple, accept, minSize, maxSize, getFilesFromEvent, onDrop, onDropAccepted, onDropRejected, noDragEventsBubbling]);
+
+    var composeHandler = function composeHandler(fn) {
+      return disabled ? null : fn;
+    };
+
+    var composeKeyboardHandler = function composeKeyboardHandler(fn) {
+      return noKeyboard ? null : composeHandler(fn);
+    };
+
+    var composeDragHandler = function composeDragHandler(fn) {
+      return noDrag ? null : composeHandler(fn);
+    };
+
+    var stopPropagation = function stopPropagation(event) {
+      if (noDragEventsBubbling) {
+        event.stopPropagation();
+      }
+    };
+
+    var getRootProps = React.useMemo(function () {
+      return function () {
+        var _ref3 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+            _ref3$refKey = _ref3.refKey,
+            refKey = _ref3$refKey === void 0 ? 'ref' : _ref3$refKey,
+            onKeyDown = _ref3.onKeyDown,
+            onFocus = _ref3.onFocus,
+            onBlur = _ref3.onBlur,
+            onClick = _ref3.onClick,
+            onDragEnter = _ref3.onDragEnter,
+            onDragOver = _ref3.onDragOver,
+            onDragLeave = _ref3.onDragLeave,
+            onDrop = _ref3.onDrop,
+            rest = _objectWithoutProperties(_ref3, ["refKey", "onKeyDown", "onFocus", "onBlur", "onClick", "onDragEnter", "onDragOver", "onDragLeave", "onDrop"]);
+
+        return _objectSpread(_defineProperty({
+          onKeyDown: composeKeyboardHandler(composeEventHandlers(onKeyDown, onKeyDownCb)),
+          onFocus: composeKeyboardHandler(composeEventHandlers(onFocus, onFocusCb)),
+          onBlur: composeKeyboardHandler(composeEventHandlers(onBlur, onBlurCb)),
+          onClick: composeHandler(composeEventHandlers(onClick, onClickCb)),
+          onDragEnter: composeDragHandler(composeEventHandlers(onDragEnter, onDragEnterCb)),
+          onDragOver: composeDragHandler(composeEventHandlers(onDragOver, onDragOverCb)),
+          onDragLeave: composeDragHandler(composeEventHandlers(onDragLeave, onDragLeaveCb)),
+          onDrop: composeDragHandler(composeEventHandlers(onDrop, onDropCb))
+        }, refKey, rootRef), !disabled && !noKeyboard ? {
+          tabIndex: 0
+        } : {}, rest);
+      };
+    }, [rootRef, onKeyDownCb, onFocusCb, onBlurCb, onClickCb, onDragEnterCb, onDragOverCb, onDragLeaveCb, onDropCb, noKeyboard, noDrag, disabled]);
+    var onInputElementClick = React.useCallback(function (event) {
+      event.stopPropagation();
+    }, []);
+    var getInputProps = React.useMemo(function () {
+      return function () {
+        var _ref4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+            _ref4$refKey = _ref4.refKey,
+            refKey = _ref4$refKey === void 0 ? 'ref' : _ref4$refKey,
+            onChange = _ref4.onChange,
+            onClick = _ref4.onClick,
+            rest = _objectWithoutProperties(_ref4, ["refKey", "onChange", "onClick"]);
+
+        var inputProps = _defineProperty({
+          accept: accept,
+          multiple: multiple,
+          type: 'file',
+          style: {
+            display: 'none'
+          },
+          onChange: composeHandler(composeEventHandlers(onChange, onDropCb)),
+          onClick: composeHandler(composeEventHandlers(onClick, onInputElementClick)),
+          autoComplete: 'off',
+          tabIndex: -1
+        }, refKey, inputRef);
+
+        return _objectSpread({}, inputProps, rest);
+      };
+    }, [inputRef, accept, multiple, onDropCb, disabled]);
+    var fileCount = draggedFiles.length;
+    var isMultipleAllowed = multiple || fileCount <= 1;
+    var isDragAccept = fileCount > 0 && allFilesAccepted(draggedFiles, accept);
+    var isDragReject = fileCount > 0 && (!isDragAccept || !isMultipleAllowed);
+    return _objectSpread({}, state, {
+      isDragAccept: isDragAccept,
+      isDragReject: isDragReject,
+      isFocused: isFocused && !disabled,
+      getRootProps: getRootProps,
+      getInputProps: getInputProps,
+      rootRef: rootRef,
+      inputRef: inputRef,
+      open: composeHandler(openFileDialog)
+    });
+  }
+
+  function reducer(state, action) {
+    /* istanbul ignore next */
+    switch (action.type) {
+      case 'focus':
+        return _objectSpread({}, state, {
+          isFocused: true
+        });
+
+      case 'blur':
+        return _objectSpread({}, state, {
+          isFocused: false
+        });
+
+      case 'openDialog':
+        return _objectSpread({}, state, {
+          isFileDialogActive: true
+        });
+
+      case 'closeDialog':
+        return _objectSpread({}, state, {
+          isFileDialogActive: false
+        });
+
+      case 'setDraggedFiles':
+        /* eslint no-case-declarations: 0 */
+        var isDragActive = action.isDragActive,
+            draggedFiles = action.draggedFiles;
+        return _objectSpread({}, state, {
+          draggedFiles: draggedFiles,
+          isDragActive: isDragActive
+        });
+
+      case 'setFiles':
+        return _objectSpread({}, state, {
+          acceptedFiles: action.acceptedFiles,
+          rejectedFiles: action.rejectedFiles
+        });
+
+      case 'reset':
+        return _objectSpread({}, state, {
+          isFileDialogActive: false,
+          isDragActive: false,
+          draggedFiles: []
+        });
+
+      default:
+        return state;
+    }
+  }
+
   var bind = function bind(fn, thisArg) {
     return function wrap() {
       var args = new Array(arguments.length);
@@ -3692,20 +4901,10 @@
    * @license  MIT
    */
 
-  // The _isBuffer check is for Safari 5-7 support, because it's missing
-  // Object.prototype.constructor. Remove this eventually
-  var isBuffer_1 = function (obj) {
-    return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer)
+  var isBuffer = function isBuffer (obj) {
+    return obj != null && obj.constructor != null &&
+      typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
   };
-
-  function isBuffer (obj) {
-    return !!obj.constructor && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
-  }
-
-  // For Node v0.10 support. Remove this eventually.
-  function isSlowBuffer (obj) {
-    return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
-  }
 
   /*global toString:true*/
 
@@ -3881,9 +5080,13 @@
    *
    * react-native:
    *  navigator.product -> 'ReactNative'
+   * nativescript
+   *  navigator.product -> 'NativeScript' or 'NS'
    */
   function isStandardBrowserEnv() {
-    if (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
+    if (typeof navigator !== 'undefined' && (navigator.product === 'ReactNative' ||
+                                             navigator.product === 'NativeScript' ||
+                                             navigator.product === 'NS')) {
       return false;
     }
     return (
@@ -3965,6 +5168,32 @@
   }
 
   /**
+   * Function equal to merge with the difference being that no reference
+   * to original objects is kept.
+   *
+   * @see merge
+   * @param {Object} obj1 Object to merge
+   * @returns {Object} Result of all merge properties
+   */
+  function deepMerge(/* obj1, obj2, obj3, ... */) {
+    var result = {};
+    function assignValue(val, key) {
+      if (typeof result[key] === 'object' && typeof val === 'object') {
+        result[key] = deepMerge(result[key], val);
+      } else if (typeof val === 'object') {
+        result[key] = deepMerge({}, val);
+      } else {
+        result[key] = val;
+      }
+    }
+
+    for (var i = 0, l = arguments.length; i < l; i++) {
+      forEach(arguments[i], assignValue);
+    }
+    return result;
+  }
+
+  /**
    * Extends object a by mutably adding to it the properties of object b.
    *
    * @param {Object} a The object to be extended
@@ -3986,7 +5215,7 @@
   var utils = {
     isArray: isArray,
     isArrayBuffer: isArrayBuffer,
-    isBuffer: isBuffer_1,
+    isBuffer: isBuffer,
     isFormData: isFormData,
     isArrayBufferView: isArrayBufferView,
     isString: isString,
@@ -4002,75 +5231,9 @@
     isStandardBrowserEnv: isStandardBrowserEnv,
     forEach: forEach,
     merge: merge,
+    deepMerge: deepMerge,
     extend: extend,
     trim: trim
-  };
-
-  var normalizeHeaderName = function normalizeHeaderName(headers, normalizedName) {
-    utils.forEach(headers, function processHeader(value, name) {
-      if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
-        headers[normalizedName] = value;
-        delete headers[name];
-      }
-    });
-  };
-
-  /**
-   * Update an Error with the specified config, error code, and response.
-   *
-   * @param {Error} error The error to update.
-   * @param {Object} config The config.
-   * @param {string} [code] The error code (for example, 'ECONNABORTED').
-   * @param {Object} [request] The request.
-   * @param {Object} [response] The response.
-   * @returns {Error} The error.
-   */
-  var enhanceError = function enhanceError(error, config, code, request, response) {
-    error.config = config;
-    if (code) {
-      error.code = code;
-    }
-    error.request = request;
-    error.response = response;
-    return error;
-  };
-
-  /**
-   * Create an Error with the specified message, config, error code, request and response.
-   *
-   * @param {string} message The error message.
-   * @param {Object} config The config.
-   * @param {string} [code] The error code (for example, 'ECONNABORTED').
-   * @param {Object} [request] The request.
-   * @param {Object} [response] The response.
-   * @returns {Error} The created error.
-   */
-  var createError = function createError(message, config, code, request, response) {
-    var error = new Error(message);
-    return enhanceError(error, config, code, request, response);
-  };
-
-  /**
-   * Resolve or reject a Promise based on response status.
-   *
-   * @param {Function} resolve A function that resolves the promise.
-   * @param {Function} reject A function that rejects the promise.
-   * @param {object} response The response.
-   */
-  var settle = function settle(resolve, reject, response) {
-    var validateStatus = response.config.validateStatus;
-    // Note: status is not exposed by XDomainRequest
-    if (!response.status || !validateStatus || validateStatus(response.status)) {
-      resolve(response);
-    } else {
-      reject(createError(
-        'Request failed with status code ' + response.status,
-        response.config,
-        null,
-        response.request,
-        response
-      ));
-    }
   };
 
   function encode(val) {
@@ -4130,10 +5293,172 @@
     }
 
     if (serializedParams) {
+      var hashmarkIndex = url.indexOf('#');
+      if (hashmarkIndex !== -1) {
+        url = url.slice(0, hashmarkIndex);
+      }
+
       url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
     }
 
     return url;
+  };
+
+  function InterceptorManager() {
+    this.handlers = [];
+  }
+
+  /**
+   * Add a new interceptor to the stack
+   *
+   * @param {Function} fulfilled The function to handle `then` for a `Promise`
+   * @param {Function} rejected The function to handle `reject` for a `Promise`
+   *
+   * @return {Number} An ID used to remove interceptor later
+   */
+  InterceptorManager.prototype.use = function use(fulfilled, rejected) {
+    this.handlers.push({
+      fulfilled: fulfilled,
+      rejected: rejected
+    });
+    return this.handlers.length - 1;
+  };
+
+  /**
+   * Remove an interceptor from the stack
+   *
+   * @param {Number} id The ID that was returned by `use`
+   */
+  InterceptorManager.prototype.eject = function eject(id) {
+    if (this.handlers[id]) {
+      this.handlers[id] = null;
+    }
+  };
+
+  /**
+   * Iterate over all the registered interceptors
+   *
+   * This method is particularly useful for skipping over any
+   * interceptors that may have become `null` calling `eject`.
+   *
+   * @param {Function} fn The function to call for each interceptor
+   */
+  InterceptorManager.prototype.forEach = function forEach(fn) {
+    utils.forEach(this.handlers, function forEachHandler(h) {
+      if (h !== null) {
+        fn(h);
+      }
+    });
+  };
+
+  var InterceptorManager_1 = InterceptorManager;
+
+  /**
+   * Transform the data for a request or a response
+   *
+   * @param {Object|String} data The data to be transformed
+   * @param {Array} headers The headers for the request or response
+   * @param {Array|Function} fns A single function or Array of functions
+   * @returns {*} The resulting transformed data
+   */
+  var transformData = function transformData(data, headers, fns) {
+    /*eslint no-param-reassign:0*/
+    utils.forEach(fns, function transform(fn) {
+      data = fn(data, headers);
+    });
+
+    return data;
+  };
+
+  var isCancel = function isCancel(value) {
+    return !!(value && value.__CANCEL__);
+  };
+
+  var normalizeHeaderName = function normalizeHeaderName(headers, normalizedName) {
+    utils.forEach(headers, function processHeader(value, name) {
+      if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
+        headers[normalizedName] = value;
+        delete headers[name];
+      }
+    });
+  };
+
+  /**
+   * Update an Error with the specified config, error code, and response.
+   *
+   * @param {Error} error The error to update.
+   * @param {Object} config The config.
+   * @param {string} [code] The error code (for example, 'ECONNABORTED').
+   * @param {Object} [request] The request.
+   * @param {Object} [response] The response.
+   * @returns {Error} The error.
+   */
+  var enhanceError = function enhanceError(error, config, code, request, response) {
+    error.config = config;
+    if (code) {
+      error.code = code;
+    }
+
+    error.request = request;
+    error.response = response;
+    error.isAxiosError = true;
+
+    error.toJSON = function() {
+      return {
+        // Standard
+        message: this.message,
+        name: this.name,
+        // Microsoft
+        description: this.description,
+        number: this.number,
+        // Mozilla
+        fileName: this.fileName,
+        lineNumber: this.lineNumber,
+        columnNumber: this.columnNumber,
+        stack: this.stack,
+        // Axios
+        config: this.config,
+        code: this.code
+      };
+    };
+    return error;
+  };
+
+  /**
+   * Create an Error with the specified message, config, error code, request and response.
+   *
+   * @param {string} message The error message.
+   * @param {Object} config The config.
+   * @param {string} [code] The error code (for example, 'ECONNABORTED').
+   * @param {Object} [request] The request.
+   * @param {Object} [response] The response.
+   * @returns {Error} The created error.
+   */
+  var createError = function createError(message, config, code, request, response) {
+    var error = new Error(message);
+    return enhanceError(error, config, code, request, response);
+  };
+
+  /**
+   * Resolve or reject a Promise based on response status.
+   *
+   * @param {Function} resolve A function that resolves the promise.
+   * @param {Function} reject A function that rejects the promise.
+   * @param {object} response The response.
+   */
+  var settle = function settle(resolve, reject, response) {
+    var validateStatus = response.config.validateStatus;
+    if (!validateStatus || validateStatus(response.status)) {
+      resolve(response);
+    } else {
+      reject(createError(
+        'Request failed with status code ' + response.status,
+        response.config,
+        null,
+        response.request,
+        response
+      ));
+    }
   };
 
   // Headers whose duplicates are ignored by node
@@ -4191,152 +5516,115 @@
 
     // Standard browser envs have full support of the APIs needed to test
     // whether the request URL is of the same origin as current location.
-    (function standardBrowserEnv() {
-      var msie = /(msie|trident)/i.test(navigator.userAgent);
-      var urlParsingNode = document.createElement('a');
-      var originURL;
+      (function standardBrowserEnv() {
+        var msie = /(msie|trident)/i.test(navigator.userAgent);
+        var urlParsingNode = document.createElement('a');
+        var originURL;
 
-      /**
+        /**
       * Parse a URL to discover it's components
       *
       * @param {String} url The URL to be parsed
       * @returns {Object}
       */
-      function resolveURL(url) {
-        var href = url;
+        function resolveURL(url) {
+          var href = url;
 
-        if (msie) {
+          if (msie) {
           // IE needs attribute set twice to normalize properties
+            urlParsingNode.setAttribute('href', href);
+            href = urlParsingNode.href;
+          }
+
           urlParsingNode.setAttribute('href', href);
-          href = urlParsingNode.href;
+
+          // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
+          return {
+            href: urlParsingNode.href,
+            protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
+            host: urlParsingNode.host,
+            search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
+            hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
+            hostname: urlParsingNode.hostname,
+            port: urlParsingNode.port,
+            pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
+              urlParsingNode.pathname :
+              '/' + urlParsingNode.pathname
+          };
         }
 
-        urlParsingNode.setAttribute('href', href);
+        originURL = resolveURL(window.location.href);
 
-        // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
-        return {
-          href: urlParsingNode.href,
-          protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
-          host: urlParsingNode.host,
-          search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
-          hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
-          hostname: urlParsingNode.hostname,
-          port: urlParsingNode.port,
-          pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
-                    urlParsingNode.pathname :
-                    '/' + urlParsingNode.pathname
-        };
-      }
-
-      originURL = resolveURL(window.location.href);
-
-      /**
+        /**
       * Determine if a URL shares the same origin as the current location
       *
       * @param {String} requestURL The URL to test
       * @returns {boolean} True if URL shares the same origin, otherwise false
       */
-      return function isURLSameOrigin(requestURL) {
-        var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
-        return (parsed.protocol === originURL.protocol &&
+        return function isURLSameOrigin(requestURL) {
+          var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
+          return (parsed.protocol === originURL.protocol &&
               parsed.host === originURL.host);
-      };
-    })() :
+        };
+      })() :
 
     // Non standard browser envs (web workers, react-native) lack needed support.
-    (function nonStandardBrowserEnv() {
-      return function isURLSameOrigin() {
-        return true;
-      };
-    })()
+      (function nonStandardBrowserEnv() {
+        return function isURLSameOrigin() {
+          return true;
+        };
+      })()
   );
-
-  // btoa polyfill for IE<10 courtesy https://github.com/davidchambers/Base64.js
-
-  var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-
-  function E() {
-    this.message = 'String contains an invalid character';
-  }
-  E.prototype = new Error;
-  E.prototype.code = 5;
-  E.prototype.name = 'InvalidCharacterError';
-
-  function btoa(input) {
-    var str = String(input);
-    var output = '';
-    for (
-      // initialize result and counter
-      var block, charCode, idx = 0, map = chars;
-      // if the next str index does not exist:
-      //   change the mapping table to "="
-      //   check if d has no fractional digits
-      str.charAt(idx | 0) || (map = '=', idx % 1);
-      // "8 - idx % 1 * 8" generates the sequence 2, 4, 6, 8
-      output += map.charAt(63 & block >> 8 - idx % 1 * 8)
-    ) {
-      charCode = str.charCodeAt(idx += 3 / 4);
-      if (charCode > 0xFF) {
-        throw new E();
-      }
-      block = block << 8 | charCode;
-    }
-    return output;
-  }
-
-  var btoa_1 = btoa;
 
   var cookies = (
     utils.isStandardBrowserEnv() ?
 
     // Standard browser envs support document.cookie
-    (function standardBrowserEnv() {
-      return {
-        write: function write(name, value, expires, path, domain, secure) {
-          var cookie = [];
-          cookie.push(name + '=' + encodeURIComponent(value));
+      (function standardBrowserEnv() {
+        return {
+          write: function write(name, value, expires, path, domain, secure) {
+            var cookie = [];
+            cookie.push(name + '=' + encodeURIComponent(value));
 
-          if (utils.isNumber(expires)) {
-            cookie.push('expires=' + new Date(expires).toGMTString());
+            if (utils.isNumber(expires)) {
+              cookie.push('expires=' + new Date(expires).toGMTString());
+            }
+
+            if (utils.isString(path)) {
+              cookie.push('path=' + path);
+            }
+
+            if (utils.isString(domain)) {
+              cookie.push('domain=' + domain);
+            }
+
+            if (secure === true) {
+              cookie.push('secure');
+            }
+
+            document.cookie = cookie.join('; ');
+          },
+
+          read: function read(name) {
+            var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+            return (match ? decodeURIComponent(match[3]) : null);
+          },
+
+          remove: function remove(name) {
+            this.write(name, '', Date.now() - 86400000);
           }
-
-          if (utils.isString(path)) {
-            cookie.push('path=' + path);
-          }
-
-          if (utils.isString(domain)) {
-            cookie.push('domain=' + domain);
-          }
-
-          if (secure === true) {
-            cookie.push('secure');
-          }
-
-          document.cookie = cookie.join('; ');
-        },
-
-        read: function read(name) {
-          var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
-          return (match ? decodeURIComponent(match[3]) : null);
-        },
-
-        remove: function remove(name) {
-          this.write(name, '', Date.now() - 86400000);
-        }
-      };
-    })() :
+        };
+      })() :
 
     // Non standard browser env (web workers, react-native) lack needed support.
-    (function nonStandardBrowserEnv() {
-      return {
-        write: function write() {},
-        read: function read() { return null; },
-        remove: function remove() {}
-      };
-    })()
+      (function nonStandardBrowserEnv() {
+        return {
+          write: function write() {},
+          read: function read() { return null; },
+          remove: function remove() {}
+        };
+      })()
   );
-
-  var btoa$1 = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || btoa_1;
 
   var xhr = function xhrAdapter(config) {
     return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -4348,27 +5636,12 @@
       }
 
       var request = new XMLHttpRequest();
-      var loadEvent = 'onreadystatechange';
-      var xDomain = false;
-
-      // For IE 8/9 CORS support
-      // Only supports POST and GET calls and doesn't returns the response headers.
-      // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
-      if (typeof window !== 'undefined' &&
-          window.XDomainRequest && !('withCredentials' in request) &&
-          !isURLSameOrigin(config.url)) {
-        request = new window.XDomainRequest();
-        loadEvent = 'onload';
-        xDomain = true;
-        request.onprogress = function handleProgress() {};
-        request.ontimeout = function handleTimeout() {};
-      }
 
       // HTTP basic authentication
       if (config.auth) {
         var username = config.auth.username || '';
         var password = config.auth.password || '';
-        requestHeaders.Authorization = 'Basic ' + btoa$1(username + ':' + password);
+        requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
       }
 
       request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
@@ -4377,8 +5650,8 @@
       request.timeout = config.timeout;
 
       // Listen for ready state
-      request[loadEvent] = function handleLoad() {
-        if (!request || (request.readyState !== 4 && !xDomain)) {
+      request.onreadystatechange = function handleLoad() {
+        if (!request || request.readyState !== 4) {
           return;
         }
 
@@ -4395,15 +5668,26 @@
         var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
         var response = {
           data: responseData,
-          // IE sends 1223 instead of 204 (https://github.com/axios/axios/issues/201)
-          status: request.status === 1223 ? 204 : request.status,
-          statusText: request.status === 1223 ? 'No Content' : request.statusText,
+          status: request.status,
+          statusText: request.statusText,
           headers: responseHeaders,
           config: config,
           request: request
         };
 
         settle(resolve, reject, response);
+
+        // Clean up request
+        request = null;
+      };
+
+      // Handle browser request cancellation (as opposed to a manual cancellation)
+      request.onabort = function handleAbort() {
+        if (!request) {
+          return;
+        }
+
+        reject(createError('Request aborted', config, 'ECONNABORTED', request));
 
         // Clean up request
         request = null;
@@ -4436,8 +5720,8 @@
 
         // Add xsrf header
         var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
-            cookies$$1.read(config.xsrfCookieName) :
-            undefined;
+          cookies$$1.read(config.xsrfCookieName) :
+          undefined;
 
         if (xsrfValue) {
           requestHeaders[config.xsrfHeaderName] = xsrfValue;
@@ -4520,11 +5804,12 @@
 
   function getDefaultAdapter() {
     var adapter;
-    if (typeof XMLHttpRequest !== 'undefined') {
-      // For browsers use XHR adapter
-      adapter = xhr;
-    } else if (typeof process !== 'undefined') {
+    // Only Node.JS has a process variable that is of [[Class]] process
+    if (typeof process !== 'undefined' && Object.prototype.toString.call(process) === '[object process]') {
       // For node use HTTP adapter
+      adapter = xhr;
+    } else if (typeof XMLHttpRequest !== 'undefined') {
+      // For browsers use XHR adapter
       adapter = xhr;
     }
     return adapter;
@@ -4534,6 +5819,7 @@
     adapter: getDefaultAdapter(),
 
     transformRequest: [function transformRequest(data, headers) {
+      normalizeHeaderName(headers, 'Accept');
       normalizeHeaderName(headers, 'Content-Type');
       if (utils.isFormData(data) ||
         utils.isArrayBuffer(data) ||
@@ -4599,76 +5885,6 @@
   });
 
   var defaults_1 = defaults;
-
-  function InterceptorManager() {
-    this.handlers = [];
-  }
-
-  /**
-   * Add a new interceptor to the stack
-   *
-   * @param {Function} fulfilled The function to handle `then` for a `Promise`
-   * @param {Function} rejected The function to handle `reject` for a `Promise`
-   *
-   * @return {Number} An ID used to remove interceptor later
-   */
-  InterceptorManager.prototype.use = function use(fulfilled, rejected) {
-    this.handlers.push({
-      fulfilled: fulfilled,
-      rejected: rejected
-    });
-    return this.handlers.length - 1;
-  };
-
-  /**
-   * Remove an interceptor from the stack
-   *
-   * @param {Number} id The ID that was returned by `use`
-   */
-  InterceptorManager.prototype.eject = function eject(id) {
-    if (this.handlers[id]) {
-      this.handlers[id] = null;
-    }
-  };
-
-  /**
-   * Iterate over all the registered interceptors
-   *
-   * This method is particularly useful for skipping over any
-   * interceptors that may have become `null` calling `eject`.
-   *
-   * @param {Function} fn The function to call for each interceptor
-   */
-  InterceptorManager.prototype.forEach = function forEach(fn) {
-    utils.forEach(this.handlers, function forEachHandler(h) {
-      if (h !== null) {
-        fn(h);
-      }
-    });
-  };
-
-  var InterceptorManager_1 = InterceptorManager;
-
-  /**
-   * Transform the data for a request or a response
-   *
-   * @param {Object|String} data The data to be transformed
-   * @param {Array} headers The headers for the request or response
-   * @param {Array|Function} fns A single function or Array of functions
-   * @returns {*} The resulting transformed data
-   */
-  var transformData = function transformData(data, headers, fns) {
-    /*eslint no-param-reassign:0*/
-    utils.forEach(fns, function transform(fn) {
-      data = fn(data, headers);
-    });
-
-    return data;
-  };
-
-  var isCancel = function isCancel(value) {
-    return !!(value && value.__CANCEL__);
-  };
 
   /**
    * Determines whether the specified URL is absolute
@@ -4775,6 +5991,54 @@
   };
 
   /**
+   * Config-specific merge-function which creates a new config-object
+   * by merging two configuration objects together.
+   *
+   * @param {Object} config1
+   * @param {Object} config2
+   * @returns {Object} New object resulting from merging config2 to config1
+   */
+  var mergeConfig = function mergeConfig(config1, config2) {
+    // eslint-disable-next-line no-param-reassign
+    config2 = config2 || {};
+    var config = {};
+
+    utils.forEach(['url', 'method', 'params', 'data'], function valueFromConfig2(prop) {
+      if (typeof config2[prop] !== 'undefined') {
+        config[prop] = config2[prop];
+      }
+    });
+
+    utils.forEach(['headers', 'auth', 'proxy'], function mergeDeepProperties(prop) {
+      if (utils.isObject(config2[prop])) {
+        config[prop] = utils.deepMerge(config1[prop], config2[prop]);
+      } else if (typeof config2[prop] !== 'undefined') {
+        config[prop] = config2[prop];
+      } else if (utils.isObject(config1[prop])) {
+        config[prop] = utils.deepMerge(config1[prop]);
+      } else if (typeof config1[prop] !== 'undefined') {
+        config[prop] = config1[prop];
+      }
+    });
+
+    utils.forEach([
+      'baseURL', 'transformRequest', 'transformResponse', 'paramsSerializer',
+      'timeout', 'withCredentials', 'adapter', 'responseType', 'xsrfCookieName',
+      'xsrfHeaderName', 'onUploadProgress', 'onDownloadProgress', 'maxContentLength',
+      'validateStatus', 'maxRedirects', 'httpAgent', 'httpsAgent', 'cancelToken',
+      'socketPath'
+    ], function defaultToConfig2(prop) {
+      if (typeof config2[prop] !== 'undefined') {
+        config[prop] = config2[prop];
+      } else if (typeof config1[prop] !== 'undefined') {
+        config[prop] = config1[prop];
+      }
+    });
+
+    return config;
+  };
+
+  /**
    * Create a new instance of Axios
    *
    * @param {Object} instanceConfig The default config for the instance
@@ -4796,13 +6060,14 @@
     /*eslint no-param-reassign:0*/
     // Allow for axios('example/url'[, config]) a la fetch API
     if (typeof config === 'string') {
-      config = utils.merge({
-        url: arguments[0]
-      }, arguments[1]);
+      config = arguments[1] || {};
+      config.url = arguments[0];
+    } else {
+      config = config || {};
     }
 
-    config = utils.merge(defaults_1, {method: 'get'}, this.defaults, config);
-    config.method = config.method.toLowerCase();
+    config = mergeConfig(this.defaults, config);
+    config.method = config.method ? config.method.toLowerCase() : 'get';
 
     // Hook up interceptors middleware
     var chain = [dispatchRequest, undefined];
@@ -4821,6 +6086,11 @@
     }
 
     return promise;
+  };
+
+  Axios.prototype.getUri = function getUri(config) {
+    config = mergeConfig(this.defaults, config);
+    return buildURL(config.url, config.params, config.paramsSerializer).replace(/^\?/, '');
   };
 
   // Provide aliases for supported request methods
@@ -4972,7 +6242,7 @@
 
   // Factory for creating new instances
   axios.create = function create(instanceConfig) {
-    return createInstance(utils.merge(defaults_1, instanceConfig));
+    return createInstance(mergeConfig(axios.defaults, instanceConfig));
   };
 
   // Expose Cancel & CancelToken
@@ -5271,9 +6541,9 @@
         formControl = props.formControl,
         computedInvalid = props.computedInvalid;
     return React__default.createElement("input", _extends({
-      type: "password",
+      type: 'password',
       placeholder: placeholder,
-      className: classNames('ffc-input', {
+      className: classnames('ffc-input', {
         'is-invalid': computedInvalid
       }, formControl)
     }, input));
@@ -5312,17 +6582,18 @@
         name: "" + input.name,
         id: input.name + "_" + key,
         value: option.props.value,
-        className: classNames('form-check-label'),
+        className: classnames('form-check-label'),
         onChange: function onChange(event) {
           return _onChange(event, key, option);
-        }
+        },
+        checked: String(input.value) === String(option.props.value)
       }), ' ', React__default.createElement("label", {
         htmlFor: input.name + "_" + key,
-        className: classNames('form-check-label')
+        className: classnames('form-check-label')
       }, option.props.children));
     });
     return React__default.createElement("div", {
-      className: classNames('ffc-input', {
+      className: classnames('ffc-input', {
         'is-invalid': computedInvalid
       }, formControl)
     }, list);
@@ -5346,12 +6617,24 @@
         placeholder = props.placeholder,
         formControl = props.formControl,
         computedInvalid = props.computedInvalid;
+
+    var value = input.value,
+        rest = _objectWithoutPropertiesLoose(input, ["value"]);
+
+    var options = Array.isArray(children) ? children : [children];
+    var list = options.map(function (option, key) {
+      return React__default.createElement("option", {
+        key: key,
+        value: option.props.value,
+        selected: String(input.value) === String(option.props.value)
+      }, option.props.children);
+    });
     return React__default.createElement("select", _extends({
       placeholder: placeholder,
-      className: classNames('ffc-input', {
+      className: classnames('ffc-input', {
         'is-invalid': computedInvalid
       }, formControl)
-    }, input), children);
+    }, rest), list);
   };
 
   Select.propTypes = {
@@ -5376,7 +6659,7 @@
     return React__default.createElement("input", _extends({
       type: "text",
       placeholder: placeholder,
-      className: classNames('ffc-input', {
+      className: classnames('ffc-input', {
         'is-invalid': computedInvalid
       }, formControl)
     }, input));
@@ -5401,13 +6684,17 @@
         formControl = props.formControl,
         computedInvalid = props.computedInvalid,
         rows = props.rows;
+
+    var value = input.value,
+        rest = _objectWithoutPropertiesLoose(input, ["value"]);
+
     return React__default.createElement("textarea", _extends({
       placeholder: placeholder,
-      className: classNames('ffc-input', {
+      className: classnames('ffc-input', {
         'is-invalid': computedInvalid
       }, formControl),
       rows: rows
-    }, input));
+    }, rest));
   };
 
   Textarea.propTypes = {
