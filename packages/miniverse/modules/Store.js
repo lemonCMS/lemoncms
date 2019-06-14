@@ -1,5 +1,4 @@
 import {
-  BehaviorSubject,
   ReplaySubject
 } from 'rxjs';
 
@@ -90,7 +89,7 @@ class Store {
       return this.subjects[hash];
     }
 
-    this.subjects[hash] = new BehaviorSubject();
+    this.subjects[hash] = new ReplaySubject();
     return this.subjects[hash];
   }
 
@@ -111,7 +110,6 @@ class Store {
    * @param component
    */
   unsubscribeByComponent(component) {
-
     Object.keys(this.locations).forEach(resource => {
       if (typeof this.locations[resource] !== 'undefined') {
         if (typeof this.locations[resource][component] !== 'undefined') {
