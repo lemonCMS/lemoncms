@@ -52,12 +52,13 @@ export class ApiService {
    * @param body
    * @param headers
    * @param conf
+   * @param id
    * @returns {Observable<AjaxResponse>}
    */
-  get({ path, query, body, headers }, conf) {
+  get({ path, query, body, headers, id }, conf) {
     return ajax({
       createXHR: this.createXHR,
-      url: this.getUrl(path, query, conf),
+      url: this.getUrl(path, id, query, conf),
       crossDomain: true,
       withCredentials: false,
       method: 'GET',
@@ -73,12 +74,13 @@ export class ApiService {
    * @param body
    * @param headers
    * @param conf
+   * @param id
    * @returns {Observable<AjaxResponse>}
    */
-  post({ path, query, body, headers }, conf) {
+  post({ path, query, body, headers, id }, conf) {
     return ajax({
       createXHR: this.createXHR,
-      url: this.getUrl(path, query, conf),
+      url: this.getUrl(path, id, query, conf),
       method: 'POST',
       headers: this.getHeaders(headers),
       body
@@ -92,12 +94,13 @@ export class ApiService {
    * @param body
    * @param headers
    * @param conf
+   * @param id
    * @returns {Observable<AjaxResponse>}
    */
-  put({ path, query, body, headers }, conf) {
+  put({ path, query, body, headers, id }, conf) {
     return ajax({
       createXHR: this.createXHR,
-      url: this.getUrl(path, query, conf),
+      url: this.getUrl(path, id, query, conf),
       method: 'PUT',
       headers: this.getHeaders(headers),
       body
@@ -111,12 +114,13 @@ export class ApiService {
    * @param body
    * @param headers
    * @param conf
+   * @param id
    * @returns {Observable<AjaxResponse>}
    */
-  patch({ path, query, body, headers }, conf) {
+  patch({ path, query, body, headers, id }, conf) {
     return ajax({
       createXHR: this.createXHR,
-      url: this.getUrl(path, query, conf),
+      url: this.getUrl(path, id, query, conf),
       method: 'PATCH',
       headers: this.getHeaders(headers),
       body
@@ -130,12 +134,13 @@ export class ApiService {
    * @param body
    * @param headers
    * @param conf
+   * @param id
    * @returns {Observable<AjaxResponse>}
    */
-  delete({ path, query, body, headers }, conf) {
+  delete({ path, query, body, headers, id }, conf) {
     return ajax({
       createXHR: this.createXHR,
-      url: this.getUrl(path, query, conf),
+      url: this.getUrl(path, id, query, conf),
       method: 'DELETE',
       headers: this.getHeaders(headers),
       body
@@ -188,16 +193,29 @@ export class ApiService {
   /**
    *
    * @param path
+   * @param id
    * @param params
    * @param conf
    * @returns {string}
    */
-  getUrl(path, params = {}, conf) {
+  getUrl(path, id, params = {}, conf) {
     const baseUrl = this.getBaseUrl(conf);
-    if (baseUrl !== null) {
-      return `${baseUrl}/${path}?${queryString.stringify(params, { arrayFormat: 'bracket', sort: false })}`;
+    const pathArray = [baseUrl, path];
+    if (typeof id === 'string') {
+      pathArray.push(id);
     }
-    return `${path}?${queryString.stringify(params, { arrayFormat: 'bracket', sort: false })}`
+
+    return [
+      pathArray
+        .filter(item => item)
+        .join('/'),
+      queryString
+        .stringify(params, {
+          arrayFormat: 'bracket',
+          sort: false
+        })
+    ].filter(item => item)
+      .join('?');
   }
 
   /**
