@@ -33,18 +33,6 @@ describe('CreateWatchers', () => {
     expect(watchers).toHaveLength(1);
   });
 
-  test('should not return watcher', () => {
-    const confRepo = {
-      watch: {
-        github: ['repos']
-      }
-    };
-    console.error = jest.fn();
-    createWatchers('Github', miniverse, confRepo, callback);
-    expect(console.error).toHaveBeenCalled();
-  });
-
-
   test('should fail on unsubscribe non existing service', () => {
     const confRepo = {
       watch: {

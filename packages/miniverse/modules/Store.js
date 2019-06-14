@@ -90,6 +90,9 @@ class Store {
       return this.subjects[hash];
     }
 
+    /**
+     * Server side rendering does not return on time when using BehaviorSubject()
+     */
     this.subjects[hash] = process.browser ? new BehaviorSubject({}) : new ReplaySubject();
     return this.subjects[hash];
   }
