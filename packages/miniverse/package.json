@@ -1,8 +1,8 @@
 {
 	"name": "react-miniverse",
-	"version": "0.0.15",
+	"version": "0.0.17",
 	"description": "rxjs state manager for React",
-	"repository": "http://github.com/lemoncms/lemoncms/miniverse",
+	"repository": "https://github.com/lemonCMS/lemoncms/tree/master/packages/miniverse",
 	"license": "MIT",
 	"authors": [
 		"Raymond van Vuuren"

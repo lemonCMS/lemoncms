@@ -1,26 +1,106 @@
-# miniverse
+# react-miniverse
 
-Declarative routing for [React](https://facebook.github.io/react).
+Store manager build on top of rxjs for react. 16+
 
 ## Installation
 
 Using [npm](https://www.npmjs.com/):
 
-    $ npm install --save miniverse
+    $ npm install --save react-miniverse
 
-**Note:** This package provides the core routing functionality for React Router, but you might not want to install it directly. If you are writing an application that will run in the browser, you should instead install `miniverse`. Similarly, if you are writing a React Native application, you should instead install `miniverse`. Both of those will install `miniverse` as a dependency.
+## Usage
+Creating our very first and very simple store.
+For our example we will use the [github api](https://developer.github.com/v3/) to fetch some users.
 
-Then with a module bundler like [webpack](https://webpack.github.io/), use as you would anything else:
+```ecmascript 6
+/** 
+* <project-source>/miniverse/Github.js 
+**/
+import { Store } from 'react-miniverse';
 
-```js
-// using ES6 modules
-import { Rick, Morty, Miniverse } from "miniverse";
-
-// using CommonJS modules
-var Rick = require("miniverse").Rick;
-var Morty = require("miniverse").Morty;
-var Miniverse = require("miniverse").Miniverse;
+export default class Github {
+  
+  /**
+  * Set baseUrl of API
+  * 
+  * When only running only client side code
+  * you can return a string full url of path
+  * @returns {{baseUrl: string}}
+  * 
+  * When running SSR and server and client side api
+  * location differ this can be provide like follows
+  * @returns { baseUrl: {
+  *             client: '/api',
+  *             server: 'http://webserver/api'
+  *           }}
+  */
+  init = () => ({
+    baseUrl: 'https://api.github.com'
+  });
+  
+  /**
+  * Load list of users
+  * @converts: https://api.github.com/users
+  * 
+  * @returns subject
+  */
+  getUsers() {
+    return this.get({path: 'users'})
+  }
+  
+  /**
+  * Fetch user resource
+  * @converts: https://api.github.com/users/{{id}}
+  * 
+  * @param id
+  * @returns subject
+  */
+  getUser(id) {
+    return this.get({path: 'users', id});
+  }
+} 
 ```
+
+Next we need to initiate the miniverse
+
+```ecmascript 6
+/** 
+* <project-source>/miniverse/index.js 
+**/
+import { Miniverse } from 'react-miniverse';
+import Github from './Github';
+
+const provider = () => new Miniverse({
+  Github
+});
+
+export default provider;
+```
+
+Next we need to initiate the miniverse and wrap the App.
+
+```ecmascript 6
+/** 
+* <project-source>/client.js 
+**/
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {MiniverseContext} from 'react-miniverse';
+import App from './App';
+import Miniverse from './miniverse';
+
+const serviceProvider = Miniverse();
+
+ReactDOM.render(
+  <MiniverseContext.Provider value={{ serviceProvider }}>
+    <App />
+  </MiniverseContext.Provider>
+  dest
+);
+
+````
+
+
 
 ## Issues
 
