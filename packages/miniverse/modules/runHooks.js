@@ -164,7 +164,10 @@ export default class RunHooks {
     const hook = this.hooks.shift();
     if (this.hooks.length === 0) {
       return this.runHook(hook).subscribe(
-        () => this.next(),
+        () => {
+          this.next();
+          this.complete()
+        },
         err => this.error(err),
         () => this.complete()
       );
