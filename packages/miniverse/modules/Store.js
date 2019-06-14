@@ -74,7 +74,7 @@ class Store {
       return this.subjects[hash];
     }
 
-    this.subjects[hash] = process.browser ? new BehaviorSubject : new ReplaySubject();
+    this.subjects[hash] = process.browser ? new BehaviorSubject({}) : new ReplaySubject();
     return this.subjects[hash];
   }
 
@@ -90,7 +90,7 @@ class Store {
       return this.subjects[hash];
     }
 
-    this.subjects[hash] = process.browser ? new BehaviorSubject : new ReplaySubject();
+    this.subjects[hash] = process.browser ? new BehaviorSubject({}) : new ReplaySubject();
     return this.subjects[hash];
   }
 
