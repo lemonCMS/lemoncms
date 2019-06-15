@@ -19,30 +19,20 @@ export class ApiService {
   };
 
   /**
-   * Contains createXhr when it does not exists.
-   * mainly for nodejs environments.
+   * Set the Authorization token.
    *
-   * @type {null|XHR2}
+   * @param token
    */
-  XHR2 = null;
-
   setJwtToken = token => {
     this.token = token;
   };
-
 
   /**
    *
    * @returns {XMLHttpRequest}
    */
   createXHR = () => {
-    if (typeof XMLHttpRequest === 'undefined') {
-      if (this.XHR2 === null) {
-        this.XHR2 = require('xhr2');
-      }
-      return new this.XHR2();
-    }
-    return new XMLHttpRequest();
+    return new this.XHR2();
   };
 
   /**
