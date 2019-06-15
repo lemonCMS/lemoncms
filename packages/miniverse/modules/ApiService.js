@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { ajax } from 'rxjs/ajax';
 import queryString from 'query-string';
+import Xhr2 from 'xhr2';
 
 export class ApiService {
   /**
@@ -19,20 +20,24 @@ export class ApiService {
   };
 
   /**
-   * Set the Authorization token.
+   * Contains createXhr when it does not exists.
+   * mainly for nodejs environments.
    *
-   * @param token
+   * @type {null|XHR2}
    */
+  XHR2 = null;
+
   setJwtToken = token => {
     this.token = token;
   };
+
 
   /**
    *
    * @returns {XMLHttpRequest}
    */
   createXHR = () => {
-    return new this.XHR2();
+    return new Xhr2();
   };
 
   /**
