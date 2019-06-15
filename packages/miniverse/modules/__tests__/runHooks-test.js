@@ -24,7 +24,7 @@ describe('RunHooks should do it', () => {
       Github
     });
     const providers = {
-      serviceProvider: initiatedServiceProvider
+      miniverse: initiatedServiceProvider
     };
 
     const components = [];
@@ -50,7 +50,7 @@ describe('RunHooks should do it', () => {
       Github
     });
     const providers = {
-      serviceProvider: initiatedServiceProvider
+      miniverse: initiatedServiceProvider
     };
 
     const components = [];
@@ -81,7 +81,7 @@ describe('RunHooks should do it', () => {
       Github
     });
     const providers = {
-      serviceProvider: initiatedServiceProvider
+      miniverse: initiatedServiceProvider
     };
 
     const components = [];
@@ -100,7 +100,7 @@ describe('RunHooks should do it', () => {
       Github
     });
     const providers = {
-      serviceProvider: initiatedServiceProvider
+      miniverse: initiatedServiceProvider
     };
 
     const components = [];
@@ -127,7 +127,7 @@ describe('RunHooks should do it', () => {
       Github
     });
     const providers = {
-      serviceProvider: initiatedServiceProvider
+      miniverse: initiatedServiceProvider
     };
 
     const components = [];
@@ -154,7 +154,7 @@ describe('RunHooks should do it', () => {
       Github
     });
     const providers = {
-      serviceProvider: initiatedServiceProvider
+      miniverse: initiatedServiceProvider
     };
 
     const components = [];
@@ -180,7 +180,7 @@ describe('RunHooks should do it', () => {
       Github
     });
     const providers = {
-      serviceProvider: initiatedServiceProvider
+      miniverse: initiatedServiceProvider
     };
 
     const components = [];

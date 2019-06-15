@@ -23,12 +23,12 @@ beforeEach(() => {
 });
 
 const Mock = () => (
-  <MiniverseContext.Provider value={{ serviceProvider: sP }}>
+  <MiniverseContext.Provider value={{ miniverse: sP }}>
     <Decorated />
   </MiniverseContext.Provider>);
 
 const PassedThroughMock = () => (
-  <MiniverseContext.Provider value={{ serviceProvider: sP }}>
+  <MiniverseContext.Provider value={{ miniverse: sP }}>
     <PassedThroughComponent />
   </MiniverseContext.Provider>
 );

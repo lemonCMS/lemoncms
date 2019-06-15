@@ -67,8 +67,8 @@ export default (conf = null) => Component => {
      */
     constructor(props, context) {
       super(props, context);
-      const { serviceProvider } = props;
-      this.provider = serviceProvider;
+      const { miniverse } = props;
+      this.provider = miniverse;
       this.deepLocation = conf.name || Component.displayName || Component.name || Component.constructor.name;
       this.state = {
         updated: 0
@@ -131,7 +131,7 @@ export default (conf = null) => Component => {
   }
 
   Subscriber.propTypes = {
-    serviceProvider: PropTypes.objectOf(PropTypes.any).isRequired
+    miniverse: PropTypes.objectOf(PropTypes.any).isRequired
   };
 
   return props => (

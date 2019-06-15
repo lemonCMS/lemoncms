@@ -3,10 +3,10 @@ import provideHooks from '../../provideHooks';
 import { BehaviorSubject } from 'rxjs';
 
 @provideHooks({
-  fetch: ({ serviceProvider }) => {
+  fetch: ({ miniverse }) => {
     const sub$ = new BehaviorSubject({});
     sub$.error('SOMETHING IS WRONG');
-    return serviceProvider.zip(sub$);
+    return miniverse.zip(sub$);
   }
 })
 class ComponentWithError extends React.Component {

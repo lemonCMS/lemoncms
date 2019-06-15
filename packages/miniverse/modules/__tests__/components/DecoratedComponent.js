@@ -4,9 +4,9 @@ import provideHooks from '../../provideHooks';
 import withSummer from '../../withMiniverse';
 let i = 0;
 @provideHooks({
-  fetch: ({ serviceProvider }) => {
-    return serviceProvider.zip(
-      serviceProvider.getService('Github').getUsers()
+  fetch: ({ miniverse }) => {
+    return miniverse.zip(
+      miniverse.getService('Github').getUsers()
     );
   }
 })
