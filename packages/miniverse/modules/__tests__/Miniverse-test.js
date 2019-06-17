@@ -46,6 +46,10 @@ describe('Miniverse should be invalid', () => {
 
     const miniverse = new Miniverse({ Github, Git2 });
 
+    miniverse.eventService.on('get', (event) => {
+      expect(event.store).toBe('Github');
+    });
+
     miniverse.getService('Github')
       .getUsers()
       .subscribe(
@@ -57,7 +61,10 @@ describe('Miniverse should be invalid', () => {
       .subscribe((data) => {
         expect(data.Github).toBeTruthy();
         done();
-      })
+
+      });
+
+
   });
   test('should inject github data', (done) => {
     const data = {

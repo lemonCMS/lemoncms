@@ -4,6 +4,7 @@ import {
   zip,
 } from 'rxjs';
 import { ApiService } from './ApiService';
+import { EventService } from './EventService';
 
 class Miniverse {
   /**
@@ -38,6 +39,12 @@ class Miniverse {
 
   /**
    *
+   * @type {EventService}
+   */
+  eventService = null;
+
+  /**
+   *
    * @param services
    * @param apiService
    */
@@ -49,8 +56,10 @@ class Miniverse {
       this.apiService = apiService;
     }
 
+    this.eventService = new EventService;
+
     this.services = this.objectMap(services, Service => {
-      const service = new Service(this, this.apiService);
+      const service = new Service(this, this.apiService, this.eventService);
       if (typeof service.init === 'function') {
         service.setConfCallback(service.init());
       }
@@ -58,6 +67,11 @@ class Miniverse {
     });
   }
 
+  /**
+   *
+   * @param name
+   * @returns {boolean}
+   */
   isService(name) {
     return typeof this.services[name] !== 'undefined';
   }
@@ -99,6 +113,14 @@ class Miniverse {
     }
     return this.services[name];
   };
+
+  /**
+   *
+   * @returns {EventService}
+   */
+  getEventService() {
+    return this.eventService;
+  }
 
   /**
    *

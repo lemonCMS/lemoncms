@@ -4,7 +4,8 @@ class Github extends Store {
 
   init() {
     return {
-      'baseUrl': 'https://github.com'
+      baseUrl: 'https://github.com',
+      events: true
     }
 
     /*return {

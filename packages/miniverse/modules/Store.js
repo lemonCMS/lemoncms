@@ -31,7 +31,9 @@ class Store {
    *
    * @type {null}
    */
-  apiConfig = {};
+  config = {
+    events: true
+  };
 
   /**
    *
@@ -47,6 +49,7 @@ class Store {
    *@returns {*}
    */
   eject() {
+    this.miniverse.getEventService().emit('eject', 'start');
     return this.miniverse._waitAllDone(this.subjects);
   }
 
@@ -146,7 +149,6 @@ class Store {
     return this.locations;
   }
 
-
   /**
    * Create a new watcher
    *
@@ -191,22 +193,25 @@ class Store {
    * @param rest
    * @param subject
    */
-  runApi = (type, { path, query, body, headers, ...rest }, subject) => {
+  runApi = (type, { path, query, body, headers, name, ...rest }, subject) => {
     /**
      * Clear running request to the same endpoint
      * @type {number}
      */
-    const hashCode = this.hashCode(`${type}/${path}`);
+    this.emit(type, 'start', {path});
+    const hashCode = this.hashCode(name || `${type}/${path}`);
     if (typeof this.requestSubjects[hashCode] !== 'undefined') {
       this.requestSubjects[hashCode].unsubscribe();
       delete this.requestSubjects[hashCode];
     }
 
-    this.requestSubjects[hashCode] = this.miniverse.apiService[type]({path, query, body, headers, ...rest}, this.apiConfig).subscribe(
+    this.requestSubjects[hashCode] = this.miniverse.apiService[type]({path, query, body, headers, ...rest}, this.config).subscribe(
       request => {
+        this.emit(type, 'next', {path});
         subject.next(request.response);
       },
       error => {
+        this.emit(type, 'error', {path});
         subject.error(error);
       },
       () => {
@@ -292,7 +297,7 @@ class Store {
    * @param callback
    */
   setConfCallback(config) {
-    this.apiConfig = config;
+    this.config = Object.assign({}, this.config, config);
   }
 
   /**
@@ -315,6 +320,12 @@ class Store {
       hash = hash & hash; // Convert to 32bit integer
     }
     return hash;
+  }
+
+  emit(type, value, rest) {
+    if(this.config.events === true) {
+      this.miniverse.getEventService().emit(type, {store: this.constructor.name, value, ...rest});
+    }
   }
 }
 
