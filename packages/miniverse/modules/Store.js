@@ -324,7 +324,7 @@ class Store {
 
   emit(type, value, rest) {
     if(this.config.events === true) {
-      this.miniverse.getEventService().emit(type, {store: this.constructor.name, value, ...rest});
+      this.miniverse.getEventService().emit(type, {store: this.constructor.name, value, type, ...rest});
     }
   }
 }
