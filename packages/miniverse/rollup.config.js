@@ -1,6 +1,7 @@
 const babel = require("rollup-plugin-babel");
 const replace = require("rollup-plugin-replace");
 const commonjs = require("rollup-plugin-commonjs");
+const builtins = require("rollup-plugin-node-builtins");
 const nodeResolve = require("rollup-plugin-node-resolve");
 const json = require("rollup-plugin-json");
 const { sizeSnapshot } = require("rollup-plugin-size-snapshot");
@@ -48,7 +49,8 @@ const cjs = [
         "process.env.NODE_ENV": JSON.stringify("production"),
         "process.env.BUILD_FORMAT": JSON.stringify("cjs")
       }),
-      uglify()
+      uglify(),
+      builtins()
     ]
   }
 ];
@@ -70,7 +72,8 @@ const esm = [
         plugins: [["@babel/transform-runtime", { useESModules: true }]]
       }),
       replace({ "process.env.BUILD_FORMAT": JSON.stringify("esm") }),
-      sizeSnapshot()
+      sizeSnapshot(),
+      builtins()
     ]
   }
 ];
@@ -88,6 +91,7 @@ const umd = [
     },
     external: Object.keys(globals),
     plugins: [
+      builtins(),
       json(),
       babel({
         exclude: [
@@ -123,6 +127,7 @@ const umd = [
     },
     external: Object.keys(globals),
     plugins: [
+      builtins(),
       json(),
       babel({
         exclude: [
