@@ -101,7 +101,6 @@ describe('Miniverse', () => {
     });
   });
 
-
   test("Should fetch, watch and render and update Github users", (done) => {
     ajax
       .mockImplementationOnce(() =>
@@ -149,5 +148,33 @@ describe('Miniverse', () => {
         });
       });
     });
+  });
+
+  test("Should fetch from cache boolean", () => {
+    ajax
+      .mockImplementationOnce(() =>
+        of({ response: { data: { github: true } } })
+      );
+
+    sP.getService('Github').getUsersCacheBoolean();
+    sP.getService('Github').getUsersCacheBoolean();
+    expect(ajax).toHaveBeenCalledTimes(1);
+
+  });
+
+  test("Should fetch from cache object", () => {
+    ajax
+      .mockImplementation(() =>
+        of({ response: { data: { page: 1 } } })
+      )
+      .mockImplementation(() =>
+        of({ response: { data: { page: 2 } } })
+      );
+
+    sP.getService('Github').getUsersCacheObject({page: 1});
+    sP.getService('Github').getUsersCacheObject({page: 1});
+    sP.getService('Github').getUsersCacheObject({page: 2});
+    expect(ajax).toHaveBeenCalledTimes(2);
+
   });
 });

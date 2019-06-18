@@ -16,6 +16,11 @@ class Store {
   subjects = {};
 
   /**
+   * contains keys of cached resources
+   */
+  cacheKeys = {};
+
+  /**
    *
    * @type {{}}
    */
@@ -178,7 +183,7 @@ class Store {
    * @param data
    */
   reset(path, data = null) {
-    const subject = this.createSubject(path, true);
+    const subject = this.createSubject(path);
     subject.next(data);
     return subject;
   }
@@ -190,14 +195,20 @@ class Store {
    * @param query
    * @param body
    * @param headers
+   * @param name
+   * @param cacheKey
    * @param rest
    * @param subject
    */
-  runApi = (type, { path, query, body, headers, name, ...rest }, subject) => {
+  runApi = (type, { path, query, body, headers, name, cacheKey, ...rest }, subject) => {
     /**
      * Clear running request to the same endpoint
      * @type {number}
      */
+    if (this.inCache(path, cacheKey)) {
+      return subject;
+    }
+
     this.emit(type, 'start', {path});
     const hashCode = this.hashCode(name || `${type}/${path}`);
     if (typeof this.requestSubjects[hashCode] !== 'undefined') {
@@ -218,19 +229,60 @@ class Store {
         delete this.requestSubjects[hashCode];
       }
     );
+    this.setCache(path, cacheKey);
   };
+
+  /**
+   * Check if resource is cached
+   *
+   * @param path
+   * @param cacheKey
+   * @returns {boolean}
+   */
+  inCache(path, cacheKey) {
+    if (typeof cacheKey === 'undefined') {
+      return;
+    }
+
+    if (typeof cacheKey === 'boolean') {
+      return !!this.cacheKeys[this.hashCode(path)];
+    }
+
+    if (typeof cacheKey === 'object') {
+      const hashPath = this.hashCode(path);
+      const hashCode = JSON.stringify(cacheKey);
+      if (this.cacheKeys[hashPath]) {
+        return this.cacheKeys[hashPath] === this.hashCode(hashCode);
+      }
+    }
+    return false;
+  }
+
+  setCache(path, cacheKey)  {
+    if (typeof cacheKey === 'undefined') {
+      return;
+    }
+    if (typeof cacheKey === 'boolean') {
+      this.cacheKeys[this.hashCode(path)] = true;
+    }
+    if (typeof cacheKey === 'object') {
+      this.cacheKeys[this.hashCode(path)] = this.hashCode(JSON.stringify(cacheKey));
+    }
+  }
 
   /**
    *
    * @param path
    * @param query
    * @param headers
+   * @param reload
+   * @param cacheKey
    * @param rest
    * @returns {*}
    */
-  get = ({ path, query, headers, ...rest }) => {
-    const subject = this.createSubject(path, query);
-    this.runApi('get', { path, query, headers, ...rest }, subject);
+  get = ({ path, query, headers, reload, cacheKey, ...rest }) => {
+    const subject = this.createSubject(path, cacheKey);
+    this.runApi('get', { path, query, headers, cacheKey, ...rest }, subject);
     return subject;
   };
 
@@ -240,12 +292,13 @@ class Store {
    * @param query
    * @param params
    * @param headers
+   * @param cacheKey
    * @param rest
    * @returns {*}
    */
-  put = ({ path, query, params, headers, ...rest }) => {
-    const subject = this.createSubject(path, query);
-    this.runApi('put', { path, query, headers, ...rest }, subject);
+  put = ({ path, query, params, headers, cacheKey, ...rest }) => {
+    const subject = this.createSubject(path, cacheKey);
+    this.runApi('put', { path, query, headers, cacheKey, ...rest }, subject);
     return subject;  };
 
   /**
@@ -254,12 +307,13 @@ class Store {
    * @param query
    * @param params
    * @param headers
+   * @param cacheKey
    * @param rest
    * @returns {*}
    */
-  post = ({ path, query, params, headers, ...rest }) => {
-    const subject = this.createSubject(path, query);
-    this.runApi('post', { path, query, headers, ...rest }, subject);
+  post = ({ path, query, params, headers, cacheKey, ...rest }) => {
+    const subject = this.createSubject(path, cacheKey);
+    this.runApi('post', { path, query, headers, cacheKey, ...rest }, subject);
     return subject;  };
 
   /**
@@ -268,12 +322,13 @@ class Store {
    * @param query
    * @param params
    * @param headers
+   * @param cacheKey
    * @param rest
    * @returns {*|Observable<AjaxResponse>|AjaxObservable|Promise<AxiosResponse<T>>}
    */
-  patch = ({ path, query, params, headers, ...rest }) => {
-    const subject = this.createSubject(path, query);
-    this.runApi('patch', { path, query, headers, ...rest }, subject);
+  patch = ({ path, query, params, headers, cacheKey, ...rest }) => {
+    const subject = this.createSubject(path, cacheKey);
+    this.runApi('patch', { path, query, headers, cacheKey, ...rest }, subject);
     return subject;
   };
 
@@ -320,7 +375,7 @@ class Store {
       hash = hash & hash; // Convert to 32bit integer
     }
     return hash;
-  }
+  };
 
   emit(type, value, rest) {
     if(this.config.events === true) {

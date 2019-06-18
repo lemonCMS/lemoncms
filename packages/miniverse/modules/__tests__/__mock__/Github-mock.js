@@ -20,6 +20,14 @@ class Github extends Store {
     return this.get({path: 'users'});
   }
 
+  getUsersCacheBoolean() {
+    return this.get({path: 'boolean', cacheKey: true});
+  }
+
+  getUsersCacheObject(query) {
+    return this.get({path: 'boolean', query, cacheKey: {page: query.page}});
+  }
+
   watchUsers(location, callback) {
     return this.watch('users', location, callback);
   }
