@@ -2,13 +2,13 @@ import { Miniverse } from '../index';
 import Github from './__mock__/Github-mock';
 import { ajax } from 'rxjs/ajax';
 import { of } from 'rxjs';
+
 jest.mock("rxjs/ajax");
 
 const Git2 = Github;
 
 beforeEach(() => {
-  // Clear all instances and calls to constructor and all methods:
-  // axiosMock.mockClear();
+  jest.resetAllMocks();
 });
 
 const helpers = {
@@ -42,6 +42,14 @@ describe('Miniverse should be invalid', () => {
       of({
         response: { data: { github: true } }
       })
+    ).mockImplementationOnce(() =>
+      of({
+        response: { data: { github: true } }
+      })
+    ).mockImplementationOnce(() =>
+      of({
+        response: { data: { github: true } }
+      })
     );
 
     const miniverse = new Miniverse({ Github, Git2 });
@@ -49,6 +57,12 @@ describe('Miniverse should be invalid', () => {
     miniverse.eventService.on('get', (event) => {
       expect(event.store).toBe('Github');
     });
+
+    miniverse.getService('Github')
+      .getUsersCacheBoolean();
+
+    miniverse.getService('Github')
+      .getUsersCacheObject({ page: 1 });
 
     miniverse.getService('Github')
       .getUsers()
@@ -66,16 +80,21 @@ describe('Miniverse should be invalid', () => {
 
 
   });
+
   test('should inject github data', (done) => {
     const data = {
       Github: {
-        "111578632": {
-          "github": true
+        "64711720": { "github": true },
+        "111578632": { "github": true },
+        "-1023368385": { "github": true },
+        cache: {
+          '-1023368385': 1132654554,
+          '64711720': true
         }
       }
     };
-
-    const miniverse = new Miniverse({ Github, Git2 });
+    ajax.mockImplementation(() => of({ response: { github: true } }));
+    const miniverse = new Miniverse({ Github });
 
     miniverse
       .insert(data)
@@ -89,8 +108,17 @@ describe('Miniverse should be invalid', () => {
         .subscribe(
           (data) => {
             expect(data.github).toBe(true);
-            done();
+
           });
+
+      miniverse.getService('Github')
+        .getUsersCacheBoolean();
+
+      miniverse.getService('Github')
+        .getUsersCacheObject({ page: 1 });
+
+      expect(ajax).toHaveBeenCalledTimes(0);
+      done();
     });
 
   });
@@ -124,7 +152,7 @@ describe('Miniverse should be invalid', () => {
   test('expect resource to be reset', (done) => {
     ajax.mockImplementationOnce(() =>
       of({
-        response: {  github: true }
+        response: { github: true }
       })
     );
     const miniverse = new Miniverse({ Github, Git2 });

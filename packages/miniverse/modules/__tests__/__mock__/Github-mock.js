@@ -25,7 +25,7 @@ class Github extends Store {
   }
 
   getUsersCacheObject(query) {
-    return this.get({path: 'boolean', query, cacheKey: {page: query.page}});
+    return this.get({path: 'object', query, cacheKey: {page: query.page}});
   }
 
   watchUsers(location, callback) {

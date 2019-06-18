@@ -1,6 +1,7 @@
 import {
-  ReplaySubject,
-  BehaviorSubject
+  of,
+  BehaviorSubject,
+  ReplaySubject
 } from 'rxjs';
 
 class Store {
@@ -55,6 +56,7 @@ class Store {
    */
   eject() {
     this.miniverse.getEventService().emit('eject', 'start');
+    this.subjects['cache'] = of(this.cacheKeys);
     return this.miniverse._waitAllDone(this.subjects);
   }
 
@@ -65,6 +67,11 @@ class Store {
    */
   insert(data) {
     Object.keys(data).forEach(key => {
+      if (key === 'cache') {
+        this.cacheKeys = data[key];
+        return;
+      }
+
       const subject = this.importSubject(key);
       subject.next(data[key]);
     });
@@ -209,20 +216,25 @@ class Store {
       return subject;
     }
 
-    this.emit(type, 'start', {path});
+    this.emit(type, 'start', { path });
     const hashCode = this.hashCode(name || `${type}/${path}`);
     if (typeof this.requestSubjects[hashCode] !== 'undefined') {
       this.requestSubjects[hashCode].unsubscribe();
       delete this.requestSubjects[hashCode];
     }
 
-    this.requestSubjects[hashCode] = this.miniverse.apiService[type]({path, query, body, headers, ...rest}, this.config).subscribe(
+    this.requestSubjects[hashCode] = this.miniverse.apiService[type]({
+      path,
+      query,
+      body,
+      headers, ...rest
+    }, this.config).subscribe(
       request => {
-        this.emit(type, 'next', {path});
+        this.emit(type, 'next', { path });
         subject.next(request.response);
       },
       error => {
-        this.emit(type, 'error', {path});
+        this.emit(type, 'error', { path });
         subject.error(error);
       },
       () => {
@@ -241,7 +253,7 @@ class Store {
    */
   inCache(path, cacheKey) {
     if (typeof cacheKey === 'undefined') {
-      return;
+      return false
     }
 
     if (typeof cacheKey === 'boolean') {
@@ -258,7 +270,7 @@ class Store {
     return false;
   }
 
-  setCache(path, cacheKey)  {
+  setCache(path, cacheKey) {
     if (typeof cacheKey === 'undefined') {
       return;
     }
@@ -299,7 +311,8 @@ class Store {
   put = ({ path, query, params, headers, cacheKey, ...rest }) => {
     const subject = this.createSubject(path, cacheKey);
     this.runApi('put', { path, query, headers, cacheKey, ...rest }, subject);
-    return subject;  };
+    return subject;
+  };
 
   /**
    *
@@ -314,7 +327,8 @@ class Store {
   post = ({ path, query, params, headers, cacheKey, ...rest }) => {
     const subject = this.createSubject(path, cacheKey);
     this.runApi('post', { path, query, headers, cacheKey, ...rest }, subject);
-    return subject;  };
+    return subject;
+  };
 
   /**
    *
@@ -378,8 +392,8 @@ class Store {
   };
 
   emit(type, value, rest) {
-    if(this.config.events === true) {
-      this.miniverse.getEventService().emit(type, {store: this.constructor.name, value, type, ...rest});
+    if (this.config.events === true) {
+      this.miniverse.getEventService().emit(type, { store: this.constructor.name, value, type, ...rest });
     }
   }
 }
