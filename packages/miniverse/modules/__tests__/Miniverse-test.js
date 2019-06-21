@@ -82,17 +82,20 @@ describe('Miniverse should be invalid', () => {
   });
 
   test('should inject github data', (done) => {
+
     const data = {
-      Github: {
-        "64711720": { "github": true },
-        "111578632": { "github": true },
-        "-1023368385": { "github": true },
-        cache: {
-          '-1023368385': 1132654554,
-          '64711720': true
+      Github:
+        {
+          '111578632': { github: true },
+          '412672594': { github: true },
+          '1632309109': { github: true },
+          cache: {
+            '412672594': {key: '1132654554', expire: Date.now() + (3600 * 1000)},
+            '1632309109': {key: true, expire: Date.now() + (3600 * 1000)}
+          }
         }
-      }
     };
+
     ajax.mockImplementation(() => of({ response: { github: true } }));
     const miniverse = new Miniverse({ Github });
 
@@ -102,25 +105,63 @@ describe('Miniverse should be invalid', () => {
         expect(tmpData.Github['111578632']).toBeTruthy();
       });
 
+    miniverse.getService('Github')
+      .getUsersCacheBoolean()
+      .subscribe();
     process.nextTick(() => {
       miniverse.getService('Github')
-        .watchUsers()
-        .subscribe(
-          (data) => {
-            expect(data.github).toBe(true);
-
-          });
-
-      miniverse.getService('Github')
-        .getUsersCacheBoolean();
-
-      miniverse.getService('Github')
-        .getUsersCacheObject({ page: 1 });
-
+        .getUsersCacheObject({ page: 1 })
+        .subscribe();
       expect(ajax).toHaveBeenCalledTimes(0);
-      done();
-    });
 
+      process.nextTick(() => {
+        miniverse.eject().subscribe(next => {
+          done();
+        },);
+      });
+    });
+  });
+
+
+  test('should fetch expired cache data', (done) => {
+
+    const data = {
+      Github:
+        {
+          '111578632': { github: true },
+          '412672594': { github: true },
+          '1632309109': { github: true },
+          cache: {
+            '412672594': {key: '1132654554', expire: Date.now() - (3600 * 1000)},
+            '1632309109': {key: true, expire: Date.now() + (3600 * 1000)}
+          }
+        }
+    };
+
+    ajax.mockImplementation(() => of({ response: { github: true } }));
+    const miniverse = new Miniverse({ Github });
+
+    miniverse
+      .insert(data)
+      .subscribe((tmpData) => {
+        expect(tmpData.Github['111578632']).toBeTruthy();
+      });
+
+    miniverse.getService('Github')
+      .getUsersCacheBoolean()
+      .subscribe();
+    process.nextTick(() => {
+      miniverse.getService('Github')
+        .getUsersCacheObject({ page: 1 })
+        .subscribe();
+      expect(ajax).toHaveBeenCalledTimes(1);
+
+      process.nextTick(() => {
+        miniverse.eject().subscribe(next => {
+          done();
+        },);
+      });
+    });
   });
 
   test('check existing helpers', () => {

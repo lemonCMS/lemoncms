@@ -21,11 +21,11 @@ class Github extends Store {
   }
 
   getUsersCacheBoolean() {
-    return this.get({path: 'boolean', cacheKey: true});
+    return this.get({path: 'api-boolean', cacheKey: true});
   }
 
   getUsersCacheObject(query) {
-    return this.get({path: 'object', query, cacheKey: {page: query.page}});
+    return this.get({path: 'api-object', query, cacheKey: {page: query.page}});
   }
 
   watchUsers(location, callback) {

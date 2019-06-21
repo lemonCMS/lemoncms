@@ -1,6 +1,6 @@
 import {
-  of,
   BehaviorSubject,
+  of,
   ReplaySubject
 } from 'rxjs';
 
@@ -236,6 +236,7 @@ class Store {
       error => {
         this.emit(type, 'error', { path });
         subject.error(error);
+        this.deleteCache(path);
       },
       () => {
         delete this.requestSubjects[hashCode];
@@ -252,33 +253,68 @@ class Store {
    * @returns {boolean}
    */
   inCache(path, cacheKey) {
+
+    if (!this.cacheKeys[this.hashCode(path)]) {
+      return false;
+    }
+
+    const { key, expire } = this.cacheKeys[this.hashCode(path)];
+
+    if (expire && expire < Date.now()) {
+      this.deleteCache(path);
+      return false;
+    }
+
     if (typeof cacheKey === 'undefined') {
       return false
     }
 
     if (typeof cacheKey === 'boolean') {
-      return !!this.cacheKeys[this.hashCode(path)];
+      return key;
     }
 
     if (typeof cacheKey === 'object') {
       const hashPath = this.hashCode(path);
-      const hashCode = JSON.stringify(cacheKey);
+      const hashCode = this.hashCode(JSON.stringify(cacheKey));
       if (this.cacheKeys[hashPath]) {
-        return this.cacheKeys[hashPath] === this.hashCode(hashCode);
+        return String(key) === String(hashCode);
       }
     }
     return false;
   }
 
-  setCache(path, cacheKey) {
+  /**
+   *
+   * @param path
+   * @param cacheKey
+   * @param time 3600 seconds
+   */
+  setCache(path, cacheKey, time = 3600) {
     if (typeof cacheKey === 'undefined') {
       return;
     }
     if (typeof cacheKey === 'boolean') {
-      this.cacheKeys[this.hashCode(path)] = true;
+      this.cacheKeys[this.hashCode(path)] = {
+        key: true,
+        expire: Date.now() + (time * 1000)
+      };
     }
     if (typeof cacheKey === 'object') {
-      this.cacheKeys[this.hashCode(path)] = this.hashCode(JSON.stringify(cacheKey));
+      this.cacheKeys[this.hashCode(path)] = {
+        key: this.hashCode(JSON.stringify(cacheKey)),
+        expire: Date.now() + (time * 1000)
+      };
+    }
+  }
+
+  /**
+   *
+   * @param path
+   */
+  deleteCache(path) {
+    if (typeof this.cacheKeys[this.hashCode(path)] !== 'undefined') {
+      this.emit('cache', 'delete', { path });
+      delete this.cacheKeys[this.hashCode(path)];
     }
   }
 

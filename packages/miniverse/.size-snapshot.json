@@ -72,9 +72,9 @@
     "gzipped": 16682
   },
   "esm/react-miniverse.js": {
-    "bundled": 31974,
-    "minified": 13760,
-    "gzipped": 3958,
+    "bundled": 32059,
+    "minified": 13564,
+    "gzipped": 3899,
     "treeshaked": {
       "rollup": {
         "code": 340,
@@ -86,13 +86,13 @@
     }
   },
   "umd/react-miniverse.js": {
-    "bundled": 221223,
-    "minified": 64443,
-    "gzipped": 17548
+    "bundled": 221310,
+    "minified": 64265,
+    "gzipped": 17488
   },
   "umd/react-miniverse.min.js": {
-    "bundled": 187528,
-    "minified": 54087,
-    "gzipped": 14654
+    "bundled": 187615,
+    "minified": 53909,
+    "gzipped": 14595
   }
 }
