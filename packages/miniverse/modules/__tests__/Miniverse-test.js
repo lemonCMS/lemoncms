@@ -90,8 +90,8 @@ describe('Miniverse should be invalid', () => {
           '412672594': { github: true },
           '1632309109': { github: true },
           cache: {
-            '412672594': {key: '1132654554', expire: Date.now() + (3600 * 1000)},
-            '1632309109': {key: true, expire: Date.now() + (3600 * 1000)}
+            '412672594': { key: '1132654554', expire: Date.now() + (3600 * 1000) },
+            '1632309109': { key: true, expire: Date.now() + (3600 * 1000) }
           }
         }
     };
@@ -132,8 +132,8 @@ describe('Miniverse should be invalid', () => {
           '412672594': { github: true },
           '1632309109': { github: true },
           cache: {
-            '412672594': {key: '1132654554', expire: Date.now() - (3600 * 1000)},
-            '1632309109': {key: true, expire: Date.now() + (3600 * 1000)}
+            '412672594': { key: '1132654554', expire: Date.now() - (3600 * 1000) },
+            '1632309109': { key: true, expire: Date.now() + (3600 * 1000) }
           }
         }
     };
@@ -146,20 +146,27 @@ describe('Miniverse should be invalid', () => {
       .subscribe((tmpData) => {
         expect(tmpData.Github['111578632']).toBeTruthy();
       });
-
     miniverse.getService('Github')
-      .getUsersCacheBoolean()
-      .subscribe();
+      .watchUsers()
+      .subscribe(data => {
+        expect(data).toEqual({});
+      });
+
     process.nextTick(() => {
       miniverse.getService('Github')
-        .getUsersCacheObject({ page: 1 })
+        .getUsersCacheBoolean()
         .subscribe();
-      expect(ajax).toHaveBeenCalledTimes(1);
-
       process.nextTick(() => {
-        miniverse.eject().subscribe(next => {
-          done();
-        },);
+        miniverse.getService('Github')
+          .getUsersCacheObject({ page: 1 })
+          .subscribe();
+        expect(ajax).toHaveBeenCalledTimes(1);
+
+        process.nextTick(() => {
+          miniverse.eject().subscribe(next => {
+            done();
+          },);
+        });
       });
     });
   });

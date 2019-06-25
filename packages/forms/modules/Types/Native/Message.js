@@ -14,7 +14,6 @@ const Message = props => {
     },
     children
   } = props;
-
   if (type === 'success') {
     if (valid && submitSucceeded) {
       return <div className={classNames(['message-success', className])}>{children}</div>;
