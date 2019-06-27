@@ -78,7 +78,7 @@ const esm = [
   }
 ];
 
-const globals = { react: "React", 'rxjs/ajax': 'ajax'};
+const globals = { react: "React", 'rxjs/ajax': 'ajax', 'react-router': 'ReactRouter'};
 
 const umd = [
   {

@@ -72,27 +72,27 @@
     "gzipped": 16682
   },
   "esm/react-miniverse.js": {
-    "bundled": 32949,
-    "minified": 13934,
-    "gzipped": 4011,
+    "bundled": 41401,
+    "minified": 18193,
+    "gzipped": 5188,
     "treeshaked": {
       "rollup": {
-        "code": 340,
-        "import_statements": 334
+        "code": 5536,
+        "import_statements": 690
       },
       "webpack": {
-        "code": 1694
+        "code": 7202
       }
     }
   },
   "umd/react-miniverse.js": {
-    "bundled": 222280,
-    "minified": 64635,
-    "gzipped": 17605
+    "bundled": 270154,
+    "minified": 78974,
+    "gzipped": 22280
   },
   "umd/react-miniverse.min.js": {
-    "bundled": 188585,
-    "minified": 54279,
-    "gzipped": 14703
+    "bundled": 236459,
+    "minified": 68618,
+    "gzipped": 19351
   }
 }

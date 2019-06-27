@@ -32,4 +32,5 @@ export { default as Store } from "./Store";
 export { default as provideHooks } from "./provideHooks";
 export { default as withMiniverse } from "./withMiniverse";
 export { ApiService as ApiService } from "./ApiService";
+export { default as AsyncConnect } from "./AsyncConnect";
 
