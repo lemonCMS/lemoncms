@@ -171,9 +171,9 @@ describe('Miniverse', () => {
         of({ response: { data: { page: 2 } } })
       );
 
-    sP.getService('Github').getUsersCacheObject({page: 1});
-    sP.getService('Github').getUsersCacheObject({page: 1});
-    sP.getService('Github').getUsersCacheObject({page: 2});
+    sP.getService('Github').getUsersCacheObject({ page: 1 });
+    sP.getService('Github').getUsersCacheObject({ page: 1 });
+    sP.getService('Github').getUsersCacheObject({ page: 2 });
     expect(ajax).toHaveBeenCalledTimes(2);
 
   });

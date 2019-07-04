@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import provideHooks from '../../provideHooks';
 import withSummer from '../../withMiniverse';
-import {of} from 'rxjs';
+import { of } from 'rxjs';
 
 let i = 0;
+
 @provideHooks({
   fetch: () => {
-    return of(1,2,3,4,5,6)
+    return of(1, 2, 3, 4, 5, 6)
   }
 })
 @withSummer({

@@ -117,10 +117,10 @@ class Store {
    * @param resource
    * @param component
    */
-  unsubscribe(resource, component) {
-    if (this.locations[resource] && this.locations[resource][component]) {
-      this.locations[resource][component].unsubscribe();
-      delete this.locations[resource][component];
+  unsubscribe(resource, componentName) {
+    if (this.locations[resource] && this.locations[resource][componentName]) {
+      this.locations[resource][componentName].unsubscribe();
+      delete this.locations[resource][componentName];
     }
   }
 
@@ -128,12 +128,12 @@ class Store {
    *
    * @param component
    */
-  unsubscribeByComponent(component) {
+  unsubscribeByComponent(componentName) {
     Object.keys(this.locations).forEach(resource => {
       if (typeof this.locations[resource] !== 'undefined') {
-        if (typeof this.locations[resource][component] !== 'undefined') {
-          this.locations[resource][component].unsubscribe();
-          delete this.locations[resource][component];
+        if (typeof this.locations[resource][componentName] !== 'undefined') {
+          this.locations[resource][componentName].unsubscribe();
+          delete this.locations[resource][componentName];
         }
       }
     });
@@ -146,11 +146,11 @@ class Store {
    * @param component
    * @param subscription
    */
-  inMemory(resource, component, subscription) {
+  inMemory(resource, componentName, subscription) {
     if (typeof this.locations[resource] === 'undefined') {
       this.locations[resource] = {};
     }
-    this.locations[resource][component] = subscription;
+    this.locations[resource][componentName] = subscription;
   }
 
   /**
@@ -168,10 +168,12 @@ class Store {
    * @param component
    * @param callback
    */
-  watch = (resource, component, callback) => {
-    this.unsubscribe(resource, component);
+  watch = (resource, componentName = null, callback = null) => {
+    this.unsubscribe(resource, componentName);
     const subject = this.createSubject(resource);
-    this.inMemory(resource, component, subject.subscribe(callback));
+    if (callback) {
+      this.inMemory(resource, componentName, subject.subscribe(callback));
+    }
     return subject;
   };
 
@@ -394,6 +396,19 @@ class Store {
   delete = ({ path, query, params, headers, ...rest }) => {
     const subject = this.createSubject(path, query);
     this.runApi('delete', { path, query, headers, ...rest }, subject);
+    return subject;
+  };
+
+  /**
+   * push data in store
+   *
+   * @param path
+   * @param data
+   * @returns {*}
+   */
+  push = ({ path, data }) => {
+    const subject = this.createSubject(path);
+    subject.next(data);
     return subject;
   };
 

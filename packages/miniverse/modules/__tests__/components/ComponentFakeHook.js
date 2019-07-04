@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import provideHooks from '../../provideHooks';
 import withMiniverse from '../../withMiniverse';
+
 let i = 0;
+
 @provideHooks({
   fetch: 'a string!!'
 })

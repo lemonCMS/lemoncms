@@ -1,7 +1,10 @@
 /* eslint react/no-unused-state: "off" */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Route, withRouter } from 'react-router';
+import {
+  Route,
+  withRouter
+} from 'react-router';
 import NProgress from 'nprogress';
 import RunHooks from './runHooks';
 import asyncMatchRoutes from './asyncMatchRoutes';

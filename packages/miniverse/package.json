@@ -1,6 +1,6 @@
 {
 	"name": "react-miniverse",
-	"version": "0.0.27",
+	"version": "0.0.28",
 	"description": "rxjs state manager for React",
 	"repository": "https://github.com/lemonCMS/lemoncms/tree/master/packages/miniverse",
 	"license": "MIT",
@@ -29,6 +29,7 @@
 	},
 	"dependencies": {
 		"@babel/runtime": "^7.4.5",
+		"core-js": "^3.1.4",
 		"events": "^3.0.0",
 		"fast-equals": "^2.0.0",
 		"nprogress": "^0.2.0",
@@ -36,6 +37,7 @@
 		"query-string": "^6.7.0",
 		"react-router": "^5.0.1",
 		"react-router-config": "^5.0.1",
+		"regenerator-runtime": "^0.13.2",
 		"tiny-warning": "^1.0.0",
 		"xhr2": "^0.2.0"
 	},

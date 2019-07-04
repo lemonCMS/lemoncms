@@ -17,15 +17,15 @@ class Github extends Store {
   }
 
   getUsers() {
-    return this.get({path: 'users'});
+    return this.get({ path: 'users' });
   }
 
   getUsersCacheBoolean() {
-    return this.get({path: 'api-boolean', cacheKey: true});
+    return this.get({ path: 'api-boolean', cacheKey: true });
   }
 
   getUsersCacheObject(query) {
-    return this.get({path: 'api-object', query, cacheKey: {page: query.page}});
+    return this.get({ path: 'api-object', query, cacheKey: { page: query.page } });
   }
 
   watchUsers(location, callback) {
@@ -35,6 +35,15 @@ class Github extends Store {
   resetUsers() {
     return this.reset('users');
   }
+
+  pushState(data) {
+    this.push({ path: 'state', data });
+  }
+
+  watchState(componentName) {
+    return this.watch('state', componentName);
+  }
+
 }
 
 export default Github;

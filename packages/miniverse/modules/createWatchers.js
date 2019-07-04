@@ -36,14 +36,14 @@ const unsubscribeMiniverse = (deepLocation, miniverse, serviceName, conf) => {
   const service = miniverse.getService(capitalizeFirstLetter(serviceName));
   if (service) {
     service.unsubscribeByComponent(`${deepLocation}-constructor`);
-/*    conf.watch[serviceName].forEach(watcher => {
-      const watchFunction = `watch${capitalizeFirstLetter(watcher)}`;
-      if (typeof service[watchFunction] !== 'function') {
-        console.error(`Tried to unsubscribe ${watchFunction} in a service that does not exists ${serviceName}.`);
-        return null;
-      }
-      service.unsubscribeByComponent(`${deepLocation}-constructor`);
-    });*/
+    /*    conf.watch[serviceName].forEach(watcher => {
+          const watchFunction = `watch${capitalizeFirstLetter(watcher)}`;
+          if (typeof service[watchFunction] !== 'function') {
+            console.error(`Tried to unsubscribe ${watchFunction} in a service that does not exists ${serviceName}.`);
+            return null;
+          }
+          service.unsubscribeByComponent(`${deepLocation}-constructor`);
+        });*/
   }
 };
 

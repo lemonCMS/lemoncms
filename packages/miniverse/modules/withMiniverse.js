@@ -114,7 +114,7 @@ export default (conf = null) => Component => {
         this.data = oldState;
         if (this.mounted) {
           const { updated } = this.state;
-          this.setState({updated: updated + 1});
+          this.setState({ updated: updated + 1 });
         }
       }
     };

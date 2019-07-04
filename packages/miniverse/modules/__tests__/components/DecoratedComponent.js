@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import provideHooks from '../../provideHooks';
 import withSummer from '../../withMiniverse';
+
 let i = 0;
+
 @provideHooks({
   fetch: ({ miniverse }) => {
     return miniverse.zip(

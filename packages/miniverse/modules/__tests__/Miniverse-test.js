@@ -77,12 +77,9 @@ describe('Miniverse should be invalid', () => {
         done();
 
       });
-
-
   });
 
   test('should inject github data', (done) => {
-
     const data = {
       Github:
         {
@@ -222,4 +219,20 @@ describe('Miniverse should be invalid', () => {
     });
   });
 
+  test('should store data without api call', (done) => {
+    const miniverse = new Miniverse({ Github });
+    miniverse
+      .getService('Github')
+      .pushState({ totalLoaded: 30 });
+
+    process.nextTick(() => {
+      miniverse
+        .getService('Github')
+        .watchState('home')
+        .subscribe(data => {
+          expect(data.totalLoaded).toEqual(30);
+          done();
+        });
+    });
+  });
 });

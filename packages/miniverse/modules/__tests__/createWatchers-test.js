@@ -1,7 +1,7 @@
 import {
   createWatchers,
-  unsubscribeWatchers,
-  Miniverse
+  Miniverse,
+  unsubscribeWatchers
 } from 'miniverse';
 import Github from './__mock__/Github-mock';
 import { ajax } from 'rxjs/ajax';
@@ -9,6 +9,7 @@ import {
   of,
   throwError
 } from 'rxjs';
+
 jest.mock("rxjs/ajax");
 
 const miniverse = new Miniverse({
@@ -69,9 +70,9 @@ describe('CreateWatchers', () => {
       .getService('Github')
       .getUsers()
       .subscribe((data) => {
-        expect(data.results[0]).toBe('cat.jpg');
-      }
-    );
+          expect(data.results[0]).toBe('cat.jpg');
+        }
+      );
   });
 
   test('should have called callback error', done => {
@@ -80,7 +81,8 @@ describe('CreateWatchers', () => {
     );
 
     const callBack = {
-      next: () => {},
+      next: () => {
+      },
       error: () => {
         done();
       }

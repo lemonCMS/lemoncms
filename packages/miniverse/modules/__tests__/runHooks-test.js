@@ -9,7 +9,6 @@ import ComponentThatDoesToMuch from './components/ComponentThatDoesToMuch';
 import ComponentWithError from './components/ComponentWithError';
 import WatchComponent from './components/WatchComponent';
 import PlainComponent from './components/PlainComponent';
-import mockTinyWarning from 'tiny-warning';
 import MiniverseContext from '../MiniverseContext';
 import { ajax } from 'rxjs/ajax';
 import { of } from 'rxjs';
