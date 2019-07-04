@@ -173,6 +173,8 @@ class Store {
     const subject = this.createSubject(resource);
     if (callback) {
       this.inMemory(resource, componentName, subject.subscribe(callback));
+    } else {
+      this.inMemory(resource, componentName, subject)
     }
     return subject;
   };
