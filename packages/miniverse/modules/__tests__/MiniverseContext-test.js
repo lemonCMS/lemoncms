@@ -12,6 +12,7 @@ import {
   of,
   throwError
 } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 jest.mock("rxjs/ajax");
 
@@ -62,6 +63,12 @@ describe('Miniverse', () => {
     });
   });
 
+  test("SJust some stuff to get to 100% store.js", (done) => {
+    expect(sP.getService('Github').getSubscription('mock1', 'mock2')).toBeNull();
+    sP.getService('Github').importSubject('xxxx');
+    sP.getService('Github').importSubject('xxxx');
+    done();
+  });
 
   test("Should fetch, watch and render Github users", (done) => {
     ajax.mockImplementationOnce(() =>
@@ -70,7 +77,8 @@ describe('Miniverse', () => {
       })
     );
 
-    sP.getService('Github').getUsers();
+    sP.getService('Github').getUsers().subscribe(() => {
+    });
 
     const component = mount(<Mock />);
 
@@ -80,7 +88,7 @@ describe('Miniverse', () => {
       const subjects = sP.getService('Github').getLocations();
       expect(Object.keys(sP.getService('Github').getLocations())).toHaveLength(1);
       Object.keys(subjects).forEach(resource => {
-        expect(Object.keys(subjects[resource])).toHaveLength(1)
+        expect(Object.keys(subjects[resource])).toHaveLength(2)
       });
 
 
@@ -91,12 +99,13 @@ describe('Miniverse', () => {
       // expect(component.find('span').text()).toEqual("1");
       process.nextTick(() => {
         component.unmount();
-
-        expect(Object.keys(subjects)).toHaveLength(1);
-        Object.keys(subjects).forEach(resource => {
-          expect(Object.keys(subjects[resource])).toHaveLength(0)
+        process.nextTick(() => {
+          expect(Object.keys(subjects)).toHaveLength(1);
+          Object.keys(subjects).forEach(resource => {
+            expect(Object.keys(subjects[resource])).toHaveLength(1)
+          });
+          done();
         });
-        done();
       });
     });
   });
@@ -111,17 +120,18 @@ describe('Miniverse', () => {
       )
     ;
 
-    sP.getService('Github').getUsers();
+    console.log = jest.fn();
+    const sub$ = sP.getService('Github').getUsers().pipe(tap(console.log)).subscribe();
 
     const component = mount(<Mock />);
-
     expect(ajax).toHaveBeenCalledTimes(1);
 
     process.nextTick(() => {
+      expect(console.log).toHaveBeenCalled();
       const subjects = sP.getService('Github').getLocations();
       expect(Object.keys(sP.getService('Github').getLocations())).toHaveLength(1);
       Object.keys(subjects).forEach(resource => {
-        expect(Object.keys(subjects[resource])).toHaveLength(1)
+        expect(Object.keys(subjects[resource])).toHaveLength(2)
       });
 
       let wrapped = null;
@@ -144,6 +154,7 @@ describe('Miniverse', () => {
           component.update();
           wrapped = component.find('TestComponent');
           expect(wrapped.props().github.users).toEqual(null);
+          sub$.unsubscribe();
           done();
         });
       });

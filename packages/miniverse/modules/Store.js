@@ -146,12 +146,27 @@ class Store {
    * @param component
    * @param subscription
    */
-  inMemory(resource, componentName, subscription) {
+  setSubScription(resource, componentName, subscription) {
     if (typeof this.locations[resource] === 'undefined') {
       this.locations[resource] = {};
     }
     this.locations[resource][componentName] = subscription;
   }
+
+  hasSubscription(resource, componentName) {
+    if (this.locations[resource] && this.locations[resource][componentName]) {
+      return true;
+    }
+    return false;
+  }
+
+  getSubscription(resource, componentName) {
+    if (this.locations[resource] && this.locations[resource][componentName]) {
+      return this.locations[resource][componentName];
+    }
+    return null;
+  }
+
 
   /**
    *
@@ -166,17 +181,11 @@ class Store {
    *
    * @param resource
    * @param component
-   * @param callback
    */
-  watch = (resource, componentName = null, callback = null) => {
+  watch = (resource, componentName = '__watch') => {
     this.unsubscribe(resource, componentName);
     const subject = this.createSubject(resource);
-    if (callback) {
-      this.inMemory(resource, componentName, subject.subscribe(callback));
-    } else {
-      this.inMemory(resource, componentName, subject)
-    }
-    return subject;
+    return this.wrapSubject(resource, componentName, subject);
   };
 
   /**
@@ -269,10 +278,6 @@ class Store {
       return false;
     }
 
-    if (typeof cacheKey === 'undefined') {
-      return false
-    }
-
     if (typeof cacheKey === 'boolean') {
       return key;
     }
@@ -335,7 +340,7 @@ class Store {
   get = ({ path, query, headers, reload, cacheKey, ...rest }) => {
     const subject = this.createSubject(path, cacheKey);
     this.runApi('get', { path, query, headers, cacheKey, ...rest }, subject);
-    return subject;
+    return this.wrapSubject(path, '__get', subject);
   };
 
   /**
@@ -351,7 +356,7 @@ class Store {
   put = ({ path, query, params, headers, cacheKey, ...rest }) => {
     const subject = this.createSubject(path, cacheKey);
     this.runApi('put', { path, query, headers, cacheKey, ...rest }, subject);
-    return subject;
+    return this.wrapSubject(path, '__put', subject);
   };
 
   /**
@@ -367,7 +372,7 @@ class Store {
   post = ({ path, query, params, headers, cacheKey, ...rest }) => {
     const subject = this.createSubject(path, cacheKey);
     this.runApi('post', { path, query, headers, cacheKey, ...rest }, subject);
-    return subject;
+    return this.wrapSubject(path, '__post', subject);
   };
 
   /**
@@ -383,7 +388,7 @@ class Store {
   patch = ({ path, query, params, headers, cacheKey, ...rest }) => {
     const subject = this.createSubject(path, cacheKey);
     this.runApi('patch', { path, query, headers, cacheKey, ...rest }, subject);
-    return subject;
+    return this.wrapSubject(path, '__patch', subject);
   };
 
   /**
@@ -396,9 +401,9 @@ class Store {
    * @returns {*}
    */
   delete = ({ path, query, params, headers, ...rest }) => {
-    const subject = this.createSubject(path, query);
+    const subject = this.createSubject(path);
     this.runApi('delete', { path, query, headers, ...rest }, subject);
-    return subject;
+    return this.wrapSubject(path, '__delete', subject);
   };
 
   /**
@@ -411,8 +416,30 @@ class Store {
   push = ({ path, data }) => {
     const subject = this.createSubject(path);
     subject.next(data);
-    return subject;
+    return this.wrapSubject(path, '__push', subject);
   };
+
+  wrapSubject(path, componentName, subject) {
+    return {
+      pipe: (...rest) => {
+        return this.wrapSubject(path, componentName, subject.pipe(...rest));
+      },
+      subscribe: (...rest) => {
+        if (!this.hasSubscription(path, componentName)) {
+          const sub$ = subject.subscribe(...rest);
+          this.setSubScription(path, componentName, sub$);
+          return sub$;
+        }
+        return this.getSubscription(path, componentName);
+      },
+      subject: () => {
+        if (!this.hasSubscription(path, componentName)) {
+          this.setSubScription(path, componentName, subject);
+          return subject;
+        }
+      }
+    }
+  }
 
   /**
    *
@@ -433,7 +460,7 @@ class Store {
     }
 
     let hash = 0;
-    if (string.length == 0) {
+    if (string.length === 0) {
       return hash;
     }
     for (let i = 0; i < string.length; i++) {

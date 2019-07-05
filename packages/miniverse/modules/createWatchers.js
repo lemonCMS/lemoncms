@@ -17,33 +17,18 @@ const callMiniVerse = (deepLocation, miniverse, serviceName, conf, callback) => 
   const service = miniverse.getService(capitalizeFirstLetter(serviceName));
   if (service) {
     conf.watch[serviceName].forEach(watcher => {
-      // const watchFunction = `watch${capitalizeFirstLetter(watcher)}`;
-      const composedCB = {
-        next: data => callback.next(serviceName, watcher, data),
-        error: error => callback.error(serviceName, watcher, error)
-      };
-      watchers.push(service.watch(watcher, `${deepLocation}-constructor`, composedCB));
-      /*if (typeof service[watchFunction] !== 'function') {
-        console.error(`Watcher ${watchFunction} does not exist in ${serviceName} service provider.`);
-        return null;
-      }
-      watchers.push(service[watchFunction](`${deepLocation}-constructor`, composedCB));*/
+      watchers.push(service.watch(watcher, `${deepLocation}-constructor`).subscribe(
+        next => callback.next(serviceName, watcher, next),
+        error => callback.error(serviceName, watcher, error)
+      ));
     });
   }
 };
 
-const unsubscribeMiniverse = (deepLocation, miniverse, serviceName, conf) => {
+const unsubscribeMiniverse = (deepLocation, miniverse, serviceName) => {
   const service = miniverse.getService(capitalizeFirstLetter(serviceName));
   if (service) {
     service.unsubscribeByComponent(`${deepLocation}-constructor`);
-    /*    conf.watch[serviceName].forEach(watcher => {
-          const watchFunction = `watch${capitalizeFirstLetter(watcher)}`;
-          if (typeof service[watchFunction] !== 'function') {
-            console.error(`Tried to unsubscribe ${watchFunction} in a service that does not exists ${serviceName}.`);
-            return null;
-          }
-          service.unsubscribeByComponent(`${deepLocation}-constructor`);
-        });*/
   }
 };
 

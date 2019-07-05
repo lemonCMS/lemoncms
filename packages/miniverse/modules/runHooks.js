@@ -76,7 +76,7 @@ export default class RunHooks {
   }, complete = () => {
   }) => {
     this.run();
-    this.sub$.subscribe({ next, error, complete });
+    this.sub$.subscribe(next, error, complete);
   };
 
   /**

@@ -8,7 +8,7 @@ let i = 0;
 @provideHooks({
   fetch: ({ miniverse }) => {
     return miniverse.zip(
-      miniverse.getService('Github').getUsers()
+      miniverse.getService('Github').getUsers().subject()
     );
   }
 })
