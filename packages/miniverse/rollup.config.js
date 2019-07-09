@@ -40,11 +40,13 @@ const cjs = [
     external: isBareModuleId,
     plugins: [
       json(),
-      babel({ exclude: [
+      babel({
+        exclude: [
           'node_modules/**',
           '**/*.json',
           '*.json'
-        ],}),
+        ],
+      }),
       replace({
         "process.env.NODE_ENV": JSON.stringify("production"),
         "process.env.BUILD_FORMAT": JSON.stringify("cjs")
@@ -63,11 +65,11 @@ const esm = [
     plugins: [
       json(),
       babel({
-          exclude: [
-            'node_modules/**',
-            '**/*.json',
-            '*.json'
-          ],
+        exclude: [
+          'node_modules/**',
+          '**/*.json',
+          '*.json'
+        ],
         runtimeHelpers: true,
         plugins: [["@babel/transform-runtime", { useESModules: true }]]
       }),
@@ -78,7 +80,7 @@ const esm = [
   }
 ];
 
-const globals = { react: "React", 'rxjs/ajax': 'ajax', 'react-router': 'ReactRouter'};
+const globals = { react: "React", 'rxjs/ajax': 'ajax', 'react-router': 'ReactRouter' };
 
 const umd = [
   {
@@ -102,7 +104,11 @@ const umd = [
         runtimeHelpers: true,
         plugins: [["@babel/transform-runtime", { useESModules: true }]]
       }),
-      nodeResolve({ jsnext: true, preferBuiltins: true, browser: true }),
+      nodeResolve({
+        mainFields: ['module', 'main', 'jsnext'],
+        preferBuiltins: true,
+        browser: true
+      }),
       commonjs({
         include: /node_modules/,
         namedExports: {
@@ -138,7 +144,11 @@ const umd = [
         runtimeHelpers: true,
         plugins: [["@babel/transform-runtime", { useESModules: true }]]
       }),
-      nodeResolve({ jsnext: true, preferBuiltins: true, browser: true }),
+      nodeResolve({
+        mainFields: ['module', 'main', 'jsnext'],
+        preferBuiltins: true,
+        browser: true
+      }),
       commonjs({
         include: /node_modules/,
         namedExports: {

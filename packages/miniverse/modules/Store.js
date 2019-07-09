@@ -115,7 +115,7 @@ class Store {
   /**
    *
    * @param resource
-   * @param component
+   * @param componentName
    */
   unsubscribe(resource, componentName) {
     if (this.locations[resource] && this.locations[resource][componentName]) {
@@ -126,7 +126,7 @@ class Store {
 
   /**
    *
-   * @param component
+   * @param componentName
    */
   unsubscribeByComponent(componentName) {
     Object.keys(this.locations).forEach(resource => {
@@ -143,7 +143,7 @@ class Store {
    * Keep track of all current watchers.
    *
    * @param resource
-   * @param component
+   * @param componentName
    * @param subscription
    */
   setSubScription(resource, componentName, subscription) {
@@ -153,13 +153,22 @@ class Store {
     this.locations[resource][componentName] = subscription;
   }
 
+  /**
+   *
+   * @param resource
+   * @param componentName
+   * @returns {*}
+   */
   hasSubscription(resource, componentName) {
-    if (this.locations[resource] && this.locations[resource][componentName]) {
-      return true;
-    }
-    return false;
+    return (this.locations[resource] && this.locations[resource][componentName]);
   }
 
+  /**
+   *
+   * @param resource
+   * @param componentName
+   * @returns {null|*}
+   */
   getSubscription(resource, componentName) {
     if (this.locations[resource] && this.locations[resource][componentName]) {
       return this.locations[resource][componentName];
@@ -383,7 +392,7 @@ class Store {
    * @param headers
    * @param cacheKey
    * @param rest
-   * @returns {*|Observable<AjaxResponse>|AjaxObservable|Promise<AxiosResponse<T>>}
+   * @returns {{subscribe: subscribe, subject: subject, pipe: (function(...[*]): {subscribe: subscribe, subject: subject, pipe})}}
    */
   patch = ({ path, query, params, headers, cacheKey, ...rest }) => {
     const subject = this.createSubject(path, cacheKey);
@@ -443,7 +452,7 @@ class Store {
 
   /**
    *
-   * @param callback
+   * @param config
    */
   setConfCallback(config) {
     this.config = Object.assign({}, this.config, config);
