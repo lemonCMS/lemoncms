@@ -1,14 +1,14 @@
-import React, { createContext } from 'react';
-import _assertThisInitialized from '@babel/runtime/helpers/esm/assertThisInitialized';
-import _inheritsLoose from '@babel/runtime/helpers/esm/inheritsLoose';
-import PropTypes from 'prop-types';
-import { FormSpy, Form, Field } from 'react-final-form';
-import _isFunction from 'lodash/isFunction';
 import _extends from '@babel/runtime/helpers/esm/extends';
 import _objectWithoutPropertiesLoose from '@babel/runtime/helpers/esm/objectWithoutPropertiesLoose';
+import React, { createContext } from 'react';
+import PropTypes from 'prop-types';
+import { FormSpy, Form as Form$1, Field } from 'react-final-form';
+import _assertThisInitialized from '@babel/runtime/helpers/esm/assertThisInitialized';
+import _inheritsLoose from '@babel/runtime/helpers/esm/inheritsLoose';
+import _isFunction from 'lodash/isFunction';
 import classNames from 'classnames';
-import axios from 'axios';
 import Dropzone from 'react-dropzone';
+import axios from 'axios';
 
 var AppContext = createContext({});
 
@@ -134,14 +134,14 @@ ContextWrapper.defaultProps = {
   debug: false
 };
 
-var Form$1 = function Form$$1(props) {
+var Form = function Form(props) {
   var children = props.children,
       className = props.className,
       debug = props.debug,
       listen = props.listen,
       formProps = _objectWithoutPropertiesLoose(props, ["children", "className", "debug", "listen"]);
 
-  return React.createElement(Form, _extends({}, formProps, {
+  return React.createElement(Form$1, _extends({}, formProps, {
     render: function render(_ref) {
       var handleSubmit = _ref.handleSubmit,
           rest = _objectWithoutPropertiesLoose(_ref, ["handleSubmit"]);
@@ -157,7 +157,7 @@ var Form$1 = function Form$$1(props) {
   }));
 };
 
-Form$1.propTypes = {
+Form.propTypes = {
   className: PropTypes.string,
   validate: PropTypes.func,
   onSubmit: PropTypes.func.isRequired,
@@ -166,7 +166,7 @@ Form$1.propTypes = {
   listen: PropTypes.func,
   initialValues: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.array, PropTypes.object]))
 };
-Form$1.defaultProps = {
+Form.defaultProps = {
   className: '',
   validate: function validate() {},
   listen: function listen() {},
@@ -826,4 +826,4 @@ Textarea.defaultProps = {
 };
 var Textarea$1 = Context(Context$1(Textarea));
 
-export { Form$1 as Form, Checkbox$1 as Checkbox, Condition$1 as Condition, Password$1 as Password, Radio$1 as Radio, Select$1 as Select, Text$1 as Text, Textarea$1 as Textarea, DropZone$1 as DropZone };
+export { Checkbox$1 as Checkbox, Condition$1 as Condition, DropZone$1 as DropZone, Form, Password$1 as Password, Radio$1 as Radio, Select$1 as Select, Text$1 as Text, Textarea$1 as Textarea };

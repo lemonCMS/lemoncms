@@ -10,8 +10,8 @@ var PropTypes = _interopDefault(require('prop-types'));
 var reactFinalForm = require('react-final-form');
 var _isFunction = _interopDefault(require('lodash/isFunction'));
 var classNames = _interopDefault(require('classnames'));
-var axios = _interopDefault(require('axios'));
 var Dropzone = _interopDefault(require('react-dropzone'));
+var axios = _interopDefault(require('axios'));
 
 function _extends() {
   _extends = Object.assign || function (target) {
@@ -876,12 +876,12 @@ Textarea.defaultProps = {
 };
 var Textarea$1 = Context(Context$1(Textarea));
 
-exports.Form = Form;
 exports.Checkbox = Checkbox$1;
 exports.Condition = Condition$1;
+exports.DropZone = DropZone$1;
+exports.Form = Form;
 exports.Password = Password$1;
 exports.Radio = Radio$1;
 exports.Select = Select$1;
 exports.Text = Text$1;
 exports.Textarea = Textarea$1;
-exports.DropZone = DropZone$1;

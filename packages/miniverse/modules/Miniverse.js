@@ -21,12 +21,6 @@ class Miniverse {
 
   /**
    *
-   * @type zip
-   */
-  zip = zip;
-
-  /**
-   *
    * @type {{}}
    */
   helpers = {};
@@ -180,6 +174,16 @@ class Miniverse {
       });
     });
     return subject;
+  };
+
+  zip(...rest) {
+    const toZip = rest.map(apiCall => {
+      if (typeof apiCall === 'object' && typeof apiCall.subject === 'function') {
+        return apiCall.subject();
+      }
+      return apiCall;
+    });
+    return zip(...toZip);
   }
 }
 

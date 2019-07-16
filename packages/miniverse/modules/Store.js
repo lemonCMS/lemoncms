@@ -444,8 +444,8 @@ class Store {
       subject: () => {
         if (!this.hasSubscription(path, componentName)) {
           this.setSubScription(path, componentName, subject);
-          return subject;
         }
+        return subject;
       }
     }
   }

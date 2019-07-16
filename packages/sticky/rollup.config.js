@@ -97,7 +97,11 @@ const umd = [
         runtimeHelpers: true,
         plugins: [["@babel/transform-runtime", { useESModules: true }]]
       }),
-      nodeResolve({ jsnext: true, preferBuiltins: true, browser: true }),
+      nodeResolve({
+        mainFields: ['module', 'main', 'jsnext'],
+        preferBuiltins: true,
+        browser: true
+      }),
       commonjs({
         include: /node_modules/,
         namedExports: {
@@ -131,7 +135,11 @@ const umd = [
         runtimeHelpers: true,
         plugins: [["@babel/transform-runtime", { useESModules: true }]]
       }),
-      nodeResolve({ jsnext: true, preferBuiltins: true, browser: true }),
+      nodeResolve({
+        mainFields: ['module', 'main', 'jsnext'],
+        preferBuiltins: true,
+        browser: true
+      }),
       commonjs({
         include: /node_modules/,
         namedExports: {
