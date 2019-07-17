@@ -13,7 +13,7 @@ exports[`Miniverse Should just log error 1`] = `
 <div>
   Rendered: 
   <span>
-    1
+    2
   </span>
    
   {"users":"error"}

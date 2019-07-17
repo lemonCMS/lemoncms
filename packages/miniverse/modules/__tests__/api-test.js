@@ -190,7 +190,7 @@ describe('Api', () => {
           expect(ajax).toHaveBeenCalledWith(expect.objectContaining({
             "crossDomain": true,
             "headers": expect.objectContaining({
-              'Authentication': 'Bearer ABC-123-rrtt-xyz'
+              'Authorization': 'Bearer ABC-123-rrtt-xyz'
             })
           }));
           done();

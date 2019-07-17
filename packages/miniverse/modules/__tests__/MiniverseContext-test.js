@@ -50,16 +50,19 @@ describe('Miniverse', () => {
     ajax.mockImplementationOnce(() =>
       throwError('error')
     );
-    sP.getService('Github').getUsers();
+
 
     const tree = renderer
       .create(<Mock />);
-    expect(ajax).toHaveBeenCalledTimes(1);
     process.nextTick(() => {
-      const output = tree.toJSON();
-      expect(output).toMatchSnapshot();
-      expect(mockTinyWarning).toBeCalled();
-      done();
+      sP.getService('Github').getUsers();
+      expect(ajax).toHaveBeenCalledTimes(1);
+      process.nextTick(() => {
+        const output = tree.toJSON();
+        expect(output).toMatchSnapshot();
+        expect(mockTinyWarning).toBeCalled();
+        done();
+      });
     });
   });
 

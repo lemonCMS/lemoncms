@@ -181,7 +181,7 @@ export class ApiService {
     }
 
     return {
-      'Authentication': `Bearer ${this.token}`
+      'Authorization': `Bearer ${this.token}`
     };
   }
 

@@ -102,7 +102,10 @@ class Store {
     const hash = this.hashCode(url);
 
     if (this.subjects[hash]) {
-      return this.subjects[hash];
+      if (!this.subjects[hash].isStopped) {
+        return this.subjects[hash];
+      }
+      delete this.subjects[hash];
     }
 
     /**
@@ -229,7 +232,7 @@ class Store {
    * @param rest
    * @param subject
    */
-  runApi = (type, { path, query, body, headers, name, cacheKey, ...rest }, subject) => {
+  runApi = (type, { path, query, body, headers, name, cacheKey, single, ...rest }, subject) => {
     /**
      * Clear running request to the same endpoint
      * @type {number}
@@ -254,6 +257,9 @@ class Store {
       request => {
         this.emit(type, 'next', { path });
         subject.next(request.response);
+        if (single === true) {
+          subject.complete();
+        }
       },
       error => {
         this.emit(type, 'error', { path });
@@ -261,6 +267,9 @@ class Store {
         this.deleteCache(path);
       },
       () => {
+        if (single === true) {
+          subject.complete();
+        }
         delete this.requestSubjects[hashCode];
       }
     );
@@ -362,9 +371,9 @@ class Store {
    * @param rest
    * @returns {*}
    */
-  put = ({ path, query, params, headers, cacheKey, ...rest }) => {
+  put = ({ path, query, body, headers, cacheKey, ...rest }) => {
     const subject = this.createSubject(path, cacheKey);
-    this.runApi('put', { path, query, headers, cacheKey, ...rest }, subject);
+    this.runApi('put', { path, query, body, headers, cacheKey, ...rest }, subject);
     return this.wrapSubject(path, '__put', subject);
   };
 
@@ -378,11 +387,28 @@ class Store {
    * @param rest
    * @returns {*}
    */
-  post = ({ path, query, params, headers, cacheKey, ...rest }) => {
+  post = ({ path, query, body, headers, cacheKey, ...rest }) => {
     const subject = this.createSubject(path, cacheKey);
-    this.runApi('post', { path, query, headers, cacheKey, ...rest }, subject);
+    this.runApi('post', { path, query, body, headers, cacheKey, ...rest }, subject);
     return this.wrapSubject(path, '__post', subject);
   };
+
+  /**
+   *
+   * @param type
+   * @param path
+   * @param query
+   * @param body
+   * @param headers
+   * @param cacheKey
+   * @param rest
+   * @returns {*}
+   */
+  request(type, { path, query, body, headers, cacheKey, ...rest }) {
+    const subject = this.createSubject(path, cacheKey);
+    this.runApi(type, { path, query, body, headers, cacheKey, ...rest }, subject);
+    return subject;
+  }
 
   /**
    *
@@ -394,9 +420,9 @@ class Store {
    * @param rest
    * @returns {{subscribe: subscribe, subject: subject, pipe: (function(...[*]): {subscribe: subscribe, subject: subject, pipe})}}
    */
-  patch = ({ path, query, params, headers, cacheKey, ...rest }) => {
+  patch = ({ path, query, body, headers, cacheKey, ...rest }) => {
     const subject = this.createSubject(path, cacheKey);
-    this.runApi('patch', { path, query, headers, cacheKey, ...rest }, subject);
+    this.runApi('patch', { path, query, body, headers, cacheKey, ...rest }, subject);
     return this.wrapSubject(path, '__patch', subject);
   };
 
@@ -409,9 +435,9 @@ class Store {
    * @param rest
    * @returns {*}
    */
-  delete = ({ path, query, params, headers, ...rest }) => {
+  delete = ({ path, query, body, headers, ...rest }) => {
     const subject = this.createSubject(path);
-    this.runApi('delete', { path, query, headers, ...rest }, subject);
+    this.runApi('delete', { path, query, body, headers, ...rest }, subject);
     return this.wrapSubject(path, '__delete', subject);
   };
 
@@ -446,6 +472,9 @@ class Store {
           this.setSubScription(path, componentName, subject);
         }
         return subject;
+      },
+      toPromise: () => {
+        return subject.toPromise();
       }
     }
   }
@@ -484,6 +513,14 @@ class Store {
     if (this.config.events === true) {
       this.miniverse.getEventService().emit(type, { store: this.constructor.name, value, type, ...rest });
     }
+  }
+
+  /**
+   * Set authorization token for all registered services.
+   * @param token
+   */
+  setJwtToken(token) {
+    this.getApiService().setJwtToken(token);
   }
 }
 
