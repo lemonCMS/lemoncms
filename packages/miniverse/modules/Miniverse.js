@@ -164,8 +164,23 @@ class Miniverse {
     }
 
     toExport.forEach(key => {
+      if (subjects[key].isStopped) { // When subject isStopped there wil be no next or complete events.
+        nextAfter -= 1;
+        if (nextAfter <= 0) {
+          subject.next(preparedExport);
+          subject.complete();
+        }
+        return;
+      }
+
       subjects[key].subscribe(data => {
         preparedExport[key] = data;
+        nextAfter -= 1;
+        if (nextAfter <= 0) {
+          subject.next(preparedExport);
+          subject.complete();
+        }
+      }, () => { // when there is an error
         nextAfter -= 1;
         if (nextAfter <= 0) {
           subject.next(preparedExport);

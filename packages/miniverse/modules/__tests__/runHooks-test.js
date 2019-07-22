@@ -36,8 +36,6 @@ describe('RunHooks should do it', () => {
     const rick = new RunHooks('fetch', components, providers);
     rick.subscribe(() => {
       done();
-
-
       process.nextTick(() => {
         initiatedServiceProvider.eject().subscribe((data) => {
           expect(data.Github['111578632']).toBeDefined();
