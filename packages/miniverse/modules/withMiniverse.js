@@ -82,6 +82,7 @@ export default (conf = null) => Component => {
           this.updateState(service, watcher, error);
         }
       };
+      unsubscribeWatchers(this.deepLocation, this.provider, conf);
       createWatchers(this.deepLocation, this.provider, conf, callback);
     }
 

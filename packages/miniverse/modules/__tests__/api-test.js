@@ -159,7 +159,7 @@ describe('Api', () => {
         }
       });
 
-  })
+  });
 
   it('should DELETE and fail with 404', (done) => {
     ajax.mockImplementationOnce(() =>
@@ -174,7 +174,7 @@ describe('Api', () => {
           done();
         }
       });
-  })
+  });
 
   it('should set TOKEN', (done) => {
     ajax.mockImplementationOnce(() =>
@@ -196,7 +196,7 @@ describe('Api', () => {
           done();
         }
       });
-  })
+  });
 
   it('should set Custome Header CUSTOMER-ID: XYZ', (done) => {
     ajax.mockImplementationOnce(() =>
@@ -218,9 +218,9 @@ describe('Api', () => {
           done();
         }
       });
-  })
+  });
 
-  it('should create miniverse and fetch with custom ApiService', (done) => {
+  it('should create miniverse and fetch with request ApiService', (done) => {
     miniverse = new Miniverse({
       Github
     }, new ApiService);
@@ -230,13 +230,13 @@ describe('Api', () => {
     );
 
     miniverse.getService('Github')
-      .get({ path: 'some-path' })
+      .request('post', { path: 'some-path' })
       .subscribe({
         next: (response) => {
           expect(response.results).toBeDefined();
           done();
         }
       });
-  })
+  });
 
 });

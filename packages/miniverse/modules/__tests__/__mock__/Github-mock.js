@@ -28,6 +28,17 @@ class Github extends Store {
     return this.get({ path: 'api-object', query, cacheKey: { page: query.page } });
   }
 
+  getUsersSingle(query) {
+    return this.get({ path: 'api-object', query, single: true });
+  }
+
+  getUsersSingle2(query) {
+    return this.get({ path: 'api-object2', query, single: true });
+  }
+
+  getUsersSingle3(query) {
+    return this.get({ path: 'api-object3', query});
+  }
   watchUsers(location, callback) {
     return this.watch('users', location, callback);
   }

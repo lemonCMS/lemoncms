@@ -1,7 +1,10 @@
 import { Miniverse } from '../index';
 import Github from './__mock__/Github-mock';
 import { ajax } from 'rxjs/ajax';
-import { of } from 'rxjs';
+import {
+  BehaviorSubject,
+  of
+} from 'rxjs';
 
 jest.mock("rxjs/ajax");
 
@@ -67,13 +70,13 @@ describe('Miniverse should be invalid', () => {
     miniverse.getService('Github')
       .getUsers()
       .subscribe(
-        (data) => {
-          expect(data.github).toBe(true);
+        (response) => {
+          expect(response.data.github).toBe(true);
         });
     miniverse
       .eject()
-      .subscribe((data) => {
-        expect(data.Github).toBeTruthy();
+      .subscribe((response) => {
+        expect(response.Github).toBeTruthy();
         done();
 
       });
@@ -220,6 +223,7 @@ describe('Miniverse should be invalid', () => {
   });
 
   test('should store data without api call', (done) => {
+
     const miniverse = new Miniverse({ Github });
     miniverse
       .getService('Github')
@@ -234,5 +238,38 @@ describe('Miniverse should be invalid', () => {
           done();
         });
     });
+  });
+
+  test('should make api call and complete subject', (done) => {
+    ajax.mockImplementation(() =>
+      new BehaviorSubject({
+        response: { github: true }
+      })
+    );
+    const miniverse = new Miniverse({ Github });
+    const sub = miniverse
+      .getService('Github')
+      .getUsersSingle()
+      .subscribe(
+        data => expect(data).toBeTruthy()
+      );
+    process.nextTick(() => {
+      expect(sub.isStopped).toBeTruthy();
+
+      miniverse.getService('Github').getUsersSingle2().subscribe(data => {
+        expect(data).toBeTruthy();
+      });
+      miniverse.getService('Github').getUsersSingle3().subscribe(data => {
+        expect(data).toBeTruthy();
+      });
+      process.nextTick(() => {
+
+        miniverse.eject().subscribe(data => {
+          expect(data).toBeTruthy();
+          done();
+        });
+      });
+    });
+
   });
 });

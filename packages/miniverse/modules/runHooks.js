@@ -5,9 +5,9 @@ import propName from './propName';
 export default class RunHooks {
   /**
    *
-   * @type {null}
+   * @type {ReplaySubject}
    */
-  sub$ = null;
+  sub$;
 
   /**
    *

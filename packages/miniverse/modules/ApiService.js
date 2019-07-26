@@ -149,7 +149,20 @@ export class ApiService {
    * @param headers
    */
   setHeaders = headers => {
-    this.headers = headers;
+    return this.headers = Object.assign({},
+      this.headers,
+      headers
+    )
+  };
+
+  /**
+   * Set single header
+   * @param name
+   * @param value
+   * @returns {*}
+   */
+  setHeader = (name, value) => {
+    return this.headers[name] = value;
   };
 
   /**

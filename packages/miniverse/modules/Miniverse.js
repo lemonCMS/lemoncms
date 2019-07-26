@@ -1,7 +1,9 @@
 import {
+  BehaviorSubject,
   concat,
   ReplaySubject,
   zip,
+  of,
 } from 'rxjs';
 import { ApiService } from './ApiService';
 import { EventService } from './EventService';
@@ -82,6 +84,18 @@ class Miniverse {
     return this._waitAllDone(subjects);
   };
 
+  waitForIt(items, subject, index = 0, nextData = {}) {
+    const service = Object.key(items)[index];
+    if (!service) {
+      subject.next(nextData);
+    }
+
+    items[service].subscribe(data => {
+      nextData[service] = data;
+      this.waitForIt(items, subject, index++, nextData )
+    });
+  }
+
   /**
    *
    * @returns {*}
@@ -153,7 +167,7 @@ class Miniverse {
   };
 
   _waitAllDone = subjects => {
-    const subject = new ReplaySubject();
+    const subject = new BehaviorSubject({});
     const toExport = Object.keys(subjects);
     let nextAfter = toExport.length;
     const preparedExport = {};
@@ -165,10 +179,16 @@ class Miniverse {
 
     toExport.forEach(key => {
       if (subjects[key].isStopped) { // When subject isStopped there wil be no next or complete events.
+        if (subject[key] instanceof BehaviorSubject) {
+          preparedExport[key] = subjects[key].value;
+        } else {
+          preparedExport[key] = null;
+        }
+
         nextAfter -= 1;
         if (nextAfter <= 0) {
           subject.next(preparedExport);
-          subject.complete();
+          // subject.complete();
         }
         return;
       }
@@ -178,13 +198,13 @@ class Miniverse {
         nextAfter -= 1;
         if (nextAfter <= 0) {
           subject.next(preparedExport);
-          subject.complete();
+          // subject.complete();
         }
       }, () => { // when there is an error
         nextAfter -= 1;
         if (nextAfter <= 0) {
           subject.next(preparedExport);
-          subject.complete();
+          //subject.complete();
         }
       });
     });

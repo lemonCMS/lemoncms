@@ -15,6 +15,11 @@ class Store {
    * @type {axios}
    */
   subjects = {};
+  /**
+   *
+   * @type {{}}
+   */
+  subjectsThatEmitted = {}
 
   /**
    * contains keys of cached resources
@@ -56,8 +61,11 @@ class Store {
    */
   eject() {
     this.miniverse.getEventService().emit('eject', 'start');
-    this.subjects['cache'] = of(this.cacheKeys);
-    return this.miniverse._waitAllDone(this.subjects);
+    let emittedSubjects = {
+      cache: of(this.cacheKeys)
+    };
+    Object.keys(this.subjectsThatEmitted).forEach(key => emittedSubjects[key] = this.subjects[key]);
+    return this.miniverse._waitAllDone(emittedSubjects);
   }
 
   /**
@@ -98,7 +106,7 @@ class Store {
    * @param url
    * @returns {*}
    */
-  createSubject(url) {
+  createSubject(url, emitted = true) {
     const hash = this.hashCode(url);
 
     if (this.subjects[hash]) {
@@ -107,7 +115,9 @@ class Store {
       }
       delete this.subjects[hash];
     }
-
+    if (emitted) {
+      this.subjectsThatEmitted[hash] = true;
+    }
     /**
      * Server side rendering does not return on time when using BehaviorSubject()
      */
@@ -196,7 +206,7 @@ class Store {
    */
   watch = (resource, componentName = '__watch') => {
     this.unsubscribe(resource, componentName);
-    const subject = this.createSubject(resource);
+    const subject = this.createSubject(resource, false);
     return this.wrapSubject(resource, componentName, subject);
   };
 
@@ -215,6 +225,7 @@ class Store {
    * @param data
    */
   reset(path, data = null) {
+    delete this.cacheKeys[this.hashCode(path)];
     const subject = this.createSubject(path);
     subject.next(data);
     return subject;
@@ -229,6 +240,7 @@ class Store {
    * @param headers
    * @param name
    * @param cacheKey
+   * @param single
    * @param rest
    * @param subject
    */
@@ -356,7 +368,7 @@ class Store {
    * @returns {*}
    */
   get = ({ path, query, headers, reload, cacheKey, ...rest }) => {
-    const subject = this.createSubject(path, cacheKey);
+    const subject = this.createSubject(path);
     this.runApi('get', { path, query, headers, cacheKey, ...rest }, subject);
     return this.wrapSubject(path, '__get', subject);
   };
@@ -372,7 +384,7 @@ class Store {
    * @returns {*}
    */
   put = ({ path, query, body, headers, cacheKey, ...rest }) => {
-    const subject = this.createSubject(path, cacheKey);
+    const subject = this.createSubject(path);
     this.runApi('put', { path, query, body, headers, cacheKey, ...rest }, subject);
     return this.wrapSubject(path, '__put', subject);
   };
@@ -388,7 +400,7 @@ class Store {
    * @returns {*}
    */
   post = ({ path, query, body, headers, cacheKey, ...rest }) => {
-    const subject = this.createSubject(path, cacheKey);
+    const subject = this.createSubject(path);
     this.runApi('post', { path, query, body, headers, cacheKey, ...rest }, subject);
     return this.wrapSubject(path, '__post', subject);
   };
@@ -405,7 +417,7 @@ class Store {
    * @returns {*}
    */
   request(type, { path, query, body, headers, cacheKey, ...rest }) {
-    const subject = this.createSubject(path, cacheKey);
+    const subject = this.createSubject(path);
     this.runApi(type, { path, query, body, headers, cacheKey, ...rest }, subject);
     return subject;
   }
@@ -421,7 +433,7 @@ class Store {
    * @returns {{subscribe: subscribe, subject: subject, pipe: (function(...[*]): {subscribe: subscribe, subject: subject, pipe})}}
    */
   patch = ({ path, query, body, headers, cacheKey, ...rest }) => {
-    const subject = this.createSubject(path, cacheKey);
+    const subject = this.createSubject(path);
     this.runApi('patch', { path, query, body, headers, cacheKey, ...rest }, subject);
     return this.wrapSubject(path, '__patch', subject);
   };
