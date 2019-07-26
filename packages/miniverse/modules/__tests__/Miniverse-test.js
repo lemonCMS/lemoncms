@@ -98,12 +98,9 @@ describe('Miniverse should be invalid', () => {
 
     ajax.mockImplementation(() => of({ response: { github: true } }));
     const miniverse = new Miniverse({ Github });
-
     miniverse
       .insert(data)
-      .subscribe((tmpData) => {
-        expect(tmpData.Github['111578632']).toBeTruthy();
-      });
+      .subscribe();
 
     miniverse.getService('Github')
       .getUsersCacheBoolean()
@@ -116,6 +113,11 @@ describe('Miniverse should be invalid', () => {
 
       process.nextTick(() => {
         miniverse.eject().subscribe(next => {
+          expect(next.Github).toBeTruthy();
+          expect(next.Github['1632309109']).toBeTruthy();
+          expect(next.Github['412672594']).toBeTruthy();
+          expect(next.Github['111578632']).toBeTruthy();
+          expect(next.Github['cache']).toBeTruthy();
           done();
         },);
       });

@@ -1,11 +1,5 @@
 /**
  *
- * @type {Array}
- */
-let watchers = [];
-
-/**
- *
  * @param string
  * @returns {string}
  */
@@ -15,14 +9,15 @@ function capitalizeFirstLetter(string) {
 
 const callMiniVerse = (deepLocation, miniverse, serviceName, conf, callback) => {
   const service = miniverse.getService(capitalizeFirstLetter(serviceName));
-  if (service) {
-    conf.watch[serviceName].forEach(watcher => {
-      watchers.push(service.watch(watcher, `${deepLocation}-constructor`).subscribe(
-        next => callback.next(serviceName, watcher, next),
-        error => callback.error(serviceName, watcher, error)
-      ));
-    });
+  if (!service) {
+    return [];
   }
+  return conf.watch[serviceName].map(watcher => (
+    service.watch(watcher, `${deepLocation}-constructor`).subscribe(
+      next => callback.next(serviceName, watcher, next),
+      error => callback.error(serviceName, watcher, error)
+    ))
+  );
 };
 
 const unsubscribeMiniverse = (deepLocation, miniverse, serviceName) => {
@@ -42,8 +37,9 @@ const unsubscribeMiniverse = (deepLocation, miniverse, serviceName) => {
  */
 export const createWatchers = (deepLocation, miniverse, conf, callback) => {
   if (conf.watch) {
+    let watchers = [];
     Object.keys(conf.watch).map(serviceName => {
-      callMiniVerse(deepLocation, miniverse, serviceName, conf, callback)
+      watchers = watchers.concat(callMiniVerse(deepLocation, miniverse, serviceName, conf, callback));
     });
     return watchers;
   }

@@ -1,5 +1,7 @@
+/* eslint-disable */
 import {
-  BehaviorSubject,
+  forkJoin,
+  Observable,
   of,
   ReplaySubject
 } from 'rxjs';
@@ -12,14 +14,14 @@ class Store {
 
   /**
    *
-   * @type {axios}
+   * @type {{}}
    */
   subjects = {};
   /**
    *
    * @type {{}}
    */
-  subjectsThatEmitted = {}
+  subjectsThatEmitted = {};
 
   /**
    * contains keys of cached resources
@@ -40,10 +42,11 @@ class Store {
 
   /**
    *
-   * @type {null}
+   * @type {{events: boolean, bufferSize: number}}
    */
   config = {
-    events: true
+    events: true,
+    bufferSize: 1
   };
 
   /**
@@ -64,8 +67,8 @@ class Store {
     let emittedSubjects = {
       cache: of(this.cacheKeys)
     };
-    Object.keys(this.subjectsThatEmitted).forEach(key => emittedSubjects[key] = this.subjects[key]);
-    return this.miniverse._waitAllDone(emittedSubjects);
+    Object.keys(this.subjectsThatEmitted).forEach(key => emittedSubjects[key] = this.Observe(this.subjects[key]));
+    return forkJoin(emittedSubjects);
   }
 
   /**
@@ -74,16 +77,49 @@ class Store {
    * @param data
    */
   insert(data) {
+    let importSubjects = {};
     Object.keys(data).forEach(key => {
       if (key === 'cache') {
         this.cacheKeys = data[key];
         return;
       }
-
-      const subject = this.importSubject(key);
-      subject.next(data[key]);
+      importSubjects[key] = this.observeImport(key, data);
     });
-    return this.miniverse._waitAllDone(this.subjects);
+    return forkJoin(importSubjects);
+  }
+
+  /**
+   *
+   * @param subject
+   * @returns {Observable<unknown>}
+   * @constructor
+   */
+  Observe(subject) {
+    return new Observable(observer => {
+      subject.subscribe((next) => {
+        observer.next(next);
+        observer.complete();
+      }, error => {
+        observer.error(error);
+      }, () => {
+        observer.complete();
+      })
+    });
+  }
+
+  observeImport(key, data) {
+    const subject = this.importSubject(key);
+    return new Observable(observer => {
+      subject.subscribe((next) => {
+        observer.next(next);
+        observer.complete();
+      }, error => {
+        observer.error(error);
+      }, () => {
+        observer.complete();
+      });
+      subject.next(data);
+    });
   }
 
   /**
@@ -97,7 +133,8 @@ class Store {
       return this.subjects[hash];
     }
 
-    this.subjects[hash] = process.browser ? new BehaviorSubject({}) : new ReplaySubject();
+    this.subjects[hash] = new ReplaySubject(this.config.bufferSize);
+    this.subjectsThatEmitted[hash] = true;
     return this.subjects[hash];
   }
 
@@ -108,7 +145,6 @@ class Store {
    */
   createSubject(url, emitted = true) {
     const hash = this.hashCode(url);
-
     if (this.subjects[hash]) {
       if (!this.subjects[hash].isStopped) {
         return this.subjects[hash];
@@ -121,7 +157,7 @@ class Store {
     /**
      * Server side rendering does not return on time when using BehaviorSubject()
      */
-    this.subjects[hash] = process.browser ? new BehaviorSubject({}) : new ReplaySubject();
+    this.subjects[hash] = new ReplaySubject(1);
     return this.subjects[hash];
   }
 
@@ -467,28 +503,19 @@ class Store {
   };
 
   wrapSubject(path, componentName, subject) {
-    return {
-      pipe: (...rest) => {
-        return this.wrapSubject(path, componentName, subject.pipe(...rest));
-      },
-      subscribe: (...rest) => {
-        if (!this.hasSubscription(path, componentName)) {
-          const sub$ = subject.subscribe(...rest);
-          this.setSubScription(path, componentName, sub$);
-          return sub$;
-        }
-        return this.getSubscription(path, componentName);
-      },
-      subject: () => {
-        if (!this.hasSubscription(path, componentName)) {
-          this.setSubScription(path, componentName, subject);
-        }
-        return subject;
-      },
-      toPromise: () => {
-        return subject.toPromise();
+    return new Observable(observe => {
+      if (this.hasSubscription(path, componentName)) {
+        this.getSubscription(path, componentName).unsubscribe();
       }
-    }
+      const sub$ = subject.subscribe(next => {
+        observe.next(next);
+      }, error => {
+        observe.error(error);
+      }, () => {
+        observe.complete();
+      });
+      this.setSubScription(path, componentName, sub$);
+    })
   }
 
   /**

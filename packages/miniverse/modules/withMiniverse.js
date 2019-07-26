@@ -21,7 +21,6 @@ export default (conf = null) => Component => {
   }
 
   class Subscriber extends React.PureComponent {
-
     /**
      *
      * @type {{}}
@@ -60,6 +59,8 @@ export default (conf = null) => Component => {
      */
     data = {};
 
+    watchers = [];
+
     /**
      *
      * @param props
@@ -67,13 +68,14 @@ export default (conf = null) => Component => {
      */
     constructor(props, context) {
       super(props, context);
+
       const { miniverse } = props;
       this.provider = miniverse;
       this.deepLocation = conf.name || Component.displayName || Component.name || Component.constructor.name;
       this.state = {
         updated: 0
       };
-      const callback = {
+      this.callback = {
         next: (service, watcher, data) => {
           this.updateState(service, watcher, data);
         },
@@ -82,8 +84,10 @@ export default (conf = null) => Component => {
           this.updateState(service, watcher, error);
         }
       };
-      unsubscribeWatchers(this.deepLocation, this.provider, conf);
-      createWatchers(this.deepLocation, this.provider, conf, callback);
+    }
+
+    componentDidMount() {
+      this.watchers = createWatchers(this.deepLocation, this.provider, conf, this.callback);
     }
 
     /**
@@ -91,7 +95,10 @@ export default (conf = null) => Component => {
      */
     componentWillUnmount() {
       unsubscribeWatchers(this.deepLocation, this.provider, conf);
+      this.watchers.forEach(watcher => watcher.unsubscribe());
+      this.watchers = [];
     }
+
 
     /**
      *
@@ -139,5 +146,6 @@ export default (conf = null) => Component => {
     <MiniverseContext.Consumer>{context => <Subscriber {...props} {...context} />}</MiniverseContext.Consumer>
   );
 };
+
 
 
