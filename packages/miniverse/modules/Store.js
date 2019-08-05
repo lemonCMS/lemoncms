@@ -369,12 +369,14 @@ class Store {
       return;
     }
     if (typeof cacheKey === 'boolean') {
+      this.emit('cache', 'set', { path });
       this.cacheKeys[this.hashCode(path)] = {
         key: true,
         expire: Date.now() + (time * 1000)
       };
     }
     if (typeof cacheKey === 'object') {
+      this.emit('cache', 'set', { path });
       this.cacheKeys[this.hashCode(path)] = {
         key: this.hashCode(JSON.stringify(cacheKey)),
         expire: Date.now() + (time * 1000)
@@ -401,7 +403,7 @@ class Store {
    * @param reload
    * @param cacheKey
    * @param rest
-   * @returns {*}
+   * @returns {Observable<any>}
    */
   get = ({ path, query, headers, reload, cacheKey, ...rest }) => {
     const subject = this.createSubject(path);
@@ -417,7 +419,7 @@ class Store {
    * @param headers
    * @param cacheKey
    * @param rest
-   * @returns {*}
+   * @returns {Observable<any>}
    */
   put = ({ path, query, body, headers, cacheKey, ...rest }) => {
     const subject = this.createSubject(path);
@@ -433,7 +435,7 @@ class Store {
    * @param headers
    * @param cacheKey
    * @param rest
-   * @returns {*}
+   * @returns {Observable<any>}
    */
   post = ({ path, query, body, headers, cacheKey, ...rest }) => {
     const subject = this.createSubject(path);
@@ -450,7 +452,7 @@ class Store {
    * @param headers
    * @param cacheKey
    * @param rest
-   * @returns {*}
+   * @returns {Observable<any>}
    */
   request(type, { path, query, body, headers, cacheKey, ...rest }) {
     const subject = this.createSubject(path);
@@ -462,11 +464,11 @@ class Store {
    *
    * @param path
    * @param query
-   * @param params
+   * @param body
    * @param headers
    * @param cacheKey
    * @param rest
-   * @returns {{subscribe: subscribe, subject: subject, pipe: (function(...[*]): {subscribe: subscribe, subject: subject, pipe})}}
+   * @returns {Observable<any>}
    */
   patch = ({ path, query, body, headers, cacheKey, ...rest }) => {
     const subject = this.createSubject(path);
@@ -478,10 +480,10 @@ class Store {
    *
    * @param path
    * @param query
-   * @param params
+   * @param body
    * @param headers
    * @param rest
-   * @returns {*}
+   * @returns {Observable<any>}
    */
   delete = ({ path, query, body, headers, ...rest }) => {
     const subject = this.createSubject(path);
@@ -490,18 +492,25 @@ class Store {
   };
 
   /**
-   * push data in store
    *
    * @param path
    * @param data
-   * @returns {*}
+   * @returns {Observable<any>}
    */
   push = ({ path, data }) => {
     const subject = this.createSubject(path);
     subject.next(data);
+    this.emit('push', 'set', { path });
     return this.wrapSubject(path, '__push', subject);
   };
 
+  /**
+   *
+   * @param path
+   * @param componentName
+   * @param subject
+   * @returns {Observable<any>}
+   */
   wrapSubject(path, componentName, subject) {
     return new Observable(observe => {
       if (this.hasSubscription(path, componentName)) {
@@ -548,6 +557,12 @@ class Store {
     return hash;
   };
 
+  /**
+   *
+   * @param type
+   * @param value
+   * @param rest
+   */
   emit(type, value, rest) {
     if (this.config.events === true) {
       this.miniverse.getEventService().emit(type, { store: this.constructor.name, value, type, ...rest });
@@ -560,6 +575,10 @@ class Store {
    */
   setJwtToken(token) {
     this.getApiService().setJwtToken(token);
+  }
+
+  hasEmitted(path) {
+    return of(this.subjectsThatEmitted[this.hashCode(path)]);
   }
 }
 

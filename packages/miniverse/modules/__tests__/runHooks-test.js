@@ -97,33 +97,6 @@ describe('RunHooks should do it', () => {
     });
   });
 
-  /*test('Should throw warning about to many renders', (done) => {
-    const initiatedServiceProvider = new Miniverse({
-      Github
-    });
-    const providers = {
-      miniverse: initiatedServiceProvider
-    };
-
-    const components = [];
-    components.push(ComponentThatDoesToMuch);
-    components.push(ComponentThatDoesToMuch);
-    ajax.mockImplementationOnce(() =>
-      of({
-        response: { results: ["cat.jpg"] }
-      })
-    );
-    const rick = new RunHooks('fetch', components, providers);
-    rick.subscribe(() => {
-      process.nextTick(() => {
-        initiatedServiceProvider.eject().subscribe(() => {
-          expect(mockTinyWarning).toBeCalled();
-          done();
-        });
-      });
-    });
-  });*/
-
   test('Should resolve a error with multiple componentns', (done) => {
     const initiatedServiceProvider = new Miniverse({
       Github

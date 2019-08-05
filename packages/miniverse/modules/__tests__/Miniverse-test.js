@@ -165,7 +165,7 @@ describe('Miniverse should be invalid', () => {
         expect(ajax).toHaveBeenCalledTimes(1);
 
         process.nextTick(() => {
-          miniverse.eject().subscribe(next => {
+          miniverse.eject().subscribe(() => {
             done();
           },);
         });
