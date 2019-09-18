@@ -118,7 +118,7 @@ class Store {
       }, () => {
         observer.complete();
       });
-      subject.next(data);
+      subject.next(data[key]);
     });
   }
 

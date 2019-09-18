@@ -113,10 +113,14 @@ describe('Miniverse should be invalid', () => {
 
       process.nextTick(() => {
         miniverse.eject().subscribe(next => {
+
           expect(next.Github).toBeTruthy();
           expect(next.Github['1632309109']).toBeTruthy();
+          expect(next.Github['1632309109']['github']).toBeTruthy();
           expect(next.Github['412672594']).toBeTruthy();
+          expect(next.Github['412672594']['github']).toBeTruthy();
           expect(next.Github['111578632']).toBeTruthy();
+          expect(next.Github['111578632']['github']).toBeTruthy();
           expect(next.Github['cache']).toBeTruthy();
           done();
         },);
