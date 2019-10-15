@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Input type should render input checkbox 1`] = `
+exports[`Text type should render input checkbox 1`] = `
 <form
   className=""
   onSubmit={[Function]}
@@ -79,7 +79,7 @@ exports[`Input type should render input checkbox 1`] = `
 </form>
 `;
 
-exports[`Input type should render input password 1`] = `
+exports[`Text type should render input password 1`] = `
 <form
   className=""
   onSubmit={[Function]}
@@ -101,7 +101,7 @@ exports[`Input type should render input password 1`] = `
 </form>
 `;
 
-exports[`Input type should render input radio 1`] = `
+exports[`Text type should render input radio 1`] = `
 <form
   className=""
   onSubmit={[Function]}
@@ -177,7 +177,7 @@ exports[`Input type should render input radio 1`] = `
 </form>
 `;
 
-exports[`Input type should render input radio with checked value \`string\` 1`] = `
+exports[`Text type should render input radio with checked value \`string\` 1`] = `
 <form
   className=""
   onSubmit={[Function]}
@@ -253,7 +253,7 @@ exports[`Input type should render input radio with checked value \`string\` 1`] 
 </form>
 `;
 
-exports[`Input type should render input radio with checked value 1`] = `
+exports[`Text type should render input radio with checked value 1`] = `
 <form
   className=""
   onSubmit={[Function]}
@@ -329,7 +329,7 @@ exports[`Input type should render input radio with checked value 1`] = `
 </form>
 `;
 
-exports[`Input type should render input select 1`] = `
+exports[`Text type should render input select 1`] = `
 <form
   className=""
   onSubmit={[Function]}
@@ -368,7 +368,7 @@ exports[`Input type should render input select 1`] = `
 </form>
 `;
 
-exports[`Input type should render input select with selected option 1`] = `
+exports[`Text type should render input select with selected option 1`] = `
 <form
   className=""
   onSubmit={[Function]}
@@ -407,7 +407,7 @@ exports[`Input type should render input select with selected option 1`] = `
 </form>
 `;
 
-exports[`Input type should render input text 1`] = `
+exports[`Text type should render input text 1`] = `
 <form
   className=""
   onSubmit={[Function]}
@@ -429,7 +429,7 @@ exports[`Input type should render input text 1`] = `
 </form>
 `;
 
-exports[`Input type should render input textarea 1`] = `
+exports[`Text type should render input textarea 1`] = `
 <form
   className=""
   onSubmit={[Function]}

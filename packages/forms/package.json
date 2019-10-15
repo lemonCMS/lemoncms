@@ -28,6 +28,7 @@
     "fast-equals": "^2.0.0",
     "final-form": "^4.16.1",
     "prop-types": "^15.7.2",
+    "react-bootstrap-v3": "npm:react-bootstrap@0.32.4",
     "react-dropzone": "^10.1.5",
     "react-final-form": "^6.3.0",
     "tiny-warning": "^1.0.3"
