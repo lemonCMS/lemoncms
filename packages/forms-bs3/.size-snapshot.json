@@ -1,0 +1,50 @@
+{
+  "esm/lemoncms-forms.js": {
+    "bundled": 27640,
+    "minified": 17000,
+    "gzipped": 3934,
+    "treeshaked": {
+      "rollup": {
+        "code": 13841,
+        "import_statements": 579
+      },
+      "webpack": {
+        "code": 15762
+      }
+    }
+  },
+  "umd/lemoncms-forms.js": {
+    "bundled": 287556,
+    "minified": 98813,
+    "gzipped": 30613
+  },
+  "umd/lemoncms-forms.min.js": {
+    "bundled": 250623,
+    "minified": 87560,
+    "gzipped": 27471
+  },
+  "esm/lemoncms-forms-bs3.js": {
+    "bundled": 9716,
+    "minified": 6101,
+    "gzipped": 1642,
+    "treeshaked": {
+      "rollup": {
+        "code": 4747,
+        "import_statements": 502
+      },
+      "webpack": {
+        "code": 6242
+      }
+    }
+  },
+  "umd/lemoncms-forms-bs3.js": {
+    "bundled": 170135,
+    "minified": 57681,
+    "gzipped": 18283
+  },
+  "umd/lemoncms-forms-bs3.min.js": {
+    "bundled": 133202,
+    "minified": 46428,
+    "gzipped": 15073
+  }
+}

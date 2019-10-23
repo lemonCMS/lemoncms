@@ -1,6 +1,6 @@
 {
   "name": "lemoncms-forms",
-  "version": "0.0.0-alfa-0.0.1",
+  "version": "1.0.0",
   "description": "React form components for finalform",
   "repository": "http://github.com/lemoncms/lemoncms/forms",
   "license": "MIT",

@@ -1,12 +1,16 @@
 {
   "name": "lemoncms",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "build": "node ./scripts/build.js",
     "clean": "git clean -fdX .",
     "postinstall": "node ./scripts/postinstall.js",
     "start": "node ./scripts/start.js",
-    "test": "node ./scripts/test.js"
+    "test": "node ./scripts/test.js",
+    "bootstrap": "lerna bootstrap --use-workspaces"
   },
   "devDependencies": {
     "husky": "^3.0.9",

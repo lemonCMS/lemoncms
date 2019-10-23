@@ -1,43 +1,150 @@
-import React from "react";
+import React, { Component } from "react";
+import ReactDOMServer from "react-dom/server";
 import PropTypes from "prop-types";
+import memoize from "memoize-one";
 import RadioAlias from "react-bootstrap/lib/Radio";
+import Col from "react-bootstrap/lib/Col";
+import Row from "react-bootstrap/lib/Row";
 import context from "../decorators/context";
 import fieldGroup from "./fieldGroup";
+import Filter from "./components/Filter";
 
-const createRadioButtons = (children, initialValue, emit, name) => {
-  if (
-    children &&
-    Array.isArray(children) &&
-    React.isValidElement(children[0]) &&
-    children[0].type === "option"
-  ) {
-    return children.map(option => {
-      const { value, children } = option.props;
-      return (
-        <RadioAlias
-          name={name}
-          key={value}
-          checked={value === initialValue}
-          onChange={event => {
-            emit(event, value);
-          }}
-        >
-          {children}
-        </RadioAlias>
-      );
-    });
-  }
-};
-
-const Radio = props => {
-  const { input, children } = props;
-
-  const emit = (event, value) => {
-    input.onChange(value);
+class Radio extends Component {
+  state = {
+    values: [],
+    filterText: ""
   };
 
-  return <>{createRadioButtons(children, input.value, emit, input.name)}</>;
-};
+  componentDidMount() {
+    const {
+      input: { value }
+    } = this.props;
+
+    if (typeof value !== "undefined") {
+      this.setState({ values: value });
+    }
+  }
+
+  emit = (event, radioValue) => {
+    const {
+      input: { onChange }
+    } = this.props;
+    onChange(radioValue);
+  };
+
+  filtered = memoize((list, filterText) => {
+    return list.filter(item => {
+      if (!filterText || item.type !== "option") {
+        return true;
+      }
+
+      if (typeof item.props.children === "string") {
+        return (
+          item.props &&
+          item.type === "option" &&
+          item.props.children.includes(filterText)
+        );
+      }
+
+      return ReactDOMServer.renderToString(item.props.children).includes(
+        filterText
+      );
+    });
+  });
+
+  handleChange = event => {
+    this.setState({ filterText: event.target.value });
+  };
+
+  clearFilterText = event => {
+    this.setState({ filterText: "" });
+  };
+
+  createRadios = children => {
+    const { columns, filter, input } = this.props;
+    if (
+      children &&
+      Array.isArray(children) &&
+      React.isValidElement(children[0]) &&
+      children[0].type === "option"
+    ) {
+      const list = children.map(option => {
+        if (option.type !== "option") {
+          return option;
+        }
+
+        const { value, children } = option.props;
+        return (
+          <RadioAlias
+            key={value}
+            checked={input.value.indexOf(value) > -1}
+            onChange={event => {
+              this.emit(event, value);
+            }}
+          >
+            {children}
+          </RadioAlias>
+        );
+      });
+
+      if (columns === 1) {
+        return list;
+      }
+
+      const itemsPerColumn = Math.ceil(list.length / columns);
+      // create new array of length with undefined values
+      const cols = Array.apply(null, Array(columns)).map(() => {});
+      const display = cols.map((col, index) => {
+        const start = index * itemsPerColumn;
+        const end = start + itemsPerColumn;
+        return (
+          <Col md={Math.round(12 / columns)} key={index}>
+            {list.slice(start, end)}
+          </Col>
+        );
+      });
+
+      return <Row>{display}</Row>;
+    }
+
+    // Filtered returned nothing
+    if (filter) {
+      return <div>No results</div>;
+    }
+
+    return (
+      <RadioAlias
+        checked={input.value}
+        onChange={event => {
+          this.emit(event, true, true);
+        }}
+      >
+        {children}
+      </RadioAlias>
+    );
+  };
+
+  render() {
+    const { filter, placeholderFilter, children } = this.props;
+    const { filterText } = this.state;
+    if (filter) {
+      const filteredList = this.filtered(children, this.state.filterText);
+      return (
+        <>
+          <Filter
+            filterText={filterText}
+            clearFilterText={this.clearFilterText}
+            handleChange={this.handleChange}
+            placeholderFilter={placeholderFilter}
+          />
+          {this.createRadios(filteredList)}
+        </>
+      );
+    }
+
+    return <>{this.createRadios(children)}</>;
+  }
+}
 
 Radio.propTypes = {
   input: PropTypes.shape({
@@ -48,13 +155,21 @@ Radio.propTypes = {
     value: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
-      PropTypes.number
+      PropTypes.number,
+      PropTypes.array
     ])
   }),
-  children: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
-  placeholder: PropTypes.string,
+  children: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.element
+  ]),
+  placeholderFilter: PropTypes.string,
   label: PropTypes.string,
   help: PropTypes.string,
+  columns: PropTypes.number,
+  filter: PropTypes.bool,
   computedInvalid: PropTypes.bool.isRequired
 };
 
@@ -63,7 +178,9 @@ Radio.defaultProps = {
   children: [],
   label: null,
   help: null,
-  placeholder: null
+  columns: 1,
+  filter: false,
+  placeholderFilter: "Filter"
 };
 
 export default context()(fieldGroup(Radio));

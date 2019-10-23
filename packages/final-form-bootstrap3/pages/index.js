@@ -71,6 +71,7 @@ const Home = () => (
                 <option value={"1"}>1</option>
                 <option value={"2"}>2</option>
                 <option value={"3"}>3</option>
+                <span>Doe eens iets geks erbij</span>
                 <option value={"4"}>4</option>
                 <option value={"5"}>5</option>
                 <option value={"6"}>6</option>
@@ -78,7 +79,9 @@ const Home = () => (
                 <option value={"8"}>8</option>
                 <option value={"9"}>9</option>
                 <option value={"10"}>10</option>
-                <option value={"11"}>11</option>
+                <option value={"11"}>
+                  <b>xyz</b>
+                </option>
                 <option value={"12"}>12</option>
                 <option value={"13"}>13</option>
                 <option value={"14"}>14</option>
@@ -101,10 +104,34 @@ const Home = () => (
                 <option value={"1"}>Test 1</option>
               </Checkbox>
 
-              <Radio name={"radios"} label={"Multiple checkboxes"}>
+              <Radio name={"radios"} label={"Radio"} filter>
                 <option value={"hailey"}>Hailey</option>
                 <option value={"aiden"}>Aiden</option>
                 <option value={"mayson"}>Mayson</option>
+                <option value={"mayson1"}>Mayson</option>
+                <option value={"mayson2"}>Mayson</option>
+                <option value={"mayson3"}>Mayson</option>
+                <option value={"mayson4"}>Mayson</option>
+                <option value={"mayson5"}>Mayson</option>
+                <option value={"mayson6"}>Mayson</option>
+                <option value={"mayson7"}>Mayson</option>
+                <option value={"mayson8"}>Mayson</option>
+                <option value={"mayson9"}>Mayson</option>
+                <option value={"maysons"}>Mayson</option>
+                <option value={"maysonss"}>Mayson</option>
+                <option value={"maysond"}>Mayson</option>
+                <option value={"maysonf"}>Mayson</option>
+                <option value={"maysong"}>Mayson</option>
+                <option value={"maysonh"}>
+                  <b>Mayson</b>
+                </option>
+                <option value={"maysonj"}>Mayson</option>
+                <option value={"maysonr"}>Mayson</option>
+                <option value={"maysont"}>Mayson</option>
+                <option value={"maysony"}>Mayson</option>
+                <option value={"maysonu"}>Mayson</option>
+                <option value={"maysoni"}>Mayson</option>
+                <option value={"maysono"}>Mayson</option>
               </Radio>
               <Show
                 name="show1"
@@ -131,7 +158,7 @@ const Home = () => (
                 label={"DROPZONE"}
               />
 
-              <button type={"submit"}>Sexnd</button>
+              <button type={"submit"}>Send</button>
             </Form>
           </Well>
         </div>

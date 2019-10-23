@@ -17,7 +17,6 @@ exports[`BS3 radiobutton should render 1`] = `
         <input
           checked={true}
           disabled={false}
-          name="field"
           onChange={[Function]}
           type="radio"
         />
@@ -33,7 +32,6 @@ exports[`BS3 radiobutton should render 1`] = `
         <input
           checked={false}
           disabled={false}
-          name="field"
           onChange={[Function]}
           type="radio"
         />
@@ -49,7 +47,6 @@ exports[`BS3 radiobutton should render 1`] = `
         <input
           checked={false}
           disabled={false}
-          name="field"
           onChange={[Function]}
           type="radio"
         />
@@ -65,7 +62,6 @@ exports[`BS3 radiobutton should render 1`] = `
         <input
           checked={false}
           disabled={false}
-          name="field"
           onChange={[Function]}
           type="radio"
         />

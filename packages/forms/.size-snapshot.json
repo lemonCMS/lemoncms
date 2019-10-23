@@ -1,26 +1,26 @@
 {
   "esm/lemoncms-forms.js": {
-    "bundled": 24059,
-    "minified": 14469,
-    "gzipped": 3575,
+    "bundled": 27640,
+    "minified": 17000,
+    "gzipped": 3934,
     "treeshaked": {
       "rollup": {
-        "code": 11950,
-        "import_statements": 482
+        "code": 13841,
+        "import_statements": 579
       },
       "webpack": {
-        "code": 13694
+        "code": 15762
       }
     }
   },
   "umd/lemoncms-forms.js": {
-    "bundled": 234605,
-    "minified": 80955,
-    "gzipped": 25317
+    "bundled": 287556,
+    "minified": 98813,
+    "gzipped": 30613
   },
   "umd/lemoncms-forms.min.js": {
-    "bundled": 201027,
-    "minified": 70778,
-    "gzipped": 22541
+    "bundled": 250623,
+    "minified": 87560,
+    "gzipped": 27471
   }
 }

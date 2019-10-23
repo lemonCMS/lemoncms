@@ -3,7 +3,7 @@ import { mount } from "enzyme";
 import Form from "../../Provider/Form";
 import React from "react";
 import Checkbox from "../Checkbox";
-
+const flushPromises = () => new Promise(setImmediate);
 const field = () => (
   <Checkbox
     columns={2}
@@ -29,7 +29,9 @@ const fieldWithFilter = () => (
     <option value={"2"}>choice 2</option>
     <span>Doe eens iets geks erbij</span>
     <option value={"3"}>choice 3</option>
-    <option value={"4"}>choice 4</option>
+    <option value={"4"}>
+      <strong>choice 1</strong>
+    </option>
   </Checkbox>
 );
 
@@ -44,7 +46,7 @@ describe("BS3 checkbox type", () => {
     expect(output).toMatchSnapshot();
   });
 
-  it("should return array with two choices", () => {
+  it("should return array with two choices", async () => {
     const callback = jest.fn();
 
     const component = mount(
@@ -56,26 +58,29 @@ describe("BS3 checkbox type", () => {
     const inputs = component.find("input");
     expect(inputs).toHaveLength(4);
 
-    inputs
-      .at(0)
-      .simulate("change", {
-        target: { name: "field", value: "1", checked: true }
-      });
-    inputs
-      .at(1)
-      .simulate("change", {
-        target: { name: "field", value: "2", checked: true }
-      });
-    inputs
-      .at(2)
-      .simulate("change", {
-        target: { name: "field", value: "3", checked: true }
-      });
-    inputs
-      .at(2)
-      .simulate("change", {
-        target: { name: "field", value: "3", checked: false }
-      });
+    inputs.at(0).simulate("change", {
+      target: { name: "field", value: "1", checked: true }
+    });
+    await flushPromises();
+    inputs.at(1).simulate("change", {
+      target: { name: "field", value: "2", checked: true }
+    });
+    await flushPromises();
+    inputs.at(2).simulate("change", {
+      target: { name: "field", value: "3", checked: true }
+    });
+    await flushPromises();
+    inputs.at(2).simulate("change", {
+      target: { name: "field", value: "3", checked: false }
+    });
+    await flushPromises();
+    // **Glitch**
+    // Do not push a unchecked non-existing value on to the stack.
+    // This value should not be present in the callback
+    inputs.at(2).simulate("change", {
+      target: { name: "field", value: "3", checked: false }
+    });
+    await flushPromises();
 
     const helpBlock = component.find(".help-block");
     expect(helpBlock.text()).toEqual("What was your mothers maiden name?");
@@ -92,7 +97,7 @@ describe("BS3 checkbox type", () => {
     );
   });
 
-  it("should filter the options list", () => {
+  it("should filter the options list", async () => {
     const callback = jest.fn();
 
     const component = mount(
@@ -105,31 +110,26 @@ describe("BS3 checkbox type", () => {
     inputs = component.find("input");
     expect(inputs).toHaveLength(5);
 
-    inputs
-      .at(1)
-      .simulate("change", {
-        target: { name: "field", value: "1", checked: true }
-      });
-    inputs
-      .at(2)
-      .simulate("change", {
-        target: { name: "field", value: "2", checked: true }
-      });
-    inputs
-      .at(3)
-      .simulate("change", {
-        target: { name: "field", value: "3", checked: true }
-      });
-    inputs
-      .at(4)
-      .simulate("change", {
-        target: { name: "field", value: "3", checked: false }
-      });
-
+    inputs.at(1).simulate("change", {
+      target: { name: "field", value: "1", checked: true }
+    });
+    await flushPromises();
+    inputs.at(2).simulate("change", {
+      target: { name: "field", value: "2", checked: true }
+    });
+    await flushPromises();
+    inputs.at(3).simulate("change", {
+      target: { name: "field", value: "3", checked: true }
+    });
+    await flushPromises();
+    inputs.at(3).simulate("change", {
+      target: { name: "field", value: "3", checked: false }
+    });
+    await flushPromises();
     // Filter the list
     inputs.at(0).simulate("change", { target: { value: "choice 1" } });
     inputs = component.find("input");
-    expect(inputs).toHaveLength(2);
+    expect(inputs).toHaveLength(3);
 
     // Reset the list
     const button = component.find("button");
@@ -174,11 +174,9 @@ describe("BS3 checkbox type", () => {
     const inputs = component.find("input");
     expect(inputs).toHaveLength(1);
 
-    inputs
-      .at(0)
-      .simulate("change", {
-        target: { name: "field", value: "1", checked: true }
-      });
+    inputs.at(0).simulate("change", {
+      target: { name: "field", value: "1", checked: true }
+    });
     component.find("form").simulate("submit");
     expect(callback).toHaveBeenCalledWith(
       {
@@ -188,11 +186,9 @@ describe("BS3 checkbox type", () => {
       expect.any(Function)
     );
 
-    inputs
-      .at(0)
-      .simulate("change", {
-        target: { name: "field", value: "1", checked: false }
-      });
+    inputs.at(0).simulate("change", {
+      target: { name: "field", value: "1", checked: false }
+    });
     component.find("form").simulate("submit");
     expect(callback).toHaveBeenCalledWith(
       {},
@@ -217,11 +213,9 @@ describe("BS3 checkbox type", () => {
     const inputs = component.find("input");
     expect(inputs).toHaveLength(1);
 
-    inputs
-      .at(0)
-      .simulate("change", {
-        target: { name: "field", value: "1", checked: true }
-      });
+    inputs.at(0).simulate("change", {
+      target: { name: "field", value: "1", checked: true }
+    });
     component.find("form").simulate("submit");
     expect(callback).toHaveBeenCalledWith(
       {
@@ -231,11 +225,9 @@ describe("BS3 checkbox type", () => {
       expect.any(Function)
     );
 
-    inputs
-      .at(0)
-      .simulate("change", {
-        target: { name: "field", value: "1", checked: false }
-      });
+    inputs.at(0).simulate("change", {
+      target: { name: "field", value: "1", checked: false }
+    });
     component.find("form").simulate("submit");
     expect(callback).toHaveBeenCalledWith(
       {},
@@ -263,17 +255,13 @@ describe("BS3 checkbox type", () => {
     const inputs = component.find("input");
     expect(inputs).toHaveLength(2);
 
-    inputs
-      .at(0)
-      .simulate("change", {
-        target: { name: "field", value: "1", checked: true }
-      });
+    inputs.at(0).simulate("change", {
+      target: { name: "field", value: "1", checked: true }
+    });
     // Some browser bug sends check event twice
-    inputs
-      .at(0)
-      .simulate("change", {
-        target: { name: "field", value: "1", checked: true }
-      });
+    inputs.at(0).simulate("change", {
+      target: { name: "field", value: "1", checked: true }
+    });
 
     component.find("form").simulate("submit");
     expect(callback).toHaveBeenCalledWith(

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const CheckboxFilter = ({
+const Filter = ({
   handleChange,
   placeholderFilter,
   filterText,
@@ -30,11 +30,11 @@ const CheckboxFilter = ({
   );
 };
 
-CheckboxFilter.propTypes = {
+Filter.propTypes = {
   filterText: PropTypes.string.isRequired,
   placeholderFilter: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
   clearFilterText: PropTypes.func.isRequired
 };
 
-export default CheckboxFilter;
+export default Filter;

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReactDOMServer from "react-dom/server";
 import PropTypes from "prop-types";
 import memoize from "memoize-one";
 import CheckboxAlias from "react-bootstrap/lib/Checkbox";
@@ -6,7 +7,7 @@ import Col from "react-bootstrap/lib/Col";
 import Row from "react-bootstrap/lib/Row";
 import context from "../decorators/context";
 import fieldGroup from "./fieldGroup";
-import CheckboxFilter from "./components/CheckboxFilter";
+import Filter from "./components/Filter";
 
 class Checkbox extends Component {
   state = {
@@ -28,7 +29,7 @@ class Checkbox extends Component {
     const {
       input: { onChange, value }
     } = this.props;
-    const clone = [...value].filter(filter => filter); // make a shallow clone
+
     if (single) {
       // Single checkbox
       if (event.target.checked) {
@@ -42,6 +43,7 @@ class Checkbox extends Component {
       return;
     }
 
+    const clone = [...value].filter(filter => filter); // make a shallow clone
     // Multiple checkboxes
     if (event.target.checked) {
       // See if item is already in the value array, if so ignore it.
@@ -57,7 +59,7 @@ class Checkbox extends Component {
 
     // Remove value
     // If it does not exist, ignore it
-    if (!clone.indexOf(checkboxValue) > 0) {
+    if (clone.indexOf(checkboxValue) === -1) {
       return;
     }
 
@@ -72,10 +74,16 @@ class Checkbox extends Component {
         return true;
       }
 
-      return (
-        item.props &&
-        item.type === "option" &&
-        item.props.children.includes(filterText)
+      if (typeof item.props.children === "string") {
+        return (
+          item.props &&
+          item.type === "option" &&
+          item.props.children.includes(filterText)
+        );
+      }
+
+      return ReactDOMServer.renderToString(item.props.children).includes(
+        filterText
       );
     });
   });
@@ -100,8 +108,8 @@ class Checkbox extends Component {
         if (option.type !== "option") {
           return option;
         }
-
         const { value, children } = option.props;
+
         return (
           <CheckboxAlias
             key={value}
@@ -122,7 +130,6 @@ class Checkbox extends Component {
       const itemsPerColumn = Math.ceil(list.length / columns);
       // create new array of length with undefined values
       const cols = Array.apply(null, Array(columns)).map(() => {});
-
       const display = cols.map((col, index) => {
         const start = index * itemsPerColumn;
         const end = start + itemsPerColumn;
@@ -138,7 +145,7 @@ class Checkbox extends Component {
 
     // Filtered returned nothing
     if (filter) {
-      return <div>No results.</div>;
+      return <div>No results</div>;
     }
 
     return (
@@ -160,7 +167,7 @@ class Checkbox extends Component {
       const filteredList = this.filtered(children, this.state.filterText);
       return (
         <>
-          <CheckboxFilter
+          <Filter
             filterText={filterText}
             clearFilterText={this.clearFilterText}
             handleChange={this.handleChange}

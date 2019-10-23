@@ -1,25 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  FormGroup,
-  ControlLabel,
-  FormControl,
-  HelpBlock
-} from "react-bootstrap-v3";
+import { FormControl } from "react-bootstrap-v3";
 import context from "../../decorators/context";
-import field from "../../decorators/field";
+import fieldGroup from "./fieldGroup";
 
 const Password = props => {
-  const { input, placeholder, computedInvalid, label, help } = props;
-
-  return (
-    <FormGroup validationState={computedInvalid ? "error" : null}>
-      {label && <ControlLabel>{label}</ControlLabel>}
-      <FormControl type="password" placeholder={placeholder} {...input} />
-      <FormControl.Feedback />
-      {help && <HelpBlock>{help}</HelpBlock>}
-    </FormGroup>
-  );
+  const { input } = props;
+  return <FormControl {...input} type={"password"} />;
 };
 
 Password.propTypes = {
@@ -37,4 +24,4 @@ Password.defaultProps = {
   placeholder: null
 };
 
-export default context(field(Password));
+export default context(fieldGroup(Password));

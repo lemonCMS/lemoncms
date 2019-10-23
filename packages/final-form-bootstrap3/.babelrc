@@ -3,7 +3,10 @@
     [
       "@babel/env",
       {
-        "loose": true
+        "loose": true,
+        "targets": {
+          "node": "current"
+        }
       }
     ],
     "@babel/react"
