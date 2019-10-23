@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BS3 radiobutton should render 1`] = `
+<form
+  className=""
+  onSubmit={[Function]}
+>
+  <div
+    className="form-group has-feedback"
+  >
+    <div
+      className="radio"
+    >
+      <label
+        title=""
+      >
+        <input
+          checked={true}
+          disabled={false}
+          name="field"
+          onChange={[Function]}
+          type="radio"
+        />
+        choice 1
+      </label>
+    </div>
+    <div
+      className="radio"
+    >
+      <label
+        title=""
+      >
+        <input
+          checked={false}
+          disabled={false}
+          name="field"
+          onChange={[Function]}
+          type="radio"
+        />
+        choice 2
+      </label>
+    </div>
+    <div
+      className="radio"
+    >
+      <label
+        title=""
+      >
+        <input
+          checked={false}
+          disabled={false}
+          name="field"
+          onChange={[Function]}
+          type="radio"
+        />
+        choice 3
+      </label>
+    </div>
+    <div
+      className="radio"
+    >
+      <label
+        title=""
+      >
+        <input
+          checked={false}
+          disabled={false}
+          name="field"
+          onChange={[Function]}
+          type="radio"
+        />
+        choice 4
+      </label>
+    </div>
+    <span
+      className="help-block"
+    >
+      What was your mothers maiden name?
+    </span>
+  </div>
+</form>
+`;

@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BS3 checkbox type should render input text 1`] = `
+<form
+  className=""
+  onSubmit={[Function]}
+>
+  <div
+    className="form-group has-feedback"
+  >
+    <div
+      className="row"
+    >
+      <div
+        className="col-md-6"
+      >
+        <div
+          className="checkbox"
+        >
+          <label
+            title=""
+          >
+            <input
+              checked={true}
+              disabled={false}
+              onChange={[Function]}
+              type="checkbox"
+            />
+            choice 1
+          </label>
+        </div>
+        <div
+          className="checkbox"
+        >
+          <label
+            title=""
+          >
+            <input
+              checked={false}
+              disabled={false}
+              onChange={[Function]}
+              type="checkbox"
+            />
+            choice 2
+          </label>
+        </div>
+      </div>
+      <div
+        className="col-md-6"
+      >
+        <div
+          className="checkbox"
+        >
+          <label
+            title=""
+          >
+            <input
+              checked={false}
+              disabled={false}
+              onChange={[Function]}
+              type="checkbox"
+            />
+            choice 3
+          </label>
+        </div>
+        <div
+          className="checkbox"
+        >
+          <label
+            title=""
+          >
+            <input
+              checked={false}
+              disabled={false}
+              onChange={[Function]}
+              type="checkbox"
+            />
+            choice 4
+          </label>
+        </div>
+      </div>
+    </div>
+    <span
+      className="help-block"
+    >
+      What was your mothers maiden name?
+    </span>
+  </div>
+</form>
+`;

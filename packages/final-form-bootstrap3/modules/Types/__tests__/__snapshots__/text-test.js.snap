@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BS3 Text type should render input text 1`] = `
+<form
+  className=""
+  onSubmit={[Function]}
+>
+  <div
+    className="form-group has-feedback"
+  >
+    <input
+      className="form-control"
+      disabled={null}
+      name="field"
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      type={null}
+      value="username 0091"
+    />
+    <span
+      className="help-block"
+    >
+      What was your mothers maiden name?
+    </span>
+  </div>
+</form>
+`;
