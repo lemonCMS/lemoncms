@@ -191,9 +191,9 @@ Checkbox.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.string,
-    PropTypes.object
+    PropTypes.object,
+    PropTypes.element
   ]),
-  placeholder: PropTypes.string,
   placeholderFilter: PropTypes.string,
   label: PropTypes.string,
   help: PropTypes.string,
@@ -209,7 +209,6 @@ Checkbox.defaultProps = {
   help: null,
   columns: 1,
   filter: false,
-  placeholder: null,
   placeholderFilter: "Filter"
 };
 
