@@ -48,12 +48,20 @@ With this final-form-bootsrap3 package you can create simple and more complex fo
 </Chceckbox>
 ```
 
+```typescript jsx
+<checkbox />
+```
+
 | Attribute  | Type     | Required | Default value | Description                                                               |
 | ---------- | -------- | -------- | ------------- | ------------------------------------------------------------------------- |
 | `name`     | `string` | `yes`    | -             | name of the field, this will be used for initial values and submit values |
 | `label`    | `string` | `no`     | -             | will show input label                                                     |
 | `help`     | `string` | `no`     | -             | display helper text                                                       |
 | `children` | `option` | `no`     | -             | show text behind checkbox and contains the return custom value            |
+
+```typescript jsx
+<option />
+```
 
 | Attribute | Type                                   | Required | Description                            |
 | --------- | -------------------------------------- | -------- | -------------------------------------- |
