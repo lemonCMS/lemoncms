@@ -8,12 +8,3 @@ exports[`RunHooks should do it Watch Component should resolve data 1`] = `
   {"users":{"results":["cat.jpg"]}}
 </div>
 `;
-
-exports[`RunHooks should do it Watch Component should resolve data 2`] = `
-<div>
-  Rerenderd: 
-  2
-   
-  {"users":{"results":["cat.jpg"]}}
-</div>
-`;

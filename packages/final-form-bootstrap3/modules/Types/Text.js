@@ -22,6 +22,7 @@ Text.propTypes = {
     ])
   }),
   placeholder: PropTypes.string,
+  addon: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   label: PropTypes.string,
   help: PropTypes.string,
   computedInvalid: PropTypes.bool.isRequired,
@@ -32,6 +33,7 @@ Text.defaultProps = {
   input: {},
   label: null,
   help: null,
+  addon: null,
   placeholder: null,
   type: "text"
 };

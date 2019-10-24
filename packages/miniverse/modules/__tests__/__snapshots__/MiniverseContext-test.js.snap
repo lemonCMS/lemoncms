@@ -1,14 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Miniverse Should fetch, watch and render Github users 1`] = `
-<div>
-  Rerenderd: 
-  1
-   
-  {"users":{"data":{"github":true}}}
-</div>
-`;
-
 exports[`Miniverse Should just log error 1`] = `
 <div>
   Rendered: 

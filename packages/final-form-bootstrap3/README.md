@@ -15,7 +15,7 @@ With this final-form-bootsrap3 package you can create simple and more complex fo
 
 ## Api
 
-### Checkbox
+### `<Checkbox />`
 
 #### Single checkbox
 

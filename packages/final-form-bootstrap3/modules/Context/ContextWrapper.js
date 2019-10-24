@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { FormSpy } from "react-final-form";
-import _isFunction from "lodash/isFunction";
 import AppContext from "./AppContext";
 
 class ContextWrapper extends React.Component {
@@ -63,6 +62,14 @@ class ContextWrapper extends React.Component {
           }}
         >
           {children}
+          <FormSpy subscription={{ values: true }}>
+            {({ values }) => {
+              if (listen && typeof listen === 'function"') {
+                listen(values);
+              }
+              return <pre>{JSON.stringify(values, 0, 2)}</pre>;
+            }}
+          </FormSpy>
         </AppContext.Provider>
       );
     }
@@ -77,7 +84,7 @@ class ContextWrapper extends React.Component {
         }}
       >
         {children}
-        {listen && _isFunction(listen) && (
+        {listen && typeof listen === "function" && (
           <FormSpy
             subscription={{ values: true }}
             onChange={props => {

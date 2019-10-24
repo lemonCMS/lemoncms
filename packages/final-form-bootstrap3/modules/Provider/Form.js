@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Form as FinalForm } from "react-final-form";
+import arrayMutators from "final-form-arrays";
 import ContextWrapper from "../Context/ContextWrapper";
 
 const Form = props => {
@@ -9,6 +10,9 @@ const Form = props => {
   return (
     <FinalForm
       {...formProps}
+      mutators={{
+        ...arrayMutators
+      }}
       render={({ handleSubmit, ...rest }) => {
         return (
           <ContextWrapper

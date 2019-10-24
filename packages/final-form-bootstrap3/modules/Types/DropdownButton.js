@@ -1,0 +1,88 @@
+import React from "react";
+import PropTypes from "prop-types";
+import {
+  DropdownButton as DropdownButtonAlias,
+  MenuItem,
+  InputGroup
+} from "react-bootstrap";
+import context from "../decorators/context";
+
+const createMenuitems = children => {
+  return children.map(option => {
+    if (option.type !== "option") {
+      return option;
+    }
+    const { value, children } = option.props;
+    return (
+      <MenuItem key={value} eventKey={value}>
+        {children}
+      </MenuItem>
+    );
+  });
+};
+
+const extractTitle = (placeholder, selectedValue, children) => {
+  if (!selectedValue) {
+    return placeholder;
+  }
+  let title = "x";
+
+  children.forEach(child => {
+    if (child.type !== "option") {
+      return;
+    }
+
+    const {
+      props: { value }
+    } = child;
+    if (String(selectedValue) === String(value)) {
+      if (typeof child.props.children === "string") {
+        title = child.props.children;
+      }
+    }
+  });
+  return title;
+};
+
+const DropdownButton = props => {
+  const {
+    input: { name, onChange, value },
+    type,
+    isDisabled,
+    children,
+    placeholder
+  } = props;
+  return (
+    <DropdownButtonAlias
+      id={`input-dropdown-${name}`}
+      title={extractTitle(placeholder, value, children)}
+      onSelect={eventKey => onChange(eventKey)}
+      componentClass={InputGroup.Button}
+    >
+      {createMenuitems(children)}
+    </DropdownButtonAlias>
+  );
+};
+
+DropdownButton.propTypes = {
+  input: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onBlur: PropTypes.func.isRequired,
+    onFocus: PropTypes.func.isRequired,
+    value: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+      PropTypes.number
+    ])
+  }),
+  placeholder: PropTypes.string,
+  computedInvalid: PropTypes.bool.isRequired
+};
+
+DropdownButton.defaultProps = {
+  input: {},
+  placeholder: null
+};
+
+export default context()(DropdownButton);

@@ -1,10 +1,10 @@
 let mappedModule;
 switch (process.env.TEST_ENV) {
   case "cjs":
-    mappedModule = "<rootDir>/cjs/lemoncms-forms.js";
+    mappedModule = "<rootDir>/cjs/final-form-bootstrap3";
     break;
   case "umd":
-    mappedModule = "<rootDir>/umd/lemoncms-forms.js";
+    mappedModule = "<rootDir>/umd/final-form-bootstrap3";
     break;
   default:
     mappedModule = "<rootDir>/modules/index.js";

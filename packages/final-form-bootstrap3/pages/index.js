@@ -12,6 +12,24 @@ import "./react-datetime.css";
 import DateTimePicker from "../custom/DateTimePicker";
 import Tmc from "../custom/Tinymce";
 import DropZone from "../modules/Types/DropZone";
+import Complex, { Header, Footer } from "../modules/Types/Complex";
+import Panel from "react-bootstrap/lib/Panel";
+import Button from "react-bootstrap/lib/Button";
+import ButtonGroup from "react-bootstrap/lib/ButtonGroup";
+import InputGroup from "react-bootstrap/lib/InputGroup";
+import DropdownButton from "../modules/Types/DropdownButton";
+
+const ipsy = name => (
+  <DropdownButton
+    name={`${name}.ipsy`}
+    label={"SelectBox"}
+    placeholder={"dropdown title"}
+  >
+    <option value={"hailey"}>Hailey</option>
+    <option value={"aiden"}>Aiden</option>
+    <option value={"mayson"}>Mayson</option>
+  </DropdownButton>
+);
 
 const Home = () => (
   <div>
@@ -42,6 +60,7 @@ const Home = () => (
           <Well>
             <h2>Login Example</h2>
             <Form
+              static
               debug
               onSubmit={data => console.log(data)}
               initialValues={{
@@ -50,7 +69,8 @@ const Home = () => (
                 radios: "aiden",
                 "single-checkbox": true,
                 "single-checkbox-2": false,
-                "select-multi": []
+                "select-multi": [],
+                dropdown: "aiden"
               }}
             >
               <Tmc name={"tmcr"} />
@@ -104,7 +124,7 @@ const Home = () => (
                 <option value={"1"}>Test 1</option>
               </Checkbox>
 
-              <Radio name={"radios"} label={"Radio"} filter>
+              <Radio name={"radios"} label={"Radio"} filter columns={3}>
                 <option value={"hailey"}>Hailey</option>
                 <option value={"aiden"}>Aiden</option>
                 <option value={"mayson"}>Mayson</option>
@@ -152,12 +172,55 @@ const Home = () => (
                 <option value={"mayson"}>Mayson</option>
               </Select>
 
+              <DropdownButton
+                name={"dropdown"}
+                label={"SelectBox"}
+                placeholder={"dropdown title"}
+              >
+                <option value={"hailey"}>Hailey</option>
+                <option value={"aiden"}>Aiden</option>
+                <option value={"mayson"}>Mayson</option>
+              </DropdownButton>
+
               <DropZone
                 name="dropzone"
                 endPoint={{ path: "/xyz" }}
                 label={"DROPZONE"}
               />
 
+              <Complex name={"section"}>
+                <Header>
+                  {({ push, pop }) => (
+                    <Panel>
+                      <Panel.Heading>
+                        <Panel.Title componentClass="h3">
+                          Panel heading with a title
+                        </Panel.Title>
+                      </Panel.Heading>
+                      <Panel.Body>
+                        <ButtonGroup>
+                          <Button onClick={() => push({})}>add</Button>
+                          <Button onClick={() => pop()}>remove</Button>
+                        </ButtonGroup>
+                      </Panel.Body>
+                    </Panel>
+                  )}
+                </Header>
+                {({ name, index }) => {
+                  return (
+                    <Panel key={name}>
+                      <Panel.Heading>
+                        <Panel.Title componentClass="h3">
+                          User [{index + 1}]
+                        </Panel.Title>
+                      </Panel.Heading>
+                      <Panel.Body>
+                        <Text name={`${name}.title`} addon={ipsy(name)} />
+                      </Panel.Body>
+                    </Panel>
+                  );
+                }}
+              </Complex>
               <button type={"submit"}>Send</button>
             </Form>
           </Well>

@@ -1,10 +1,10 @@
 let mappedModule;
 switch (process.env.TEST_ENV) {
   case "cjs":
-    mappedModule = "<rootDir>/cjs/lemoncms-forms.js";
+    mappedModule = "<rootDir>/cjs/miniverse.js";
     break;
   case "umd":
-    mappedModule = "<rootDir>/umd/lemoncms-forms.js";
+    mappedModule = "<rootDir>/umd/miniverse.js";
     break;
   default:
     mappedModule = "<rootDir>/modules/index.js";
@@ -17,7 +17,7 @@ module.exports = {
     __DEV__: true
   },
   moduleNameMapper: {
-    "^forms": mappedModule
+    "^miniverse$": mappedModule
   },
   modulePaths: ["<rootDir>/node_modules"],
   setupFiles: ["raf/polyfill", "<rootDir>/enzyme.js"],

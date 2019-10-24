@@ -22,7 +22,7 @@ class FileUpload extends React.Component {
   }
 
   componentDidMount() {
-    const { file, addOnStack, endPoint, upload } = this.props;
+    const { file } = this.props;
 
     if (file.type.includes("image/")) {
       this.setState({ preview: URL.createObjectURL(file) });
@@ -48,35 +48,6 @@ class FileUpload extends React.Component {
     } while (Math.abs(bytes) >= thresh && u < units.length - 1);
     return bytes.toFixed(1) + " " + units[u];
   }
-
-  // uploadFile() {
-  //   let progress = 0;
-  //
-  //   const formData = new FormData();
-  //   formData.append('upload', file);
-  //   axios
-  //     .post(endPoint.path, formData, {
-  //       headers: endPoint.headers,
-  //       onUploadProgress: progressEvent => {
-  //         const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-  //         progress = [percentage, '%'].join('');
-  //         this.progressElem.style.width = progress;
-  //         if (percentage === 100) {
-  //           this.progressElem.innerHTML = 'done';
-  //         } else {
-  //           this.progressElem.innerHTML = progress;
-  //         }
-  //       }
-  //     })
-  //     .then(() => {
-  //       addOnStack(file);
-  //     })
-  //     .catch(error => {
-  //       this.setState({
-  //         error
-  //       });
-  //     });
-  // }
 
   render() {
     const { file, removeFromStack } = this.props;
@@ -109,23 +80,6 @@ class FileUpload extends React.Component {
         <td>
           {file.name}({this.fileSize(file.size)})
         </td>
-        {/*<td className="file-upload-progress">*/}
-        {/*  <div className="progress">*/}
-        {/*    <div*/}
-        {/*      ref={elem => {*/}
-        {/*        this.progressElem = elem;*/}
-        {/*      }}*/}
-        {/*      className="progress-bar"*/}
-        {/*      role="progressbar"*/}
-        {/*      style={{width: '0%'}}*/}
-        {/*      aria-valuenow="0"*/}
-        {/*      aria-valuemin="0"*/}
-        {/*      aria-valuemax="100"*/}
-        {/*    >*/}
-        {/*      0%*/}
-        {/*    </div>*/}
-        {/*  </div>*/}
-        {/*</td>*/}
         <td className="file-upload-delete">
           <button
             className="file-upload-delete-button"

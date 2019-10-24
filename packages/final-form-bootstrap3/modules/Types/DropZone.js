@@ -11,8 +11,6 @@ class DropZone extends React.Component {
     upload: false
   };
 
-  stack = [];
-
   shouldComponentUpdate(nextProps, nextState) {
     const { queue } = this.state;
     return queue !== nextState.queue;
@@ -36,11 +34,7 @@ class DropZone extends React.Component {
     const { queue } = this.state;
     const { input } = this.props;
     const filtered = queue.filter(file => file.name !== fileToDelete.name);
-    const stackFiltered = this.stack.filter(
-      file => file.name !== fileToDelete.name
-    );
-    this.stack = stackFiltered;
-    input.onChange(stackFiltered);
+    input.onChange(filtered);
     this.setState({ queue: filtered });
   };
 
@@ -55,7 +49,6 @@ class DropZone extends React.Component {
       <FileUpload
         key={`${file.name}-${index}`}
         file={file}
-        addOnStack={this.addOnStack}
         removeFromStack={this.removeFromStack}
         endPoint={endPoint}
         upload={autoUpload || upload}
