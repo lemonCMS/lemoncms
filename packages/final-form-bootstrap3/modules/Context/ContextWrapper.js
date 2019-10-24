@@ -50,7 +50,7 @@ class ContextWrapper extends React.Component {
   }
 
   render() {
-    const { debug, children, listen } = this.props;
+    const { debug, children, listen, layout } = this.props;
     if (debug) {
       return (
         <AppContext.Provider
@@ -58,6 +58,7 @@ class ContextWrapper extends React.Component {
             checkCondition: this.checkCondition,
             isStatic: this.props.static, // eslint-disable-line react/destructuring-assignment
             debug,
+            layout,
             status: this.getStatus()
           }}
         >

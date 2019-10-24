@@ -5,7 +5,15 @@ import arrayMutators from "final-form-arrays";
 import ContextWrapper from "../Context/ContextWrapper";
 
 const Form = props => {
-  const { children, className, debug, readOnly, listen, ...formProps } = props;
+  const {
+    children,
+    className,
+    debug,
+    readOnly,
+    listen,
+    layout,
+    ...formProps
+  } = props;
 
   return (
     <FinalForm
@@ -20,6 +28,7 @@ const Form = props => {
             debug={debug}
             listen={listen}
             readOnly={readOnly}
+            layout={layout}
           >
             <form onSubmit={handleSubmit} className={className}>
               {children}
@@ -39,6 +48,10 @@ Form.propTypes = {
   debug: PropTypes.bool,
   readOnly: PropTypes.bool,
   listen: PropTypes.func,
+  layout: PropTypes.shape({
+    label: PropTypes.object,
+    field: PropTypes.object
+  }),
   initialValues: PropTypes.objectOf(
     PropTypes.oneOfType([
       PropTypes.string,
@@ -56,7 +69,11 @@ Form.defaultProps = {
   listen: () => {},
   debug: false,
   readOnly: false,
-  initialValues: {}
+  initialValues: {},
+  layout: {
+    label: { sm: 4 },
+    field: { sm: 8 }
+  }
 };
 
 export default Form;

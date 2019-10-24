@@ -4,9 +4,11 @@ import {
   FormGroup,
   ControlLabel,
   FormControl,
-  HelpBlock
+  HelpBlock,
+  Clearfix
 } from "react-bootstrap";
 import InputGroup from "react-bootstrap/lib/InputGroup";
+import Col from "react-bootstrap/lib/Col";
 
 export default function fieldGroup(Component) {
   const WrappedComponent = props => {
@@ -15,10 +17,10 @@ export default function fieldGroup(Component) {
       addon,
       help,
       disabled,
-      context: { checkCondition },
+      context: { checkCondition, layout },
       meta: { submitFailed, invalid, error }
     } = props;
-
+    console.log({ props });
     const computedInvalid = submitFailed && invalid;
     const isDisabled = disabled && checkCondition(disabled);
 
@@ -50,11 +52,16 @@ export default function fieldGroup(Component) {
 
     return (
       <FormGroup validationState={computedInvalid ? "error" : null}>
-        {label && <ControlLabel>{label}</ControlLabel>}
-        {getComponent()}
+        {label && (
+          <Col componentClass={ControlLabel} {...layout.label}>
+            {label}
+          </Col>
+        )}
+        <Col {...layout.field}>{getComponent()}</Col>
         <FormControl.Feedback />
         {!computedInvalid && help && <HelpBlock>{help}</HelpBlock>}
         {computedInvalid && error && <HelpBlock>{error}</HelpBlock>}
+        <Clearfix />
       </FormGroup>
     );
   };
@@ -76,7 +83,11 @@ export default function fieldGroup(Component) {
       error: PropTypes.string
     }).isRequired,
     context: PropTypes.shape({
-      checkCondition: PropTypes.func
+      checkCondition: PropTypes.func,
+      layout: PropTypes.shape({
+        label: PropTypes.object,
+        field: PropTypes.object
+      })
     }).isRequired
   };
 
@@ -89,7 +100,13 @@ export default function fieldGroup(Component) {
     formLabel: null,
     formError: null,
     formText: null,
-    disabled: null
+    disabled: null,
+    context: {
+      layout: {
+        label: { sm: 4 },
+        field: { sm: 8 }
+      }
+    }
   };
 
   return WrappedComponent;

@@ -134,7 +134,7 @@ class Checkbox extends Component {
         const start = index * itemsPerColumn;
         const end = start + itemsPerColumn;
         return (
-          <Col md={Math.round(12 / columns)} key={index}>
+          <Col sm={Math.round(12 / columns)} key={index}>
             {list.slice(start, end)}
           </Col>
         );

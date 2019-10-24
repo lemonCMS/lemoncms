@@ -72,6 +72,10 @@ const Home = () => (
                 "select-multi": [],
                 dropdown: "aiden"
               }}
+              layout={{
+                label: { sm: 12 },
+                field: { sm: 12 }
+              }}
             >
               <Tmc name={"tmcr"} />
               <DateTimePicker name={"datetime-picker"} label={"Custom field"} />
