@@ -5,7 +5,8 @@ const Filter = ({
   handleChange,
   placeholderFilter,
   filterText,
-  clearFilterText
+  clearFilterText,
+  isDisabled
 }) => {
   return (
     <div className="input-group">
@@ -15,10 +16,11 @@ const Filter = ({
         type={"text"}
         onChange={handleChange}
         value={filterText}
+        disabled={isDisabled}
       />
       <span className="input-group-btn">
         <button
-          disabled={!filterText}
+          disabled={!filterText || isDisabled}
           className="btn btn-default"
           type={"button"}
           onClick={clearFilterText}
@@ -34,7 +36,8 @@ Filter.propTypes = {
   filterText: PropTypes.string.isRequired,
   placeholderFilter: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
-  clearFilterText: PropTypes.func.isRequired
+  clearFilterText: PropTypes.func.isRequired,
+  isDisabled: PropTypes.bool
 };
 
 export default Filter;

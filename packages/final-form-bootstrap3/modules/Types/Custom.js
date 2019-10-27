@@ -23,6 +23,8 @@ Custom.propTypes = {
     onFocus: PropTypes.func.isRequired,
     value: PropTypes.any
   }),
+  disabled: PropTypes.func,
+  isDisabled: PropTypes.bool,
   children: PropTypes.func,
   control: PropTypes.bool,
   placeholder: PropTypes.string,
@@ -36,7 +38,9 @@ Custom.defaultProps = {
   label: null,
   help: null,
   placeholder: null,
-  control: true
+  control: true,
+  disabled: null,
+  isDisabled: false
 };
 
 export default context()(fieldGroup(Custom));

@@ -35,6 +35,8 @@ Select.propTypes = {
     PropTypes.arrayOf(PropTypes.element),
     PropTypes.element
   ]),
+  disabled: PropTypes.func,
+  isDisabled: PropTypes.bool,
   placeholder: PropTypes.string,
   label: PropTypes.string,
   help: PropTypes.string,
@@ -47,7 +49,9 @@ Select.defaultProps = {
   label: null,
   help: null,
   placeholder: null,
-  multiple: false
+  multiple: false,
+  disabled: null,
+  isDisabled: false
 };
 
 export default context({ type: "select" })(fieldGroup(Select));

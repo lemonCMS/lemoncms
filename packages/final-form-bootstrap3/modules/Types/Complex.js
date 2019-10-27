@@ -5,7 +5,7 @@ import { FieldArray } from "react-final-form-arrays";
 const Complex = props => {
   const { children, name } = props;
   let header = null;
-  let childFunction = null;
+  let childFunction = children;
   let footer = null;
 
   if (Array.isArray(children)) {
@@ -92,7 +92,9 @@ const Complex = props => {
 
 Complex.propTypes = {
   children: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  disabled: PropTypes.func,
+  isDisabled: PropTypes.bool
 };
 
 Complex.defaultProps = {
@@ -100,7 +102,9 @@ Complex.defaultProps = {
   label: null,
   help: null,
   placeholder: null,
-  control: true
+  disabled: null,
+  control: true,
+  isDisabled: false
 };
 
 export default Complex;

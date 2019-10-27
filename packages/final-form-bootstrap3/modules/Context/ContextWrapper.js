@@ -81,6 +81,7 @@ class ContextWrapper extends React.Component {
           checkCondition: this.checkCondition,
           isStatic: this.props.static, // eslint-disable-line react/destructuring-assignment
           debug,
+          layout,
           status: this.getStatus()
         }}
       >

@@ -77,19 +77,24 @@ const Home = () => (
                 field: { sm: 12 }
               }}
             >
-              <Tmc name={"tmcr"} />
-              <DateTimePicker name={"datetime-picker"} label={"Custom field"} />
-              <Datetime name={"datetime"} label={"Custom field Datetime"} />
+              {/*<Tmc name={"tmcr"} />*/}
+              {/*<DateTimePicker name={"datetime-picker"} label={"Custom field"} />*/}
+              {/*<Datetime name={"datetime"} label={"Custom field Datetime"} />*/}
               <Text
                 name={"username"}
                 label={"Username"}
                 disabled={values => values.radios === "mayson"}
               />
-              <Password name={"password"} label={"Password"} />
+              <Password
+                name={"password"}
+                label={"Password"}
+                disabled={values => values.radios === "mayson"}
+              />
               <Checkbox
                 name={"checkboxes"}
                 label={"Multiple checkboxes"}
                 columns={4}
+                disabled={values => true}
                 filter
               >
                 <option value={"1"}>1</option>
@@ -176,21 +181,21 @@ const Home = () => (
                 <option value={"mayson"}>Mayson</option>
               </Select>
 
-              <DropdownButton
-                name={"dropdown"}
-                label={"SelectBox"}
-                placeholder={"dropdown title"}
-              >
-                <option value={"hailey"}>Hailey</option>
-                <option value={"aiden"}>Aiden</option>
-                <option value={"mayson"}>Mayson</option>
-              </DropdownButton>
+              {/*<DropdownButton*/}
+              {/*  name={"dropdown"}*/}
+              {/*  label={"SelectBox"}*/}
+              {/*  placeholder={"dropdown title"}*/}
+              {/*>*/}
+              {/*  <option value={"hailey"}>Hailey</option>*/}
+              {/*  <option value={"aiden"}>Aiden</option>*/}
+              {/*  <option value={"mayson"}>Mayson</option>*/}
+              {/*</DropdownButton>*/}
 
-              <DropZone
-                name="dropzone"
-                endPoint={{ path: "/xyz" }}
-                label={"DROPZONE"}
-              />
+              {/*<DropZone*/}
+              {/*  name="dropzone"*/}
+              {/*  endPoint={{ path: "/xyz" }}*/}
+              {/*  label={"DROPZONE"}*/}
+              {/*/>*/}
 
               <Complex name={"section"}>
                 <Header>
@@ -225,6 +230,14 @@ const Home = () => (
                   );
                 }}
               </Complex>
+
+              <Radio
+                name={"field"}
+                placeholder={"a nice placeholder"}
+                help={"What was your mothers maiden name?"}
+              >
+                <span>I agree with the terms</span>
+              </Radio>
               <button type={"submit"}>Send</button>
             </Form>
           </Well>

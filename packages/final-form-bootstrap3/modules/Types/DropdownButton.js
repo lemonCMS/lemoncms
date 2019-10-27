@@ -47,17 +47,22 @@ const extractTitle = (placeholder, selectedValue, children) => {
 const DropdownButton = props => {
   const {
     input: { name, onChange, value },
-    type,
-    isDisabled,
+    disabled,
     children,
-    placeholder
+    placeholder,
+    context: { checkCondition },
+    meta: { submitFailed, invalid }
   } = props;
+  const computedInvalid = submitFailed && invalid;
+  const isDisabled = disabled && checkCondition(disabled);
+
   return (
     <DropdownButtonAlias
       id={`input-dropdown-${name}`}
       title={extractTitle(placeholder, value, children)}
       onSelect={eventKey => onChange(eventKey)}
       componentClass={InputGroup.Button}
+      disabled={isDisabled}
     >
       {createMenuitems(children)}
     </DropdownButtonAlias>
@@ -76,13 +81,16 @@ DropdownButton.propTypes = {
       PropTypes.number
     ])
   }),
-  placeholder: PropTypes.string,
-  computedInvalid: PropTypes.bool.isRequired
+  disabled: PropTypes.func,
+  isDisabled: PropTypes.bool,
+  placeholder: PropTypes.string
 };
 
 DropdownButton.defaultProps = {
   input: {},
-  placeholder: null
+  placeholder: null,
+  disabled: null,
+  isDisabled: false
 };
 
 export default context()(DropdownButton);

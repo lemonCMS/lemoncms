@@ -61,7 +61,7 @@ class Radio extends Component {
   };
 
   createRadios = children => {
-    const { columns, filter, input } = this.props;
+    const { columns, filter, input, isDisabled } = this.props;
     if (
       children &&
       Array.isArray(children) &&
@@ -77,7 +77,8 @@ class Radio extends Component {
         return (
           <RadioAlias
             key={value}
-            checked={input.value.indexOf(value) > -1}
+            disabled={isDisabled}
+            checked={input.value === value}
             onChange={event => {
               this.emit(event, value);
             }}
@@ -115,6 +116,7 @@ class Radio extends Component {
     return (
       <RadioAlias
         checked={input.value}
+        disabled={isDisabled}
         onChange={event => {
           this.emit(event, true, true);
         }}
@@ -125,7 +127,7 @@ class Radio extends Component {
   };
 
   render() {
-    const { filter, placeholderFilter, children } = this.props;
+    const { filter, placeholderFilter, children, isDisabled } = this.props;
     const { filterText } = this.state;
     if (filter) {
       const filteredList = this.filtered(children, this.state.filterText);
@@ -136,6 +138,7 @@ class Radio extends Component {
             clearFilterText={this.clearFilterText}
             handleChange={this.handleChange}
             placeholderFilter={placeholderFilter}
+            isDisabled={isDisabled}
           />
           {this.createRadios(filteredList)}
         </>
@@ -165,6 +168,8 @@ Radio.propTypes = {
     PropTypes.object,
     PropTypes.element
   ]),
+  disabled: PropTypes.func,
+  isDisabled: PropTypes.bool,
   placeholderFilter: PropTypes.string,
   label: PropTypes.string,
   help: PropTypes.string,
@@ -180,7 +185,9 @@ Radio.defaultProps = {
   help: null,
   columns: 1,
   filter: false,
-  placeholderFilter: "Filter"
+  placeholderFilter: "Filter",
+  disabled: null,
+  isDisabled: false
 };
 
 export default context()(fieldGroup(Radio));

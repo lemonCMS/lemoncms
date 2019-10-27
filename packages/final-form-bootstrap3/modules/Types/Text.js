@@ -21,6 +21,8 @@ Text.propTypes = {
       PropTypes.number
     ])
   }),
+  disabled: PropTypes.func,
+  isDisabled: PropTypes.bool,
   placeholder: PropTypes.string,
   addon: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   label: PropTypes.string,
@@ -35,7 +37,9 @@ Text.defaultProps = {
   help: null,
   addon: null,
   placeholder: null,
-  type: "text"
+  type: "text",
+  disabled: null,
+  isDisabled: false
 };
 
 export default context()(fieldGroup(Text));

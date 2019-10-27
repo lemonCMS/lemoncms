@@ -12,12 +12,17 @@ exports[`Form provider should render with children 1`] = `
 `;
 
 exports[`Form provider should render with debug 1`] = `
-<form
-  className=""
-  onSubmit={[Function]}
->
-  <div>
-    child component
-  </div>
-</form>
+Array [
+  <form
+    className=""
+    onSubmit={[Function]}
+  >
+    <div>
+      child component
+    </div>
+  </form>,
+  <pre>
+    {}
+  </pre>,
+]
 `;

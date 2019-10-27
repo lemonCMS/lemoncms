@@ -20,7 +20,6 @@ export default function fieldGroup(Component) {
       context: { checkCondition, layout },
       meta: { submitFailed, invalid, error }
     } = props;
-    console.log({ props });
     const computedInvalid = submitFailed && invalid;
     const isDisabled = disabled && checkCondition(disabled);
 

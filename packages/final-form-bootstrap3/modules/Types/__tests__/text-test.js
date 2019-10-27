@@ -19,6 +19,21 @@ describe("BS3 Text type", () => {
     expect(output).toMatchSnapshot();
   });
 
+  it("should render input text with addon", () => {
+    const tree = renderer.create(
+      <Form onSubmit={() => {}} initialValues={{ field: "username 0091" }}>
+        <Text
+          name={"field"}
+          placeholder={"a nice placeholder"}
+          help={"What was your mothers maiden name?"}
+          addon={"$"}
+        />
+      </Form>
+    );
+    const output = tree.toJSON();
+    expect(output).toMatchSnapshot();
+  });
+
   it("should enzyme", () => {
     const component = mount(
       <Form onSubmit={() => {}} initialValues={{ username: "username 0091" }}>

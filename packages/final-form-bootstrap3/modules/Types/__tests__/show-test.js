@@ -9,7 +9,7 @@ describe("BS3 Text type", () => {
     const tree = renderer.create(
       <Form onSubmit={() => {}} initialValues={{ field: "true" }}>
         <Show name="show" condition={({ field }) => field === "true"}>
-          SHOW
+          <div>SHOW</div>
         </Show>
       </Form>
     );
@@ -21,7 +21,7 @@ describe("BS3 Text type", () => {
     const component = mount(
       <Form onSubmit={() => {}} initialValues={{ field: "true" }}>
         <Show name="show" condition={({ field }) => field === "true"}>
-          SHOW
+          <div>SHOW</div>
         </Show>
       </Form>
     );
@@ -35,13 +35,12 @@ describe("BS3 Text type", () => {
     const component = mount(
       <Form onSubmit={() => {}} initialValues={{ field: "false" }}>
         <Show name="show" condition={({ field }) => field === "true"}>
-          SHOW
+          <div>SHOW</div>
         </Show>
       </Form>
     );
 
     const div = component.find("div");
-    expect(div).toBeDefined();
-    expect(div.text()).toBeFalsy();
+    expect(div).toHaveLength(0);
   });
 });

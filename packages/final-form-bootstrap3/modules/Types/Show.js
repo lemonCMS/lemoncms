@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import context from "../decorators/context";
-import fieldGroup from "./fieldGroup";
 
 const Show = ({ condition, children, context: { checkCondition } }) => {
   if (condition && typeof condition === "function") {
@@ -21,4 +20,4 @@ Show.propTypes = {
   hidden: PropTypes.func,
   condition: PropTypes.func
 };
-export default context()(fieldGroup(Show));
+export default context()(Show);

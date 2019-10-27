@@ -21,6 +21,8 @@ Password.propTypes = {
       PropTypes.number
     ])
   }),
+  disabled: PropTypes.func,
+  isDisabled: PropTypes.bool,
   placeholder: PropTypes.string,
   label: PropTypes.string,
   help: PropTypes.string,
@@ -31,7 +33,9 @@ Password.defaultProps = {
   input: {},
   label: null,
   help: null,
-  placeholder: null
+  placeholder: null,
+  disabled: null,
+  isDisabled: false
 };
 
 export default context()(fieldGroup(Password));

@@ -97,7 +97,7 @@ class Checkbox extends Component {
   };
 
   createCheckBoxes = children => {
-    const { columns, filter, input } = this.props;
+    const { columns, filter, input, isDisabled } = this.props;
     if (
       children &&
       Array.isArray(children) &&
@@ -113,6 +113,7 @@ class Checkbox extends Component {
         return (
           <CheckboxAlias
             key={value}
+            disabled={isDisabled}
             checked={input.value.indexOf(value) > -1}
             onChange={event => {
               this.emit(event, value);
@@ -151,6 +152,7 @@ class Checkbox extends Component {
     return (
       <CheckboxAlias
         checked={input.value}
+        disabled={isDisabled}
         onChange={event => {
           this.emit(event, true, true);
         }}
@@ -161,13 +163,14 @@ class Checkbox extends Component {
   };
 
   render() {
-    const { filter, placeholderFilter, children } = this.props;
+    const { filter, placeholderFilter, children, isDisabled } = this.props;
     const { filterText } = this.state;
     if (filter) {
       const filteredList = this.filtered(children, this.state.filterText);
       return (
         <>
           <Filter
+            isDisabled={isDisabled}
             filterText={filterText}
             clearFilterText={this.clearFilterText}
             handleChange={this.handleChange}
@@ -201,6 +204,8 @@ Checkbox.propTypes = {
     PropTypes.object,
     PropTypes.element
   ]),
+  disabled: PropTypes.func,
+  isDisabled: PropTypes.bool,
   placeholderFilter: PropTypes.string,
   label: PropTypes.string,
   help: PropTypes.string,
@@ -216,7 +221,9 @@ Checkbox.defaultProps = {
   help: null,
   columns: 1,
   filter: false,
-  placeholderFilter: "Filter"
+  placeholderFilter: "Filter",
+  disabled: null,
+  isDisabled: false
 };
 
 export default context()(fieldGroup(Checkbox));
