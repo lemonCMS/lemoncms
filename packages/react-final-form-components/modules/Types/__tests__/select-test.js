@@ -69,11 +69,9 @@ describe("BS3 selectbox", () => {
     expect(option.at(1).props()).toHaveProperty("value", "aiden");
     expect(option.at(2).props()).toHaveProperty("value", "mayson");
 
-    component
-      .find("select")
-      .simulate("change", {
-        target: { name: "field", value: ["hailey", "mayson"] }
-      });
+    component.find("select").simulate("change", {
+      target: { name: "field", value: ["hailey", "mayson"] }
+    });
     component.find("form").simulate("submit");
 
     expect(submit).toHaveBeenCalledTimes(1);

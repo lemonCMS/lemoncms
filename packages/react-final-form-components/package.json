@@ -1,5 +1,5 @@
 {
-  "name": "final-form-bootstrap3",
+  "name": "react-final-form-components",
   "version": "0.1.0",
   "repository": "https://github.com/lemonCMS/lemoncms/tree/master/packages/final-form-bootstrap3",
   "scripts": {
@@ -9,7 +9,7 @@
     "rollup": "rollup -c"
   },
   "main": "index.js",
-  "module": "esm/final-form-bootstrap3.js",
+  "module": "esm/react-final-form-components.js",
   "sideEffects": false,
   "dependencies": {
     "@babel/core": "^7.6.4",
