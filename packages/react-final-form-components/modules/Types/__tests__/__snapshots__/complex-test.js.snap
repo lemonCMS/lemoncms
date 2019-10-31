@@ -1,0 +1,126 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BS3 complex type should render a complex 1`] = `
+<form
+  className=""
+  onSubmit={[Function]}
+>
+  <div
+    className="form-group has-feedback"
+  >
+    <label
+      className="col-sm-4 control-label"
+    >
+      firstname
+    </label>
+    <div
+      className="col-sm-8"
+    >
+      <input
+        className="form-control"
+        disabled={null}
+        name="firstname"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        type={null}
+        value=""
+      />
+    </div>
+    <div
+      className="clearfix"
+    />
+  </div>
+</form>
+`;
+
+exports[`BS3 complex type should render a complex with footer 1`] = `
+<form
+  className=""
+  onSubmit={[Function]}
+>
+  <div
+    className="form-group has-feedback"
+  >
+    <label
+      className="col-sm-4 control-label"
+    >
+      firstname
+    </label>
+    <div
+      className="col-sm-8"
+    >
+      <input
+        className="form-control"
+        disabled={null}
+        name="firstname"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        type={null}
+        value=""
+      />
+    </div>
+    <div
+      className="clearfix"
+    />
+  </div>
+  <div>
+    Footer
+  </div>
+</form>
+`;
+
+exports[`BS3 complex type should render a complex with header 1`] = `
+<form
+  className=""
+  onSubmit={[Function]}
+>
+  <div>
+    Header
+  </div>
+  <div
+    className="form-group has-feedback"
+  >
+    <label
+      className="col-sm-4 control-label"
+    >
+      firstname
+    </label>
+    <div
+      className="col-sm-8"
+    >
+      <input
+        className="form-control"
+        disabled={null}
+        name="firstname"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        type={null}
+        value=""
+      />
+    </div>
+    <div
+      className="clearfix"
+    />
+  </div>
+</form>
+`;
+
+exports[`BS3 complex type should render a complex with header and footer 1`] = `
+<form
+  className=""
+  onSubmit={[Function]}
+>
+  <div>
+    HEADER MOCK
+  </div>
+  <div>
+    Content MOCK
+  </div>
+  <div>
+    FOOTER MOCK
+  </div>
+</form>
+`;

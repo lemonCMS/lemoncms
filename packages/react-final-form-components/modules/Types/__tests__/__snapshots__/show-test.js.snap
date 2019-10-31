@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BS3 Text type should render input text 1`] = `
+<form
+  className=""
+  onSubmit={[Function]}
+>
+  <div>
+    SHOW
+  </div>
+</form>
+`;

@@ -1,0 +1,50 @@
+{
+  "esm/final-form-bootstrap3.js": {
+    "bundled": 29366,
+    "minified": 18638,
+    "gzipped": 4194,
+    "treeshaked": {
+      "rollup": {
+        "code": 15560,
+        "import_statements": 635
+      },
+      "webpack": {
+        "code": 17659
+      }
+    }
+  },
+  "umd/final-form-bootstrap3.js": {
+    "bundled": 300191,
+    "minified": 109622,
+    "gzipped": 32958
+  },
+  "umd/final-form-bootstrap3.min.js": {
+    "bundled": 137373,
+    "minified": 61308,
+    "gzipped": 18372
+  },
+  "esm/react-final-form-components.js": {
+    "bundled": 29366,
+    "minified": 18638,
+    "gzipped": 4194,
+    "treeshaked": {
+      "rollup": {
+        "code": 15560,
+        "import_statements": 635
+      },
+      "webpack": {
+        "code": 17659
+      }
+    }
+  },
+  "umd/react-final-form-components.js": {
+    "bundled": 300191,
+    "minified": 109622,
+    "gzipped": 32958
+  },
+  "umd/react-final-form-components.min.js": {
+    "bundled": 137373,
+    "minified": 61308,
+    "gzipped": 18372
+  }
+}

@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BS3 selectbox should render snapshot 1`] = `
+<form
+  className=""
+  onSubmit={[Function]}
+>
+  <div
+    className="form-group has-feedback"
+  >
+    <label
+      className="col-sm-4 control-label"
+    >
+      Kids
+    </label>
+    <div
+      className="col-sm-8"
+    >
+      <select
+        className="form-control"
+        disabled={null}
+        multiple={false}
+        name="field"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        value=""
+      >
+        <option
+          value="hailey"
+        >
+          Hailey
+        </option>
+        <option
+          value="aiden"
+        >
+          Aiden
+        </option>
+        <option
+          value="mayson"
+        >
+          Mayson
+        </option>
+      </select>
+    </div>
+    <div
+      className="clearfix"
+    />
+  </div>
+</form>
+`;
