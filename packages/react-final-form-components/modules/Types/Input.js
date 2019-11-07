@@ -4,12 +4,12 @@ import { FormControl } from "react-bootstrap";
 import context from "../decorators/context";
 import fieldGroup from "./fieldGroup";
 
-const Text = props => {
+const Input = props => {
   const { input, type, isDisabled } = props;
   return <FormControl {...input} type={type} disabled={isDisabled} />;
 };
 
-Text.propTypes = {
+Input.propTypes = {
   input: PropTypes.shape({
     name: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
@@ -31,7 +31,7 @@ Text.propTypes = {
   type: PropTypes.oneOf(["text", "email", "date", "datetime-local", "checkbox"])
 };
 
-Text.defaultProps = {
+Input.defaultProps = {
   input: {},
   label: null,
   help: null,
@@ -42,4 +42,4 @@ Text.defaultProps = {
   isDisabled: false
 };
 
-export default context()(fieldGroup(Text));
+export default context()(fieldGroup(Input));

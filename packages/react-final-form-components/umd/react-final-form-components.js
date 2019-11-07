@@ -2255,7 +2255,7 @@
     error: propTypes.bool,
     invalid: propTypes.bool,
     pristine: propTypes.bool,
-    submitError: propTypes.bool,
+    submitError: propTypes.oneOfType([propTypes.bool, propTypes.string]),
     submitErrors: propTypes.oneOfType([propTypes.object]),
     submitFailed: propTypes.bool,
     submitSucceeded: propTypes.bool,
@@ -8681,7 +8681,7 @@
         styleVariant[_key2 - 1] = arguments[_key2];
       }
 
-      bsStyles(styleVariant, Component);
+      bsStyles(styleVariant)(Component);
     }
 
     var _curry = curry;
@@ -9615,7 +9615,7 @@
         help,
         disabled,
         context: { checkCondition, layout },
-        meta: { submitFailed, invalid, error }
+        meta: { submitError, submitFailed, invalid, error }
       } = props;
       const computedInvalid = submitFailed && invalid;
       const isDisabled = disabled && checkCondition(disabled);
@@ -9663,14 +9663,28 @@
             ),
             label
           ),
-        React__default.createElement(Col, layout.field, getComponent()),
-        React__default.createElement(reactBootstrap.FormControl.Feedback, null),
-        !computedInvalid &&
-          help &&
-          React__default.createElement(reactBootstrap.HelpBlock, null, help),
-        computedInvalid &&
-          error &&
-          React__default.createElement(reactBootstrap.HelpBlock, null, error),
+        React__default.createElement(
+          Col,
+          layout.field,
+          getComponent(),
+          React__default.createElement(
+            reactBootstrap.FormControl.Feedback,
+            null
+          ),
+          !computedInvalid &&
+            help &&
+            React__default.createElement(reactBootstrap.HelpBlock, null, help),
+          computedInvalid &&
+            error &&
+            React__default.createElement(reactBootstrap.HelpBlock, null, error),
+          computedInvalid &&
+            submitError &&
+            React__default.createElement(
+              reactBootstrap.HelpBlock,
+              null,
+              submitError
+            )
+        ),
         React__default.createElement(reactBootstrap.Clearfix, null)
       );
     };
@@ -10795,7 +10809,7 @@
   };
   var Show$1 = Context()(Show);
 
-  const Text = props => {
+  const Input = props => {
     const { input, type, isDisabled } = props;
     return React__default.createElement(
       reactBootstrap.FormControl,
@@ -10806,7 +10820,7 @@
     );
   };
 
-  Text.propTypes = {
+  Input.propTypes = {
     input: propTypes.shape({
       name: propTypes.string.isRequired,
       onChange: propTypes.func.isRequired,
@@ -10833,7 +10847,7 @@
       "checkbox"
     ])
   };
-  Text.defaultProps = {
+  Input.defaultProps = {
     input: {},
     label: null,
     help: null,
@@ -10843,17 +10857,84 @@
     disabled: null,
     isDisabled: false
   };
-  var Text$1 = Context()(fieldGroup(Text));
+  var Input$1 = Context()(fieldGroup(Input));
+
+  function Context$1(Component) {
+    const TmpClass = props => {
+      return React__default.createElement(AppContext.Consumer, null, context =>
+        React__default.createElement(
+          Component,
+          _extends(
+            {
+              context: context
+            },
+            props
+          )
+        )
+      );
+    };
+
+    return TmpClass;
+  }
+
+  const Error$1 = props => {
+    const {
+      children,
+      context: {
+        status: { submitFailed, submitError }
+      }
+    } = props;
+
+    if (!submitFailed) {
+      return null;
+    }
+
+    return React__default.createElement(
+      reactBootstrap.Alert,
+      {
+        bsStyle: "danger"
+      },
+      children,
+      React__default.createElement("div", null, submitError)
+    );
+  };
+
+  var _Error = Context$1(Error$1);
+
+  const Success = props => {
+    const {
+      children,
+      context: {
+        status: { submitSucceeded }
+      }
+    } = props;
+
+    if (!submitSucceeded) {
+      return null;
+    }
+
+    return React__default.createElement(
+      reactBootstrap.Alert,
+      {
+        bsStyle: "success"
+      },
+      children
+    );
+  };
+
+  var Success$1 = Context$1(Success);
 
   exports.Checkbox = Checkbox$1;
   exports.Custom = Custom$1;
   exports.DropZone = DropZone$1;
+  exports.Error = _Error;
   exports.Form = Form;
-  exports.PassWord = Password$1;
+  exports.Input = Input$1;
+  exports.Password = Password$1;
   exports.Radio = Radio$1;
   exports.Select = Select$1;
   exports.Show = Show$1;
-  exports.Text = Text$1;
+  exports.Success = Success$1;
 
   Object.defineProperty(exports, "__esModule", { value: true });
 });

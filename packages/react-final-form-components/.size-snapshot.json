@@ -24,27 +24,27 @@
     "gzipped": 18372
   },
   "esm/react-final-form-components.js": {
-    "bundled": 29366,
-    "minified": 18638,
-    "gzipped": 4194,
+    "bundled": 30461,
+    "minified": 19295,
+    "gzipped": 4344,
     "treeshaked": {
       "rollup": {
-        "code": 15560,
+        "code": 15630,
         "import_statements": 635
       },
       "webpack": {
-        "code": 17659
+        "code": 18145
       }
     }
   },
   "umd/react-final-form-components.js": {
-    "bundled": 300191,
-    "minified": 109622,
-    "gzipped": 32958
+    "bundled": 301488,
+    "minified": 110133,
+    "gzipped": 33080
   },
   "umd/react-final-form-components.min.js": {
-    "bundled": 137373,
-    "minified": 61308,
-    "gzipped": 18372
+    "bundled": 138670,
+    "minified": 61819,
+    "gzipped": 18498
   }
 }

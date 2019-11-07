@@ -13,7 +13,8 @@ import {
   ControlLabel,
   FormControl,
   HelpBlock,
-  Clearfix
+  Clearfix,
+  Alert
 } from "react-bootstrap";
 import InputGroup from "react-bootstrap/lib/InputGroup";
 import Dropzone from "react-dropzone";
@@ -146,7 +147,7 @@ ContextWrapper.propTypes = {
   error: PropTypes.bool,
   invalid: PropTypes.bool,
   pristine: PropTypes.bool,
-  submitError: PropTypes.bool,
+  submitError: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   submitErrors: PropTypes.oneOfType([PropTypes.object]),
   submitFailed: PropTypes.bool,
   submitSucceeded: PropTypes.bool,
@@ -288,7 +289,7 @@ function fieldGroup(Component) {
       help,
       disabled,
       context: { checkCondition, layout },
-      meta: { submitFailed, invalid, error }
+      meta: { submitError, submitFailed, invalid, error }
     } = props;
     const computedInvalid = submitFailed && invalid;
     const isDisabled = disabled && checkCondition(disabled);
@@ -336,10 +337,17 @@ function fieldGroup(Component) {
           ),
           label
         ),
-      React.createElement(Col, layout.field, getComponent()),
-      React.createElement(FormControl.Feedback, null),
-      !computedInvalid && help && React.createElement(HelpBlock, null, help),
-      computedInvalid && error && React.createElement(HelpBlock, null, error),
+      React.createElement(
+        Col,
+        layout.field,
+        getComponent(),
+        React.createElement(FormControl.Feedback, null),
+        !computedInvalid && help && React.createElement(HelpBlock, null, help),
+        computedInvalid && error && React.createElement(HelpBlock, null, error),
+        computedInvalid &&
+          submitError &&
+          React.createElement(HelpBlock, null, submitError)
+      ),
       React.createElement(Clearfix, null)
     );
   };
@@ -1296,7 +1304,7 @@ Show.propTypes = {
 };
 var Show$1 = Context()(Show);
 
-const Text = props => {
+const Input = props => {
   const { input, type, isDisabled } = props;
   return React.createElement(
     FormControl,
@@ -1307,7 +1315,7 @@ const Text = props => {
   );
 };
 
-Text.propTypes = {
+Input.propTypes = {
   input: PropTypes.shape({
     name: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
@@ -1328,7 +1336,7 @@ Text.propTypes = {
   computedInvalid: PropTypes.bool.isRequired,
   type: PropTypes.oneOf(["text", "email", "date", "datetime-local", "checkbox"])
 };
-Text.defaultProps = {
+Input.defaultProps = {
   input: {},
   label: null,
   help: null,
@@ -1338,16 +1346,83 @@ Text.defaultProps = {
   disabled: null,
   isDisabled: false
 };
-var Text$1 = Context()(fieldGroup(Text));
+var Input$1 = Context()(fieldGroup(Input));
+
+function Context$1(Component) {
+  const TmpClass = props => {
+    return React.createElement(AppContext.Consumer, null, context =>
+      React.createElement(
+        Component,
+        _extends(
+          {
+            context: context
+          },
+          props
+        )
+      )
+    );
+  };
+
+  return TmpClass;
+}
+
+const Error = props => {
+  const {
+    children,
+    context: {
+      status: { submitFailed, submitError }
+    }
+  } = props;
+
+  if (!submitFailed) {
+    return null;
+  }
+
+  return React.createElement(
+    Alert,
+    {
+      bsStyle: "danger"
+    },
+    children,
+    React.createElement("div", null, submitError)
+  );
+};
+
+var _Error = Context$1(Error);
+
+const Success = props => {
+  const {
+    children,
+    context: {
+      status: { submitSucceeded }
+    }
+  } = props;
+
+  if (!submitSucceeded) {
+    return null;
+  }
+
+  return React.createElement(
+    Alert,
+    {
+      bsStyle: "success"
+    },
+    children
+  );
+};
+
+var Success$1 = Context$1(Success);
 
 export {
   Checkbox$1 as Checkbox,
   Custom$1 as Custom,
   DropZone$1 as DropZone,
+  _Error as Error,
   Form,
-  Password$1 as PassWord,
+  Input$1 as Input,
+  Password$1 as Password,
   Radio$1 as Radio,
   Select$1 as Select,
   Show$1 as Show,
-  Text$1 as Text
+  Success$1 as Success
 };

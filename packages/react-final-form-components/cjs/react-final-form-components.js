@@ -168,7 +168,7 @@ ContextWrapper.propTypes = {
   error: PropTypes.bool,
   invalid: PropTypes.bool,
   pristine: PropTypes.bool,
-  submitError: PropTypes.bool,
+  submitError: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   submitErrors: PropTypes.oneOfType([PropTypes.object]),
   submitFailed: PropTypes.bool,
   submitSucceeded: PropTypes.bool,
@@ -310,7 +310,7 @@ function fieldGroup(Component) {
       help,
       disabled,
       context: { checkCondition, layout },
-      meta: { submitFailed, invalid, error }
+      meta: { submitError, submitFailed, invalid, error }
     } = props;
     const computedInvalid = submitFailed && invalid;
     const isDisabled = disabled && checkCondition(disabled);
@@ -358,14 +358,25 @@ function fieldGroup(Component) {
           ),
           label
         ),
-      React__default.createElement(Col, layout.field, getComponent()),
-      React__default.createElement(reactBootstrap.FormControl.Feedback, null),
-      !computedInvalid &&
-        help &&
-        React__default.createElement(reactBootstrap.HelpBlock, null, help),
-      computedInvalid &&
-        error &&
-        React__default.createElement(reactBootstrap.HelpBlock, null, error),
+      React__default.createElement(
+        Col,
+        layout.field,
+        getComponent(),
+        React__default.createElement(reactBootstrap.FormControl.Feedback, null),
+        !computedInvalid &&
+          help &&
+          React__default.createElement(reactBootstrap.HelpBlock, null, help),
+        computedInvalid &&
+          error &&
+          React__default.createElement(reactBootstrap.HelpBlock, null, error),
+        computedInvalid &&
+          submitError &&
+          React__default.createElement(
+            reactBootstrap.HelpBlock,
+            null,
+            submitError
+          )
+      ),
       React__default.createElement(reactBootstrap.Clearfix, null)
     );
   };
@@ -1322,7 +1333,7 @@ Show.propTypes = {
 };
 var Show$1 = Context()(Show);
 
-const Text = props => {
+const Input = props => {
   const { input, type, isDisabled } = props;
   return React__default.createElement(
     reactBootstrap.FormControl,
@@ -1333,7 +1344,7 @@ const Text = props => {
   );
 };
 
-Text.propTypes = {
+Input.propTypes = {
   input: PropTypes.shape({
     name: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
@@ -1354,7 +1365,7 @@ Text.propTypes = {
   computedInvalid: PropTypes.bool.isRequired,
   type: PropTypes.oneOf(["text", "email", "date", "datetime-local", "checkbox"])
 };
-Text.defaultProps = {
+Input.defaultProps = {
   input: {},
   label: null,
   help: null,
@@ -1364,14 +1375,81 @@ Text.defaultProps = {
   disabled: null,
   isDisabled: false
 };
-var Text$1 = Context()(fieldGroup(Text));
+var Input$1 = Context()(fieldGroup(Input));
+
+function Context$1(Component) {
+  const TmpClass = props => {
+    return React__default.createElement(AppContext.Consumer, null, context =>
+      React__default.createElement(
+        Component,
+        _extends(
+          {
+            context: context
+          },
+          props
+        )
+      )
+    );
+  };
+
+  return TmpClass;
+}
+
+const Error = props => {
+  const {
+    children,
+    context: {
+      status: { submitFailed, submitError }
+    }
+  } = props;
+
+  if (!submitFailed) {
+    return null;
+  }
+
+  return React__default.createElement(
+    reactBootstrap.Alert,
+    {
+      bsStyle: "danger"
+    },
+    children,
+    React__default.createElement("div", null, submitError)
+  );
+};
+
+var _Error = Context$1(Error);
+
+const Success = props => {
+  const {
+    children,
+    context: {
+      status: { submitSucceeded }
+    }
+  } = props;
+
+  if (!submitSucceeded) {
+    return null;
+  }
+
+  return React__default.createElement(
+    reactBootstrap.Alert,
+    {
+      bsStyle: "success"
+    },
+    children
+  );
+};
+
+var Success$1 = Context$1(Success);
 
 exports.Checkbox = Checkbox$1;
 exports.Custom = Custom$1;
 exports.DropZone = DropZone$1;
+exports.Error = _Error;
 exports.Form = Form;
-exports.PassWord = Password$1;
+exports.Input = Input$1;
+exports.Password = Password$1;
 exports.Radio = Radio$1;
 exports.Select = Select$1;
 exports.Show = Show$1;
-exports.Text = Text$1;
+exports.Success = Success$1;

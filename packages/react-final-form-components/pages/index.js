@@ -1,23 +1,20 @@
 import React from "react";
 import Head from "next/head";
-import { Form, Text } from "../modules";
+import { Form, Input } from "../modules";
 import Password from "../modules/Types/Password";
 import Well from "react-bootstrap/lib/Well";
 import Checkbox from "../modules/Types/Checkbox";
 import Radio from "../modules/Types/Radio";
 import Show from "../modules/Types/Show";
 import Select from "../modules/Types/Select";
-import Datetime from "../custom/DateTime";
+import Error from "../modules/Types/Error";
 import "./react-datetime.css";
-import DateTimePicker from "../custom/DateTimePicker";
-import Tmc from "../custom/Tinymce";
-import DropZone from "../modules/Types/DropZone";
 import Complex, { Header, Footer } from "../modules/Types/Complex";
 import Panel from "react-bootstrap/lib/Panel";
 import Button from "react-bootstrap/lib/Button";
 import ButtonGroup from "react-bootstrap/lib/ButtonGroup";
-import InputGroup from "react-bootstrap/lib/InputGroup";
 import DropdownButton from "../modules/Types/DropdownButton";
+import { FORM_ERROR } from "final-form";
 
 const ipsy = name => (
   <DropdownButton
@@ -62,7 +59,14 @@ const Home = () => (
             <Form
               static
               debug
-              onSubmit={data => console.log(data)}
+              onSubmit={data => ({
+                [FORM_ERROR]: "server error"
+              })}
+              validate={() => {
+                return {
+                  // username: 'some kind of error'
+                };
+              }}
               initialValues={{
                 username: "amber#99",
                 checkboxes: ["4", "9", "8"],
@@ -73,14 +77,14 @@ const Home = () => (
                 dropdown: "aiden"
               }}
               layout={{
-                label: { sm: 12 },
-                field: { sm: 12 }
+                label: { md: 3 },
+                field: { md: 9 }
               }}
             >
               {/*<Tmc name={"tmcr"} />*/}
               {/*<DateTimePicker name={"datetime-picker"} label={"Custom field"} />*/}
               {/*<Datetime name={"datetime"} label={"Custom field Datetime"} />*/}
-              <Text
+              <Input
                 name={"username"}
                 label={"Username"}
                 disabled={values => values.radios === "mayson"}
@@ -224,7 +228,7 @@ const Home = () => (
                         </Panel.Title>
                       </Panel.Heading>
                       <Panel.Body>
-                        <Text name={`${name}.title`} addon={ipsy(name)} />
+                        <Input name={`${name}.title`} addon={ipsy(name)} />
                       </Panel.Body>
                     </Panel>
                   );
@@ -238,6 +242,7 @@ const Home = () => (
               >
                 <span>I agree with the terms</span>
               </Radio>
+              <Error>Well, shit just hit the fan.</Error>
               <button type={"submit"}>Send</button>
             </Form>
           </Well>

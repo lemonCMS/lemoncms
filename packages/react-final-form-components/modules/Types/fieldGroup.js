@@ -18,7 +18,7 @@ export default function fieldGroup(Component) {
       help,
       disabled,
       context: { checkCondition, layout },
-      meta: { submitFailed, invalid, error }
+      meta: { submitError, submitFailed, invalid, error }
     } = props;
     const computedInvalid = submitFailed && invalid;
     const isDisabled = disabled && checkCondition(disabled);
@@ -56,10 +56,15 @@ export default function fieldGroup(Component) {
             {label}
           </Col>
         )}
-        <Col {...layout.field}>{getComponent()}</Col>
-        <FormControl.Feedback />
-        {!computedInvalid && help && <HelpBlock>{help}</HelpBlock>}
-        {computedInvalid && error && <HelpBlock>{error}</HelpBlock>}
+        <Col {...layout.field}>
+          {getComponent()}
+          <FormControl.Feedback />
+          {!computedInvalid && help && <HelpBlock>{help}</HelpBlock>}
+          {computedInvalid && error && <HelpBlock>{error}</HelpBlock>}
+          {computedInvalid && submitError && (
+            <HelpBlock>{submitError}</HelpBlock>
+          )}
+        </Col>
         <Clearfix />
       </FormGroup>
     );
