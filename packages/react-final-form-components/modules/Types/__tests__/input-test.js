@@ -1,14 +1,14 @@
 import renderer from "react-test-renderer";
 import { mount } from "enzyme";
 import Form from "../../Provider/Form";
-import Text from "../Text";
+import Input from "../Input";
 import React from "react";
 
 describe("BS3 Text type", () => {
   it("should render input text", () => {
     const tree = renderer.create(
       <Form onSubmit={() => {}} initialValues={{ field: "username 0091" }}>
-        <Text
+        <Input
           name={"field"}
           placeholder={"a nice placeholder"}
           help={"What was your mothers maiden name?"}
@@ -22,7 +22,7 @@ describe("BS3 Text type", () => {
   it("should render input text with addon", () => {
     const tree = renderer.create(
       <Form onSubmit={() => {}} initialValues={{ field: "username 0091" }}>
-        <Text
+        <Input
           name={"field"}
           placeholder={"a nice placeholder"}
           help={"What was your mothers maiden name?"}
@@ -37,7 +37,7 @@ describe("BS3 Text type", () => {
   it("should enzyme", () => {
     const component = mount(
       <Form onSubmit={() => {}} initialValues={{ username: "username 0091" }}>
-        <Text
+        <Input
           name={"username"}
           placeholder={"a nice placeholder"}
           help={"What was your mothers maiden name?"}
