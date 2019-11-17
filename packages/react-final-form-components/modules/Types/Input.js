@@ -21,6 +21,7 @@ Input.propTypes = {
       PropTypes.number
     ])
   }),
+
   disabled: PropTypes.func,
   isDisabled: PropTypes.bool,
   placeholder: PropTypes.string,
@@ -28,7 +29,17 @@ Input.propTypes = {
   label: PropTypes.string,
   help: PropTypes.string,
   computedInvalid: PropTypes.bool.isRequired,
-  type: PropTypes.oneOf(["text", "email", "date", "datetime-local", "checkbox"])
+  type: PropTypes.oneOf([
+    "text",
+    "email",
+    "date",
+    "datetime-local",
+    "checkbox"
+  ]),
+  layout: PropTypes.shape({
+    label: PropTypes.object,
+    field: PropTypes.object
+  })
 };
 
 Input.defaultProps = {
@@ -39,7 +50,8 @@ Input.defaultProps = {
   placeholder: null,
   type: "text",
   disabled: null,
-  isDisabled: false
+  isDisabled: false,
+  layout: null
 };
 
 export default context()(fieldGroup(Input));

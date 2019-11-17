@@ -83,14 +83,19 @@ DropdownButton.propTypes = {
   }),
   disabled: PropTypes.func,
   isDisabled: PropTypes.bool,
-  placeholder: PropTypes.string
+  placeholder: PropTypes.string,
+  layout: PropTypes.shape({
+    label: PropTypes.object,
+    field: PropTypes.object
+  })
 };
 
 DropdownButton.defaultProps = {
   input: {},
   placeholder: null,
   disabled: null,
-  isDisabled: false
+  isDisabled: false,
+  layout: null
 };
 
 export default context()(DropdownButton);

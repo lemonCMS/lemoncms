@@ -93,7 +93,11 @@ DropZone.propTypes = {
   disabled: PropTypes.func,
   isDisabled: PropTypes.bool,
   formControl: PropTypes.string,
-  computedInvalid: PropTypes.bool.isRequired
+  computedInvalid: PropTypes.bool.isRequired,
+  layout: PropTypes.shape({
+    label: PropTypes.object,
+    field: PropTypes.object
+  })
 };
 
 DropZone.defaultProps = {
@@ -102,7 +106,8 @@ DropZone.defaultProps = {
   formControl: null,
   autoUpload: false,
   disabled: null,
-  isDisabled: false
+  isDisabled: false,
+  layout: null
 };
 
 export default context()(fieldGroup(DropZone));

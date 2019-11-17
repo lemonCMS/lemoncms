@@ -1,31 +1,5 @@
 /// <reference types="node" />
 
-import { Textarea } from "react-final-form-components";
-
-interface ShowProps {
-  name: string;
-  condition: (values: object) => boolean;
-  children?: React.ReactElement;
-}
-
-interface DefaultInputProps {
-  label: string;
-  placeholder?: string;
-  help?: string;
-  name: string;
-  disabled: (values: object) => boolean;
-  children?: React.ReactElement;
-}
-
-interface TextareaProps extends DefaultProps {
-  cols?: number;
-  rows?: number;
-}
-
-interface InputProps extends DefaultInputProps {
-  type: string;
-}
-
 type ColRange = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 
 interface bootStrapSizes {
@@ -35,8 +9,25 @@ interface bootStrapSizes {
   lg?: ColRange;
 }
 
+interface DefaultInputProps {
+  label: string;
+  placeholder?: string;
+  help?: string;
+  disabled?: () => boolean;
+  name: string;
+  children?: Element<any> | ReactElement<any>;
+  layout?: {
+    label?: bootStrapSizes;
+    field?: bootStrapSizes;
+  };
+}
+
+interface InputProps extends DefaultInputProps {
+  type: string;
+}
+
 interface FormProps {
-  validate?: (values: any) => boolean;
+  validate?: (values: any) => {};
   onSubmit: (values: any) => Promise;
   className?: string;
   initialValues?: {
@@ -46,6 +37,10 @@ interface FormProps {
     label?: bootStrapSizes;
     field?: bootStrapSizes;
   };
+}
+
+interface Message {
+  children: React.ReactElement;
 }
 
 declare module "react-final-form-components" {

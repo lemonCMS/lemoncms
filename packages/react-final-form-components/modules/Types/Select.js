@@ -41,7 +41,11 @@ Select.propTypes = {
   label: PropTypes.string,
   help: PropTypes.string,
   computedInvalid: PropTypes.bool.isRequired,
-  multiple: PropTypes.bool
+  multiple: PropTypes.bool,
+  layout: PropTypes.shape({
+    label: PropTypes.object,
+    field: PropTypes.object
+  })
 };
 
 Select.defaultProps = {
@@ -51,7 +55,8 @@ Select.defaultProps = {
   placeholder: null,
   multiple: false,
   disabled: null,
-  isDisabled: false
+  isDisabled: false,
+  layout: null
 };
 
 export default context({ type: "select" })(fieldGroup(Select));

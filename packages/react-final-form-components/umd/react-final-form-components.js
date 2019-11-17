@@ -9614,11 +9614,13 @@
         addOn,
         help,
         disabled,
-        context: { checkCondition, layout },
+        layout: inputLayout,
+        context: { checkCondition, layout: contextLayout },
         meta: { submitError, submitFailed, invalid, error }
       } = props;
       const computedInvalid = submitFailed && invalid;
       const isDisabled = disabled && checkCondition(disabled);
+      const layout = { ...contextLayout, ...inputLayout };
 
       const getComponent = () => {
         if (addOn === null) {
@@ -9700,6 +9702,10 @@
       formLabel: propTypes.string,
       formError: propTypes.string,
       formText: propTypes.string,
+      layout: propTypes.shape({
+        label: propTypes.object,
+        field: propTypes.object
+      }),
       meta: propTypes.shape({
         submitFailed: propTypes.bool.isRequired,
         invalid: propTypes.bool.isRequired,
@@ -9723,6 +9729,14 @@
       formError: null,
       formText: null,
       disabled: null,
+      layout: {
+        label: {
+          sm: 4
+        },
+        field: {
+          sm: 8
+        }
+      },
       context: {
         layout: {
           label: {
@@ -9999,7 +10013,11 @@
     help: propTypes.string,
     columns: propTypes.number,
     filter: propTypes.bool,
-    computedInvalid: propTypes.bool.isRequired
+    computedInvalid: propTypes.bool.isRequired,
+    layout: propTypes.shape({
+      label: propTypes.object,
+      field: propTypes.object
+    })
   };
   Checkbox.defaultProps = {
     input: {},
@@ -10010,7 +10028,8 @@
     filter: false,
     placeholderFilter: "Filter",
     disabled: null,
-    isDisabled: false
+    isDisabled: false,
+    layout: null
   };
   var Checkbox$1 = Context()(fieldGroup(Checkbox));
 
@@ -10045,7 +10064,11 @@
     placeholder: propTypes.string,
     label: propTypes.string,
     help: propTypes.string,
-    computedInvalid: propTypes.bool.isRequired
+    computedInvalid: propTypes.bool.isRequired,
+    layout: propTypes.shape({
+      label: propTypes.object,
+      field: propTypes.object
+    })
   };
   Custom.defaultProps = {
     input: {},
@@ -10054,7 +10077,8 @@
     placeholder: null,
     control: true,
     disabled: null,
-    isDisabled: false
+    isDisabled: false,
+    layout: null
   };
   var Custom$1 = Context()(fieldGroup(Custom));
 
@@ -10320,7 +10344,11 @@
     disabled: propTypes.func,
     isDisabled: propTypes.bool,
     formControl: propTypes.string,
-    computedInvalid: propTypes.bool.isRequired
+    computedInvalid: propTypes.bool.isRequired,
+    layout: propTypes.shape({
+      label: propTypes.object,
+      field: propTypes.object
+    })
   };
   DropZone.defaultProps = {
     input: {},
@@ -10328,7 +10356,8 @@
     formControl: null,
     autoUpload: false,
     disabled: null,
-    isDisabled: false
+    isDisabled: false,
+    layout: null
   };
   var DropZone$1 = Context()(fieldGroup(DropZone));
 
@@ -10360,7 +10389,11 @@
     placeholder: propTypes.string,
     label: propTypes.string,
     help: propTypes.string,
-    computedInvalid: propTypes.bool.isRequired
+    computedInvalid: propTypes.bool.isRequired,
+    layout: propTypes.shape({
+      label: propTypes.object,
+      field: propTypes.object
+    })
   };
   Password.defaultProps = {
     input: {},
@@ -10368,7 +10401,8 @@
     help: null,
     placeholder: null,
     disabled: null,
-    isDisabled: false
+    isDisabled: false,
+    layout: null
   };
   var Password$1 = Context()(fieldGroup(Password));
 
@@ -10722,7 +10756,11 @@
     help: propTypes.string,
     columns: propTypes.number,
     filter: propTypes.bool,
-    computedInvalid: propTypes.bool.isRequired
+    computedInvalid: propTypes.bool.isRequired,
+    layout: propTypes.shape({
+      label: propTypes.object,
+      field: propTypes.object
+    })
   };
   Radio.defaultProps = {
     input: {},
@@ -10733,7 +10771,8 @@
     filter: false,
     placeholderFilter: "Filter",
     disabled: null,
-    isDisabled: false
+    isDisabled: false,
+    layout: null
   };
   var Radio$1 = Context()(fieldGroup(Radio));
 
@@ -10773,7 +10812,11 @@
     label: propTypes.string,
     help: propTypes.string,
     computedInvalid: propTypes.bool.isRequired,
-    multiple: propTypes.bool
+    multiple: propTypes.bool,
+    layout: propTypes.shape({
+      label: propTypes.object,
+      field: propTypes.object
+    })
   };
   Select.defaultProps = {
     input: {},
@@ -10782,7 +10825,8 @@
     placeholder: null,
     multiple: false,
     disabled: null,
-    isDisabled: false
+    isDisabled: false,
+    layout: null
   };
   var Select$1 = Context({
     type: "select"
@@ -10845,7 +10889,11 @@
       "date",
       "datetime-local",
       "checkbox"
-    ])
+    ]),
+    layout: propTypes.shape({
+      label: propTypes.object,
+      field: propTypes.object
+    })
   };
   Input.defaultProps = {
     input: {},
@@ -10855,7 +10903,8 @@
     placeholder: null,
     type: "text",
     disabled: null,
-    isDisabled: false
+    isDisabled: false,
+    layout: null
   };
   var Input$1 = Context()(fieldGroup(Input));
 
@@ -10924,6 +10973,66 @@
 
   var Success$1 = Context$1(Success);
 
+  const Textarea = props => {
+    const { input, type, isDisabled, rows, cols } = props;
+    return React__default.createElement(
+      reactBootstrap.FormControl,
+      _extends(
+        {
+          componentClass: "textarea"
+        },
+        input,
+        {
+          type: type,
+          rows: rows,
+          cols: cols,
+          disabled: isDisabled
+        }
+      )
+    );
+  };
+
+  Textarea.propTypes = {
+    input: propTypes.shape({
+      name: propTypes.string.isRequired,
+      onChange: propTypes.func.isRequired,
+      onBlur: propTypes.func.isRequired,
+      onFocus: propTypes.func.isRequired,
+      value: propTypes.oneOfType([
+        propTypes.string,
+        propTypes.bool,
+        propTypes.number
+      ])
+    }),
+    rows: propTypes.number,
+    cols: propTypes.number,
+    disabled: propTypes.func,
+    isDisabled: propTypes.bool,
+    placeholder: propTypes.string,
+    addOn: propTypes.oneOfType([propTypes.string, propTypes.element]),
+    label: propTypes.string,
+    help: propTypes.string,
+    computedInvalid: propTypes.bool.isRequired,
+    layout: propTypes.shape({
+      label: propTypes.object,
+      field: propTypes.object
+    })
+  };
+  Textarea.defaultProps = {
+    input: {},
+    label: null,
+    help: null,
+    addOn: null,
+    rows: null,
+    cols: null,
+    placeholder: null,
+    type: "text",
+    disabled: null,
+    isDisabled: false,
+    layout: null
+  };
+  var Textarea$1 = Context()(fieldGroup(Textarea));
+
   exports.Checkbox = Checkbox$1;
   exports.Custom = Custom$1;
   exports.DropZone = DropZone$1;
@@ -10935,6 +11044,7 @@
   exports.Select = Select$1;
   exports.Show = Show$1;
   exports.Success = Success$1;
+  exports.Textarea = Textarea$1;
 
   Object.defineProperty(exports, "__esModule", { value: true });
 });

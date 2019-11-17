@@ -17,12 +17,13 @@ export default function fieldGroup(Component) {
       addOn,
       help,
       disabled,
-      context: { checkCondition, layout },
+      layout: inputLayout,
+      context: { checkCondition, layout: contextLayout },
       meta: { submitError, submitFailed, invalid, error }
     } = props;
     const computedInvalid = submitFailed && invalid;
     const isDisabled = disabled && checkCondition(disabled);
-
+    const layout = { ...contextLayout, ...inputLayout };
     const getComponent = () => {
       if (addOn === null) {
         return (
@@ -81,6 +82,10 @@ export default function fieldGroup(Component) {
     formLabel: PropTypes.string,
     formError: PropTypes.string,
     formText: PropTypes.string,
+    layout: PropTypes.shape({
+      label: PropTypes.object,
+      field: PropTypes.object
+    }),
     meta: PropTypes.shape({
       submitFailed: PropTypes.bool.isRequired,
       invalid: PropTypes.bool.isRequired,
@@ -105,6 +110,10 @@ export default function fieldGroup(Component) {
     formError: null,
     formText: null,
     disabled: null,
+    layout: {
+      label: { sm: 4 },
+      field: { sm: 8 }
+    },
     context: {
       layout: {
         label: { sm: 4 },

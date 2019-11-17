@@ -30,7 +30,11 @@ Custom.propTypes = {
   placeholder: PropTypes.string,
   label: PropTypes.string,
   help: PropTypes.string,
-  computedInvalid: PropTypes.bool.isRequired
+  computedInvalid: PropTypes.bool.isRequired,
+  layout: PropTypes.shape({
+    label: PropTypes.object,
+    field: PropTypes.object
+  })
 };
 
 Custom.defaultProps = {
@@ -40,7 +44,8 @@ Custom.defaultProps = {
   placeholder: null,
   control: true,
   disabled: null,
-  isDisabled: false
+  isDisabled: false,
+  layout: null
 };
 
 export default context()(fieldGroup(Custom));

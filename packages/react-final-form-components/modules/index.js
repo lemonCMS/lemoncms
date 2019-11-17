@@ -9,6 +9,7 @@ import Show from "./Types/Show";
 import Input from "./Types/Input";
 import Error from "./Types/Error";
 import Success from "./Types/Success";
+import Textarea from "./Types/Textarea";
 
 export { Form };
 export { Checkbox };
@@ -21,3 +22,4 @@ export { Show };
 export { Input };
 export { Error };
 export { Success };
+export { Textarea };

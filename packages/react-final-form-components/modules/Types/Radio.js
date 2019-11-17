@@ -175,7 +175,11 @@ Radio.propTypes = {
   help: PropTypes.string,
   columns: PropTypes.number,
   filter: PropTypes.bool,
-  computedInvalid: PropTypes.bool.isRequired
+  computedInvalid: PropTypes.bool.isRequired,
+  layout: PropTypes.shape({
+    label: PropTypes.object,
+    field: PropTypes.object
+  })
 };
 
 Radio.defaultProps = {
@@ -187,7 +191,8 @@ Radio.defaultProps = {
   filter: false,
   placeholderFilter: "Filter",
   disabled: null,
-  isDisabled: false
+  isDisabled: false,
+  layout: null
 };
 
 export default context()(fieldGroup(Radio));

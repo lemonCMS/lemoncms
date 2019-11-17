@@ -91,6 +91,10 @@ const Home = () => (
                 name={"username"}
                 label={"Username"}
                 disabled={values => values.radios === "mayson"}
+                layout={{
+                  label: { md: 9 },
+                  field: { md: 3 }
+                }}
               />
               <Password
                 name={"password"}
