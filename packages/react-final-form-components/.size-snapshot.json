@@ -26,7 +26,7 @@
   "esm/react-final-form-components.js": {
     "bundled": 30461,
     "minified": 19295,
-    "gzipped": 4344,
+    "gzipped": 4342,
     "treeshaked": {
       "rollup": {
         "code": 15630,
@@ -40,11 +40,11 @@
   "umd/react-final-form-components.js": {
     "bundled": 301488,
     "minified": 110133,
-    "gzipped": 33080
+    "gzipped": 33082
   },
   "umd/react-final-form-components.min.js": {
     "bundled": 138670,
     "minified": 61819,
-    "gzipped": 18498
+    "gzipped": 18499
   }
 }

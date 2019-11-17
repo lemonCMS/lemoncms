@@ -306,7 +306,7 @@ function fieldGroup(Component) {
   const WrappedComponent = props => {
     const {
       label,
-      addon,
+      addOn,
       help,
       disabled,
       context: { checkCondition, layout },
@@ -316,7 +316,7 @@ function fieldGroup(Component) {
     const isDisabled = disabled && checkCondition(disabled);
 
     const getComponent = () => {
-      if (addon === null) {
+      if (addOn === null) {
         return React__default.createElement(
           Component,
           _extends({}, props, {
@@ -336,9 +336,9 @@ function fieldGroup(Component) {
             isDisabled: isDisabled
           })
         ),
-        typeof addon === "string" &&
-          React__default.createElement(InputGroup.Addon, null, addon),
-        typeof addon !== "string" && addon
+        typeof addOn === "string" &&
+          React__default.createElement(InputGroup.addOn, null, addOn),
+        typeof addOn !== "string" && addOn
       );
     };
 
@@ -384,7 +384,7 @@ function fieldGroup(Component) {
   WrappedComponent.propTypes = {
     name: PropTypes.string.isRequired,
     label: PropTypes.string,
-    addon: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    addOn: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     help: PropTypes.string,
     type: PropTypes.string,
     disabled: PropTypes.func,
@@ -407,7 +407,7 @@ function fieldGroup(Component) {
   };
   WrappedComponent.defaultProps = {
     label: null,
-    addon: null,
+    addOn: null,
     text: null,
     type: null,
     formGroup: null,
@@ -1359,7 +1359,7 @@ Input.propTypes = {
   disabled: PropTypes.func,
   isDisabled: PropTypes.bool,
   placeholder: PropTypes.string,
-  addon: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  addOn: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   label: PropTypes.string,
   help: PropTypes.string,
   computedInvalid: PropTypes.bool.isRequired,
@@ -1369,7 +1369,7 @@ Input.defaultProps = {
   input: {},
   label: null,
   help: null,
-  addon: null,
+  addOn: null,
   placeholder: null,
   type: "text",
   disabled: null,

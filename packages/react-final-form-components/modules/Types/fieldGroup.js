@@ -14,7 +14,7 @@ export default function fieldGroup(Component) {
   const WrappedComponent = props => {
     const {
       label,
-      addon,
+      addOn,
       help,
       disabled,
       context: { checkCondition, layout },
@@ -24,7 +24,7 @@ export default function fieldGroup(Component) {
     const isDisabled = disabled && checkCondition(disabled);
 
     const getComponent = () => {
-      if (addon === null) {
+      if (addOn === null) {
         return (
           <Component
             {...props}
@@ -41,10 +41,10 @@ export default function fieldGroup(Component) {
             computedInvalid={computedInvalid}
             isDisabled={isDisabled}
           />
-          {typeof addon === "string" && (
-            <InputGroup.Addon>{addon}</InputGroup.Addon>
+          {typeof addOn === "string" && (
+            <InputGroup.addOn>{addOn}</InputGroup.addOn>
           )}
-          {typeof addon !== "string" && addon}
+          {typeof addOn !== "string" && addOn}
         </InputGroup>
       );
     };
@@ -73,7 +73,7 @@ export default function fieldGroup(Component) {
   WrappedComponent.propTypes = {
     name: PropTypes.string.isRequired,
     label: PropTypes.string,
-    addon: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    addOn: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     help: PropTypes.string,
     type: PropTypes.string,
     disabled: PropTypes.func,
@@ -97,7 +97,7 @@ export default function fieldGroup(Component) {
 
   WrappedComponent.defaultProps = {
     label: null,
-    addon: null,
+    addOn: null,
     text: null,
     type: null,
     formGroup: null,

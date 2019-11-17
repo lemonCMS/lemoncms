@@ -9611,7 +9611,7 @@
     const WrappedComponent = props => {
       const {
         label,
-        addon,
+        addOn,
         help,
         disabled,
         context: { checkCondition, layout },
@@ -9621,7 +9621,7 @@
       const isDisabled = disabled && checkCondition(disabled);
 
       const getComponent = () => {
-        if (addon === null) {
+        if (addOn === null) {
           return React__default.createElement(
             Component,
             _extends({}, props, {
@@ -9641,9 +9641,9 @@
               isDisabled: isDisabled
             })
           ),
-          typeof addon === "string" &&
-            React__default.createElement(InputGroup.Addon, null, addon),
-          typeof addon !== "string" && addon
+          typeof addOn === "string" &&
+            React__default.createElement(InputGroup.addOn, null, addOn),
+          typeof addOn !== "string" && addOn
         );
       };
 
@@ -9692,7 +9692,7 @@
     WrappedComponent.propTypes = {
       name: propTypes.string.isRequired,
       label: propTypes.string,
-      addon: propTypes.oneOfType([propTypes.string, propTypes.element]),
+      addOn: propTypes.oneOfType([propTypes.string, propTypes.element]),
       help: propTypes.string,
       type: propTypes.string,
       disabled: propTypes.func,
@@ -9715,7 +9715,7 @@
     };
     WrappedComponent.defaultProps = {
       label: null,
-      addon: null,
+      addOn: null,
       text: null,
       type: null,
       formGroup: null,
@@ -10835,7 +10835,7 @@
     disabled: propTypes.func,
     isDisabled: propTypes.bool,
     placeholder: propTypes.string,
-    addon: propTypes.oneOfType([propTypes.string, propTypes.element]),
+    addOn: propTypes.oneOfType([propTypes.string, propTypes.element]),
     label: propTypes.string,
     help: propTypes.string,
     computedInvalid: propTypes.bool.isRequired,
@@ -10851,7 +10851,7 @@
     input: {},
     label: null,
     help: null,
-    addon: null,
+    addOn: null,
     placeholder: null,
     type: "text",
     disabled: null,

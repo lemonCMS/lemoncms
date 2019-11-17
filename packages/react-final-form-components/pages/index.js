@@ -15,6 +15,7 @@ import Button from "react-bootstrap/lib/Button";
 import ButtonGroup from "react-bootstrap/lib/ButtonGroup";
 import DropdownButton from "../modules/Types/DropdownButton";
 import { FORM_ERROR } from "final-form";
+import Textarea from "../modules/Types/Textarea";
 
 const ipsy = name => (
   <DropdownButton
@@ -84,6 +85,8 @@ const Home = () => (
               {/*<Tmc name={"tmcr"} />*/}
               {/*<DateTimePicker name={"datetime-picker"} label={"Custom field"} />*/}
               {/*<Datetime name={"datetime"} label={"Custom field Datetime"} />*/}
+              <Textarea name={"textarea"} label={"textarea"} rows={10} />
+
               <Input
                 name={"username"}
                 label={"Username"}

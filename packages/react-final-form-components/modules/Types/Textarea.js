@@ -4,12 +4,21 @@ import { FormControl } from "react-bootstrap";
 import context from "../decorators/context";
 import fieldGroup from "./fieldGroup";
 
-const Input = props => {
-  const { input, type, isDisabled } = props;
-  return <FormControl {...input} type={type} disabled={isDisabled} />;
+const Textarea = props => {
+  const { input, type, isDisabled, rows, cols } = props;
+  return (
+    <FormControl
+      componentClass={"textarea"}
+      {...input}
+      type={type}
+      rows={rows}
+      cols={cols}
+      disabled={isDisabled}
+    />
+  );
 };
 
-Input.propTypes = {
+Textarea.propTypes = {
   input: PropTypes.shape({
     name: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
@@ -21,25 +30,28 @@ Input.propTypes = {
       PropTypes.number
     ])
   }),
+  rows: PropTypes.number,
+  cols: PropTypes.number,
   disabled: PropTypes.func,
   isDisabled: PropTypes.bool,
   placeholder: PropTypes.string,
   addOn: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   label: PropTypes.string,
   help: PropTypes.string,
-  computedInvalid: PropTypes.bool.isRequired,
-  type: PropTypes.oneOf(["text", "email", "date", "datetime-local", "checkbox"])
+  computedInvalid: PropTypes.bool.isRequired
 };
 
-Input.defaultProps = {
+Textarea.defaultProps = {
   input: {},
   label: null,
   help: null,
   addOn: null,
+  rows: null,
+  cols: null,
   placeholder: null,
   type: "text",
   disabled: null,
   isDisabled: false
 };
 
-export default context()(fieldGroup(Input));
+export default context()(fieldGroup(Textarea));
