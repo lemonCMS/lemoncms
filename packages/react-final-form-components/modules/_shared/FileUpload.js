@@ -23,7 +23,6 @@ class FileUpload extends React.Component {
 
   componentDidMount() {
     const { file } = this.props;
-
     if (file.type.includes("image/")) {
       this.setState({ preview: URL.createObjectURL(file) });
     }
@@ -106,8 +105,7 @@ FileUpload.propTypes = {
     path: PropTypes.string.isRequired,
     headers: PropTypes.shape({})
   }),
-  removeFromStack: PropTypes.func.isRequired,
-  addOnStack: PropTypes.func.isRequired
+  removeFromStack: PropTypes.func.isRequired
 };
 
 FileUpload.defaultProps = {

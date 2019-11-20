@@ -1,7 +1,7 @@
 import Form from "./Provider/Form";
 import Checkbox from "./Types/Checkbox";
 import Custom from "./Types/Custom";
-import DropZone from "./Types/DropZone";
+import Dropzone from "./Types/Dropzone";
 import Password from "./Types/Password";
 import Radio from "./Types/Radio";
 import Select from "./Types/Select";
@@ -14,7 +14,7 @@ import Textarea from "./Types/Textarea";
 export { Form };
 export { Checkbox };
 export { Custom };
-export { DropZone };
+export { Dropzone };
 export { Password };
 export { Radio };
 export { Select };

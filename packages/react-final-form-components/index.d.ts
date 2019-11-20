@@ -26,6 +26,10 @@ interface InputProps extends DefaultInputProps {
   type: string;
 }
 
+interface CheckboxProps extends DefaultInputProps {
+  columns: number;
+}
+
 interface FormProps {
   validate?: (values: any) => {};
   onSubmit: (values: any) => Promise;
@@ -48,13 +52,13 @@ declare module "react-final-form-components" {
 
   export const Input: React.FunctionComponent<InputProps>;
   export const Password: React.FunctionComponent<DefaultInputProps>;
-  export const Error: React.FunctionComponent<DefaultInputProps>;
-  export const Success: React.FunctionComponent<DefaultInputProps>;
+  export const Error: React.FunctionComponent<Message>;
+  export const Success: React.FunctionComponent<Message>;
   export const Form: React.FunctionComponent<FormProps>;
   export const Custom: React.FunctionComponent<DefaultInputProps>;
   export const DropZone: React.FunctionComponent<DefaultInputProps>;
-  export const Checkbox: React.FunctionComponent<DefaultInputProps>;
-  export const Radio: React.FunctionComponent<DefaultInputProps>;
+  export const Checkbox: React.FunctionComponent<CheckboxProps>;
+  export const Radio: React.FunctionComponent<CheckboxProps>;
   export const Select: React.FunctionComponent<DefaultInputProps>;
   export const Show: React.FunctionComponent<ShowProps>;
   export const Textarea: React.FunctionComponent<TextareaProps>;

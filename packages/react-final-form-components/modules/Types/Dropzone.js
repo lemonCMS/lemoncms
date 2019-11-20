@@ -1,41 +1,77 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Dropzone from "react-dropzone";
+import ReactDropzone from "react-dropzone";
 import context from "../decorators/context";
 import fieldGroup from "./fieldGroup";
 import FileUpload from "../_shared/FileUpload";
 
-class DropZone extends React.Component {
+class Dropzone extends React.Component {
   state = {
     queue: [],
+    formData: [],
     upload: false
   };
+
+  toBase64 = file =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
 
   shouldComponentUpdate(nextProps, nextState) {
     const { queue } = this.state;
     return queue !== nextState.queue;
   }
 
-  filesFromClient = files => {
-    const { queue } = this.state;
+  addData(file, data) {
     const {
       input: { onChange }
     } = this.props;
+    const { formData, queue } = this.state;
+    const { name, type, size } = file;
     const tmpQueue = [...queue];
-    files.forEach(file => {
-      // file.preview = URL.createObjectURL(file);
-      tmpQueue.push(file);
+    const tmpFormData = [...formData];
+
+    tmpFormData.push({
+      name,
+      type,
+      size,
+      data
     });
-    this.setState({ queue: tmpQueue });
-    onChange(tmpQueue);
+    tmpQueue.push(file);
+
+    this.setState(
+      {
+        queue: tmpQueue,
+        formData: tmpFormData
+      },
+      () => {
+        onChange(tmpFormData);
+      }
+    );
+  }
+
+  filesFromClient = files => {
+    files.forEach(file => {
+      this.toBase64(file).then(data => {
+        this.addData(file, data);
+      });
+    });
   };
 
   removeFromStack = fileToDelete => {
-    const { queue } = this.state;
-    const { input } = this.props;
+    const { queue, formData } = this.state;
+    const {
+      input: { onChange }
+    } = this.props;
     const filtered = queue.filter(file => file.name !== fileToDelete.name);
-    input.onChange(filtered);
-    this.setState({ queue: filtered });
+    const filteredFormData = formData.filter(
+      file => file.name !== fileToDelete.name
+    );
+    onChange(filteredFormData);
+    this.setState({ queue: filtered, formData: filteredFormData });
   };
 
   displayFiles = () => {
@@ -47,7 +83,7 @@ class DropZone extends React.Component {
 
     const list = queue.map((file, index) => (
       <FileUpload
-        key={`${file.name}-${index}`}
+        key={`${file.name}`}
         file={file}
         removeFromStack={this.removeFromStack}
         endPoint={endPoint}
@@ -65,7 +101,7 @@ class DropZone extends React.Component {
   render() {
     return (
       <>
-        <Dropzone onDrop={this.filesFromClient}>
+        <ReactDropzone onDrop={this.filesFromClient}>
           {({ getRootProps, getInputProps }) => (
             <section className="file-upload-dropzone">
               <div {...getRootProps()}>
@@ -76,20 +112,16 @@ class DropZone extends React.Component {
               </div>
             </section>
           )}
-        </Dropzone>
+        </ReactDropzone>
         {this.displayFiles()}
       </>
     );
   }
 }
 
-DropZone.propTypes = {
+Dropzone.propTypes = {
   input: PropTypes.oneOfType([PropTypes.object]),
   placeholder: PropTypes.string,
-  endPoint: PropTypes.shape({
-    path: PropTypes.string.isRequired,
-    headers: PropTypes.shape({})
-  }).isRequired,
   disabled: PropTypes.func,
   isDisabled: PropTypes.bool,
   formControl: PropTypes.string,
@@ -100,14 +132,13 @@ DropZone.propTypes = {
   })
 };
 
-DropZone.defaultProps = {
+Dropzone.defaultProps = {
   input: {},
   placeholder: null,
   formControl: null,
-  autoUpload: false,
   disabled: null,
   isDisabled: false,
   layout: null
 };
 
-export default context()(fieldGroup(DropZone));
+export default context()(fieldGroup(Dropzone));

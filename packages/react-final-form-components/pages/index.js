@@ -16,6 +16,7 @@ import ButtonGroup from "react-bootstrap/lib/ButtonGroup";
 import DropdownButton from "../modules/Types/DropdownButton";
 import { FORM_ERROR } from "final-form";
 import Textarea from "../modules/Types/Textarea";
+import Dropzone from "../modules/Types/Dropzone";
 
 const ipsy = name => (
   <DropdownButton
@@ -59,7 +60,6 @@ const Home = () => (
             <h2>Login Example</h2>
             <Form
               static
-              debug
               onSubmit={data => ({
                 [FORM_ERROR]: "server error"
               })}
@@ -202,11 +202,11 @@ const Home = () => (
               {/*  <option value={"mayson"}>Mayson</option>*/}
               {/*</DropdownButton>*/}
 
-              {/*<DropZone*/}
-              {/*  name="dropzone"*/}
-              {/*  endPoint={{ path: "/xyz" }}*/}
-              {/*  label={"DROPZONE"}*/}
-              {/*/>*/}
+              <Dropzone
+                name="dropzone"
+                endPoint={{ path: "/xyz" }}
+                label={"DROPZONE"}
+              />
 
               <Complex name={"section"}>
                 <Header>

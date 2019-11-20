@@ -17,7 +17,7 @@ import {
   Alert
 } from "react-bootstrap";
 import InputGroup from "react-bootstrap/lib/InputGroup";
-import Dropzone from "react-dropzone";
+import ReactDropzone from "react-dropzone";
 import RadioAlias from "react-bootstrap/lib/Radio";
 
 const AppContext = createContext({});
@@ -885,8 +885,7 @@ FileUpload.propTypes = {
     path: PropTypes.string.isRequired,
     headers: PropTypes.shape({})
   }),
-  removeFromStack: PropTypes.func.isRequired,
-  addOnStack: PropTypes.func.isRequired
+  removeFromStack: PropTypes.func.isRequired
 };
 FileUpload.defaultProps = {
   endPoint: {
@@ -896,37 +895,46 @@ FileUpload.defaultProps = {
   }
 };
 
-class DropZone extends React.Component {
+class Dropzone extends React.Component {
   constructor(...args) {
     super(...args);
     this.state = {
       queue: [],
+      formData: [],
       upload: false
     };
 
+    this.toBase64 = file =>
+      new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        reader.onload = () => resolve(reader.result);
+
+        reader.onerror = error => reject(error);
+      });
+
     this.filesFromClient = files => {
-      const { queue } = this.state;
-      const {
-        input: { onChange }
-      } = this.props;
-      const tmpQueue = [...queue];
       files.forEach(file => {
-        // file.preview = URL.createObjectURL(file);
-        tmpQueue.push(file);
+        this.toBase64(file).then(data => {
+          this.addData(file, data);
+        });
       });
-      this.setState({
-        queue: tmpQueue
-      });
-      onChange(tmpQueue);
     };
 
     this.removeFromStack = fileToDelete => {
-      const { queue } = this.state;
-      const { input } = this.props;
+      const { queue, formData } = this.state;
+      const {
+        input: { onChange }
+      } = this.props;
       const filtered = queue.filter(file => file.name !== fileToDelete.name);
-      input.onChange(filtered);
+      const filteredFormData = formData.filter(
+        file => file.name !== fileToDelete.name
+      );
+      onChange(filteredFormData);
       this.setState({
-        queue: filtered
+        queue: filtered,
+        formData: filteredFormData
       });
     };
 
@@ -940,7 +948,7 @@ class DropZone extends React.Component {
 
       const list = queue.map((file, index) =>
         React.createElement(FileUpload, {
-          key: `${file.name}-${index}`,
+          key: `${file.name}`,
           file: file,
           removeFromStack: this.removeFromStack,
           endPoint: endPoint,
@@ -962,12 +970,38 @@ class DropZone extends React.Component {
     return queue !== nextState.queue;
   }
 
+  addData(file, data) {
+    const {
+      input: { onChange }
+    } = this.props;
+    const { formData, queue } = this.state;
+    const { name, type, size } = file;
+    const tmpQueue = [...queue];
+    const tmpFormData = [...formData];
+    tmpFormData.push({
+      name,
+      type,
+      size,
+      data
+    });
+    tmpQueue.push(file);
+    this.setState(
+      {
+        queue: tmpQueue,
+        formData: tmpFormData
+      },
+      () => {
+        onChange(tmpFormData);
+      }
+    );
+  }
+
   render() {
     return React.createElement(
       React.Fragment,
       null,
       React.createElement(
-        Dropzone,
+        ReactDropzone,
         {
           onDrop: this.filesFromClient
         },
@@ -997,13 +1031,9 @@ class DropZone extends React.Component {
   }
 }
 
-DropZone.propTypes = {
+Dropzone.propTypes = {
   input: PropTypes.oneOfType([PropTypes.object]),
   placeholder: PropTypes.string,
-  endPoint: PropTypes.shape({
-    path: PropTypes.string.isRequired,
-    headers: PropTypes.shape({})
-  }).isRequired,
   disabled: PropTypes.func,
   isDisabled: PropTypes.bool,
   formControl: PropTypes.string,
@@ -1013,16 +1043,15 @@ DropZone.propTypes = {
     field: PropTypes.object
   })
 };
-DropZone.defaultProps = {
+Dropzone.defaultProps = {
   input: {},
   placeholder: null,
   formControl: null,
-  autoUpload: false,
   disabled: null,
   isDisabled: false,
   layout: null
 };
-var DropZone$1 = Context()(fieldGroup(DropZone));
+var Dropzone$1 = Context()(fieldGroup(Dropzone));
 
 const Password = props => {
   const { input, isDisabled } = props;
@@ -1531,7 +1560,7 @@ var Textarea$1 = Context()(fieldGroup(Textarea));
 export {
   Checkbox$1 as Checkbox,
   Custom$1 as Custom,
-  DropZone$1 as DropZone,
+  Dropzone$1 as Dropzone,
   _Error as Error,
   Form,
   Input$1 as Input,
