@@ -8,10 +8,11 @@ import Radio from "../modules/Types/Radio";
 import Show from "../modules/Types/Show";
 import Select from "../modules/Types/Select";
 import Error from "../modules/Types/Error";
+import Success from "../modules/Types/Success";
+import Button from "../modules/Types/Button";
 import "./react-datetime.css";
 import Complex, { Header, Footer } from "../modules/Types/Complex";
 import Panel from "react-bootstrap/lib/Panel";
-import Button from "react-bootstrap/lib/Button";
 import ButtonGroup from "react-bootstrap/lib/ButtonGroup";
 import DropdownButton from "../modules/Types/DropdownButton";
 import { FORM_ERROR } from "final-form";
@@ -60,14 +61,12 @@ const Home = () => (
             <h2>Login Example</h2>
             <Form
               static
-              onSubmit={data => ({
-                [FORM_ERROR]: "server error"
-              })}
-              validate={() => {
-                return {
-                  // username: 'some kind of error'
-                };
+              onSubmit={async data => {
+                return await new Promise(resolve => {
+                  resolve({ [FORM_ERROR]: "KNUTSELS" });
+                });
               }}
+              validate={async () => {}}
               initialValues={{
                 username: "amber#99",
                 checkboxes: ["4", "9", "8"],
@@ -250,7 +249,10 @@ const Home = () => (
                 <span>I agree with the terms</span>
               </Radio>
               <Error>Well, shit just hit the fan.</Error>
-              <button type={"submit"}>Send</button>
+              <Success>Well, shit just hit the fan.</Success>
+              <Button type={"submit"} bsStyle={"primary"}>
+                Send
+              </Button>
             </Form>
           </Well>
         </div>

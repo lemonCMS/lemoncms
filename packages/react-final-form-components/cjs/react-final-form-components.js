@@ -165,7 +165,7 @@ ContextWrapper.propTypes = {
   dirty: PropTypes.bool,
   dirtySinceLastSubmit: PropTypes.bool,
   errors: PropTypes.oneOfType([PropTypes.object]),
-  error: PropTypes.bool,
+  error: PropTypes.string,
   invalid: PropTypes.bool,
   pristine: PropTypes.bool,
   submitError: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
@@ -1483,7 +1483,7 @@ const Error = props => {
   const {
     children,
     context: {
-      status: { submitFailed, submitError }
+      status: { submitFailed, submitError, error }
     }
   } = props;
 
@@ -1497,7 +1497,7 @@ const Error = props => {
       bsStyle: "danger"
     },
     children,
-    React__default.createElement("div", null, submitError)
+    React__default.createElement("div", null, error, submitError)
   );
 };
 

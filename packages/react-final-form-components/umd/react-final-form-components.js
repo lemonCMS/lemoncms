@@ -1806,6 +1806,7 @@
       oldState = state;
     }
 
+    delete state.fields[source.name];
     state.fields[destKey] = _extends$1({}, source, {
       name: destKey,
       // prevent functions from being overwritten
@@ -1816,7 +1817,24 @@
       focus: oldState.fields[destKey] && oldState.fields[destKey].focus,
       lastFieldState: undefined // clearing lastFieldState forces renotification
     });
-  }
+
+    if (!state.fields[destKey].change) {
+      delete state.fields[destKey].change;
+    }
+
+    if (!state.fields[destKey].blur) {
+      delete state.fields[destKey].blur;
+    }
+
+    if (!state.fields[destKey].focus) {
+      delete state.fields[destKey].focus;
+    }
+  } //
+  // From MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Escaping
+
+  var escapeRegexTokens = function escapeRegexTokens(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }; // $& means the whole matched string
 
   var insert = function insert(_ref, state, _ref2) {
     var name = _ref[0],
@@ -1828,29 +1846,32 @@
       var copy = [].concat(array || []);
       copy.splice(index, 0, value);
       return copy;
-    }); // now we have increment any higher indexes
-
-    var pattern = new RegExp("^" + name + "\\[(\\d+)\\](.*)");
-
-    var backup = _extends$1({}, state.fields);
-
-    Object.keys(state.fields).forEach(function(key) {
-      var tokens = pattern.exec(key);
-
-      if (tokens) {
-        var fieldIndex = Number(tokens[1]);
-
-        if (fieldIndex >= index) {
-          // inc index one higher
-          var incrementedKey = name + "[" + (fieldIndex + 1) + "]" + tokens[2];
-          moveFieldState(state, backup[key], incrementedKey);
-        }
-
-        if (fieldIndex === index) {
-          resetFieldState(key);
-        }
-      }
     });
+
+    var backup = _extends$1({}, state.fields); // now we have increment any higher indexes
+
+    var pattern = new RegExp(
+      "^" + escapeRegexTokens(name) + "\\[(\\d+)\\](.*)"
+    ); // we need to increment high indices first so
+    // lower indices won't overlap
+
+    Object.keys(state.fields)
+      .sort()
+      .reverse()
+      .forEach(function(key) {
+        var tokens = pattern.exec(key);
+
+        if (tokens) {
+          var fieldIndex = Number(tokens[1]);
+
+          if (fieldIndex >= index) {
+            // inc index one higher
+            var incrementedKey =
+              name + "[" + (fieldIndex + 1) + "]" + tokens[2];
+            moveFieldState(state, backup[key], incrementedKey);
+          }
+        }
+      });
   }; //
 
   var concat = function concat(_ref, state, _ref2) {
@@ -1861,6 +1882,46 @@
       return array ? [].concat(array, value) : value;
     });
   }; //
+
+  function moveFields(name, matchPrefix, destIndex, state) {
+    Object.keys(state.fields).forEach(function(key) {
+      if (key.substring(0, matchPrefix.length) === matchPrefix) {
+        var suffix = key.substring(matchPrefix.length);
+        var destKey = name + "[" + destIndex + "]" + suffix;
+        moveFieldState(state, state.fields[key], destKey);
+      }
+    });
+  } //
+
+  function restoreFunctions(state, backupState) {
+    Object.keys(state.fields).forEach(function(key) {
+      state.fields[key] = _extends$1({}, state.fields[key], {
+        change:
+          state.fields[key].change ||
+          (backupState.fields[key] && backupState.fields[key].change),
+        blur:
+          state.fields[key].blur ||
+          (backupState.fields[key] && backupState.fields[key].blur),
+        focus:
+          state.fields[key].focus ||
+          (backupState.fields[key] && backupState.fields[key].focus)
+      });
+
+      if (!state.fields[key].change) {
+        delete state.fields[key].change;
+      }
+
+      if (!state.fields[key].blur) {
+        delete state.fields[key].blur;
+      }
+
+      if (!state.fields[key].focus) {
+        delete state.fields[key].focus;
+      }
+    });
+  }
+
+  var TMP = "tmp";
 
   var move = function move(_ref, state, _ref2) {
     var name = _ref[0],
@@ -1878,43 +1939,35 @@
       copy.splice(from, 1);
       copy.splice(to, 0, value);
       return copy;
+    }); //make a copy of a state for further functions restore
+
+    var backupState = _extends$1({}, state, {
+      fields: _extends$1({}, state.fields) // move this row to tmp index
     });
+
     var fromPrefix = name + "[" + from + "]";
-    Object.keys(state.fields).forEach(function(key) {
-      if (key.substring(0, fromPrefix.length) === fromPrefix) {
-        var suffix = key.substring(fromPrefix.length);
-        var fromKey = fromPrefix + suffix;
-        var backup = state.fields[fromKey];
+    moveFields(name, fromPrefix, TMP, state);
 
-        if (from < to) {
-          // moving to a higher index
-          // decrement all indices between from and to
-          for (var i = from; i < to; i++) {
-            var destKey = name + "[" + i + "]" + suffix;
-            moveFieldState(
-              state,
-              state.fields[name + "[" + (i + 1) + "]" + suffix],
-              destKey
-            );
-          }
-        } else {
-          // moving to a lower index
-          // increment all indices between to and from
-          for (var _i = from; _i > to; _i--) {
-            var _destKey = name + "[" + _i + "]" + suffix;
-
-            moveFieldState(
-              state,
-              state.fields[name + "[" + (_i - 1) + "]" + suffix],
-              _destKey
-            );
-          }
-        }
-
-        var toKey = name + "[" + to + "]" + suffix;
-        moveFieldState(state, backup, toKey);
+    if (from < to) {
+      // moving to a higher index
+      // decrement all indices between from and to
+      for (var i = from + 1; i <= to; i++) {
+        var innerFromPrefix = name + "[" + i + "]";
+        moveFields(name, innerFromPrefix, "" + (i - 1), state);
       }
-    });
+    } else {
+      // moving to a lower index
+      // increment all indices between to and from
+      for (var _i = from - 1; _i >= to; _i--) {
+        var _innerFromPrefix = name + "[" + _i + "]";
+
+        moveFields(name, _innerFromPrefix, "" + (_i + 1), state);
+      }
+    } // move from tmp index to destination
+
+    var tmpPrefix = name + "[" + TMP + "]";
+    moveFields(name, tmpPrefix, to, state);
+    restoreFunctions(state, backupState);
   }; //
 
   var pop = function pop(_ref, state, _ref2) {
@@ -1935,7 +1988,9 @@
     }); // now we have to remove any subfields for our index,
 
     if (removedIndex !== undefined) {
-      var pattern = new RegExp("^" + name + "\\[" + removedIndex + "].*");
+      var pattern = new RegExp(
+        "^" + escapeRegexTokens(name) + "\\[" + removedIndex + "].*"
+      );
       Object.keys(state.fields).forEach(function(key) {
         if (pattern.test(key)) {
           delete state.fields[key];
@@ -1958,7 +2013,8 @@
   var remove = function remove(_ref, state, _ref2) {
     var name = _ref[0],
       index = _ref[1];
-    var changeValue = _ref2.changeValue;
+    var changeValue = _ref2.changeValue,
+      renameField = _ref2.renameField;
     var returnValue;
     changeValue(state, name, function(array) {
       var copy = [].concat(array || []);
@@ -1968,7 +2024,9 @@
     }); // now we have to remove any subfields for our index,
     // and decrement all higher indexes.
 
-    var pattern = new RegExp("^" + name + "\\[(\\d+)\\](.*)");
+    var pattern = new RegExp(
+      "^" + escapeRegexTokens(name) + "\\[(\\d+)\\](.*)"
+    );
 
     var backup = _extends$1({}, state, {
       fields: _extends$1({}, state.fields)
@@ -1987,7 +2045,13 @@
           // shift all higher ones down
           delete state.fields[key];
           var decrementedKey = name + "[" + (fieldIndex - 1) + "]" + tokens[2];
-          moveFieldState(state, backup.fields[key], decrementedKey, backup);
+
+          if (backup.fields[decrementedKey]) {
+            moveFieldState(state, backup.fields[key], decrementedKey, backup);
+          } else {
+            // take care of setting the correct change, blur, focus, validators on new field
+            renameField(state, key, decrementedKey);
+          }
         }
       }
     });
@@ -2034,7 +2098,9 @@
     }); // now we have to remove any subfields for our indexes,
     // and decrement all higher indexes.
 
-    var pattern = new RegExp("^" + name + "\\[(\\d+)\\](.*)");
+    var pattern = new RegExp(
+      "^" + escapeRegexTokens(name) + "\\[(\\d+)\\](.*)"
+    );
 
     var newState = _extends$1({}, state, {
       fields: {}
@@ -2068,7 +2134,9 @@
   var shift = function shift(_ref, state, tools) {
     var name = _ref[0];
     return remove([name, 0], state, tools);
-  }; //
+  };
+
+  var TMP$1 = "tmp";
 
   var swap = function swap(_ref, state, _ref2) {
     var name = _ref[0],
@@ -2086,20 +2154,19 @@
       copy[indexA] = copy[indexB];
       copy[indexB] = a;
       return copy;
-    }); // swap all field state that begin with "name[indexA]" with that under "name[indexB]"
+    }); //make a copy of a state for further functions restore
+
+    var backupState = _extends$1({}, state, {
+      fields: _extends$1({}, state.fields) // swap all field state that begin with "name[indexA]" with that under "name[indexB]"
+    });
 
     var aPrefix = name + "[" + indexA + "]";
     var bPrefix = name + "[" + indexB + "]";
-    Object.keys(state.fields).forEach(function(key) {
-      if (key.substring(0, aPrefix.length) === aPrefix) {
-        var suffix = key.substring(aPrefix.length);
-        var aKey = aPrefix + suffix;
-        var bKey = bPrefix + suffix;
-        var fieldA = state.fields[aKey];
-        moveFieldState(state, state.fields[bKey], aKey);
-        moveFieldState(state, fieldA, bKey);
-      }
-    });
+    var tmpPrefix = name + "[" + TMP$1 + "]";
+    moveFields(name, aPrefix, TMP$1, state);
+    moveFields(name, bPrefix, indexA, state);
+    moveFields(name, tmpPrefix, indexB, state);
+    restoreFunctions(state, backupState);
   }; //
 
   var unshift = function unshift(_ref, state, tools) {
@@ -2258,7 +2325,7 @@
     dirty: propTypes.bool,
     dirtySinceLastSubmit: propTypes.bool,
     errors: propTypes.oneOfType([propTypes.object]),
-    error: propTypes.bool,
+    error: propTypes.string,
     invalid: propTypes.bool,
     pristine: propTypes.bool,
     submitError: propTypes.oneOfType([propTypes.bool, propTypes.string]),
@@ -2548,7 +2615,7 @@
         // during build.
         // TODO: this is special because it gets imported during build.
 
-        var ReactVersion = "16.11.0";
+        var ReactVersion = "16.12.0";
         /**
          * Use invariant() to assert state which your program assumes to be true.
          *
@@ -2951,7 +3018,7 @@
           }
 
           return "\n    in " + (name || "Unknown") + sourceInfo;
-        }; // Helps identify side effects in begin-phase lifecycle hooks and setState reducers:
+        }; // Helps identify side effects in render-phase lifecycle hooks and setState
         // Trace which interactions trigger each commit.
         // SSR experiments
 
@@ -2962,6 +3029,7 @@
         // Experimental React Flare event system and event components support.
 
         var enableFlareAPI = false; // Experimental Host Component support.
+
         var ReactDebugCurrentFrame$1;
         var didWarnAboutInvalidateContextType;
         {
@@ -10965,7 +11033,7 @@
     const {
       children,
       context: {
-        status: { submitFailed, submitError }
+        status: { submitFailed, submitError, error }
       }
     } = props;
 
@@ -10979,7 +11047,7 @@
         bsStyle: "danger"
       },
       children,
-      React__default.createElement("div", null, submitError)
+      React__default.createElement("div", null, error, submitError)
     );
   };
 

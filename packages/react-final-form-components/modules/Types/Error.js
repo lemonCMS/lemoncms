@@ -6,17 +6,21 @@ const Error = props => {
   const {
     children,
     context: {
-      status: { submitFailed, submitError }
+      status: { submitFailed, submitError, error }
     }
   } = props;
 
   if (!submitFailed) {
     return null;
   }
+
   return (
     <Alert bsStyle={"danger"}>
       {children}
-      <div>{submitError}</div>
+      <div>
+        {error}
+        {submitError}
+      </div>
     </Alert>
   );
 };

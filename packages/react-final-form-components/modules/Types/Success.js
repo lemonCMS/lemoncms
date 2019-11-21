@@ -9,7 +9,6 @@ const Success = props => {
       status: { submitSucceeded }
     }
   } = props;
-
   if (!submitSucceeded) {
     return null;
   }

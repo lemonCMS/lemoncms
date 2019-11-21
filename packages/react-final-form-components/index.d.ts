@@ -44,7 +44,7 @@ interface FormProps {
 }
 
 interface Message {
-  children: React.ReactElement;
+  children: Element<any> | ReactElement<any>;
 }
 
 declare module "react-final-form-components" {
