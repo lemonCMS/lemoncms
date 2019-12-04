@@ -15,6 +15,7 @@ interface DefaultInputProps {
   help?: string;
   disabled?: () => boolean;
   name: string;
+  readonly?: boolean;
   children?: Element<any> | ReactElement<any>;
   layout?: {
     label?: bootStrapSizes;
@@ -27,7 +28,7 @@ interface InputProps extends DefaultInputProps {
 }
 
 interface CheckboxProps extends DefaultInputProps {
-  columns: number;
+  columns?: number;
 }
 
 interface FormProps {

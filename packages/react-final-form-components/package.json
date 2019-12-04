@@ -1,6 +1,6 @@
 {
   "name": "react-final-form-components",
-  "version": "2.0.0-alpha-14",
+  "version": "2.0.0-alpha-17",
   "repository": "https://github.com/lemonCMS/lemoncms/tree/master/packages/final-form-bootstrap3",
   "scripts": {
     "dev": "next dev",
