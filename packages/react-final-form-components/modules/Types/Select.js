@@ -31,10 +31,7 @@ Select.propTypes = {
       PropTypes.array
     ])
   }),
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.element),
-    PropTypes.element
-  ]),
+  children: PropTypes.node.isRequired,
   disabled: PropTypes.func,
   isDisabled: PropTypes.bool,
   placeholder: PropTypes.string,

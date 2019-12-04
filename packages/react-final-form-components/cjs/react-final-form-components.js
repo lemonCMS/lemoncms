@@ -1,7 +1,5 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
-
 function _interopDefault(ex) {
   return ex && typeof ex === "object" && "default" in ex ? ex["default"] : ex;
 }
@@ -1355,10 +1353,7 @@ Select.propTypes = {
       PropTypes.array
     ])
   }),
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.element),
-    PropTypes.element
-  ]),
+  children: PropTypes.node.isRequired,
   disabled: PropTypes.func,
   isDisabled: PropTypes.bool,
   placeholder: PropTypes.string,
@@ -1407,12 +1402,14 @@ Show.propTypes = {
 var Show$1 = Context()(Show);
 
 const Input = props => {
-  const { input, type, isDisabled } = props;
+  const { input, type, isDisabled, placeholder, readonly } = props;
   return React__default.createElement(
     reactBootstrap.FormControl,
     _extends({}, input, {
       type: type,
-      disabled: isDisabled
+      disabled: isDisabled,
+      placeholder: placeholder,
+      readonly: readonly
     })
   );
 };
@@ -1430,6 +1427,7 @@ Input.propTypes = {
     ])
   }),
   disabled: PropTypes.func,
+  readonly: PropTypes.bool,
   isDisabled: PropTypes.bool,
   placeholder: PropTypes.string,
   addOn: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
@@ -1456,6 +1454,7 @@ Input.defaultProps = {
   placeholder: null,
   type: "text",
   disabled: null,
+  readonly: false,
   isDisabled: false,
   layout: null
 };
@@ -1598,3 +1597,4 @@ exports.Select = Select$1;
 exports.Show = Show$1;
 exports.Success = Success$1;
 exports.Textarea = Textarea$1;
+//# sourceMappingURL=react-final-form-components.js.map

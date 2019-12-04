@@ -1326,10 +1326,7 @@ Select.propTypes = {
       PropTypes.array
     ])
   }),
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.element),
-    PropTypes.element
-  ]),
+  children: PropTypes.node.isRequired,
   disabled: PropTypes.func,
   isDisabled: PropTypes.bool,
   placeholder: PropTypes.string,
@@ -1378,12 +1375,14 @@ Show.propTypes = {
 var Show$1 = Context()(Show);
 
 const Input = props => {
-  const { input, type, isDisabled } = props;
+  const { input, type, isDisabled, placeholder, readonly } = props;
   return React.createElement(
     FormControl,
     _extends({}, input, {
       type: type,
-      disabled: isDisabled
+      disabled: isDisabled,
+      placeholder: placeholder,
+      readonly: readonly
     })
   );
 };
@@ -1401,6 +1400,7 @@ Input.propTypes = {
     ])
   }),
   disabled: PropTypes.func,
+  readonly: PropTypes.bool,
   isDisabled: PropTypes.bool,
   placeholder: PropTypes.string,
   addOn: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
@@ -1427,6 +1427,7 @@ Input.defaultProps = {
   placeholder: null,
   type: "text",
   disabled: null,
+  readonly: false,
   isDisabled: false,
   layout: null
 };
@@ -1571,3 +1572,4 @@ export {
   Success$1 as Success,
   Textarea$1 as Textarea
 };
+//# sourceMappingURL=react-final-form-components.js.map

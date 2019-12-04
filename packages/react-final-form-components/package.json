@@ -1,6 +1,6 @@
 {
   "name": "react-final-form-components",
-  "version": "2.0.0-alpha-13",
+  "version": "2.0.0-alpha-14",
   "repository": "https://github.com/lemonCMS/lemoncms/tree/master/packages/final-form-bootstrap3",
   "scripts": {
     "dev": "next dev",
@@ -47,6 +47,7 @@
     "react-final-form-arrays": "^3.1.1",
     "react-onclickoutside": "^6.9.0",
     "rollup": "^1.27.3",
+    "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-terser": "^5.1.2",
     "typescript": "^3.7.2"
   }
