@@ -62,7 +62,7 @@ export default function Context(Component) {
     meta: PropTypes.shape({
       submitFailed: PropTypes.bool.isRequired,
       invalid: PropTypes.bool.isRequired,
-      error: PropTypes.string
+      error: PropTypes.any
     }).isRequired,
     context: PropTypes.shape({
       checkCondition: PropTypes.func

@@ -15,7 +15,7 @@ interface DefaultInputProps {
   help?: string;
   disabled?: () => boolean;
   name: string;
-  readonly?: boolean;
+  readOnly?: boolean;
   children?: Element<any> | ReactElement<any>;
   layout?: {
     label?: bootStrapSizes;

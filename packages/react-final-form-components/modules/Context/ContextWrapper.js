@@ -108,7 +108,7 @@ ContextWrapper.propTypes = {
   dirty: PropTypes.bool,
   dirtySinceLastSubmit: PropTypes.bool,
   errors: PropTypes.oneOfType([PropTypes.object]),
-  error: PropTypes.string,
+  error: PropTypes.any,
   invalid: PropTypes.bool,
   pristine: PropTypes.bool,
   submitError: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),

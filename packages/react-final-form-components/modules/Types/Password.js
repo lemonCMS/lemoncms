@@ -5,8 +5,17 @@ import context from "../decorators/context";
 import fieldGroup from "./fieldGroup";
 
 const Password = props => {
-  const { input, isDisabled } = props;
-  return <FormControl {...input} type={"password"} disabled={isDisabled} />;
+  const { input, isDisabled, placeholder, readOnly } = props;
+
+  return (
+    <FormControl
+      {...input}
+      type={"password"}
+      disabled={isDisabled}
+      placeholder={placeholder}
+      readOnly={readOnly}
+    />
+  );
 };
 
 Password.propTypes = {
@@ -22,6 +31,7 @@ Password.propTypes = {
     ])
   }),
   disabled: PropTypes.func,
+  readOnly: PropTypes.bool,
   isDisabled: PropTypes.bool,
   placeholder: PropTypes.string,
   label: PropTypes.string,

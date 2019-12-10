@@ -144,7 +144,7 @@ ContextWrapper.propTypes = {
   dirty: PropTypes.bool,
   dirtySinceLastSubmit: PropTypes.bool,
   errors: PropTypes.oneOfType([PropTypes.object]),
-  error: PropTypes.string,
+  error: PropTypes.any,
   invalid: PropTypes.bool,
   pristine: PropTypes.bool,
   submitError: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
@@ -372,7 +372,7 @@ function fieldGroup(Component) {
     meta: PropTypes.shape({
       submitFailed: PropTypes.bool.isRequired,
       invalid: PropTypes.bool.isRequired,
-      error: PropTypes.string
+      error: PropTypes.any
     }).isRequired,
     context: PropTypes.shape({
       checkCondition: PropTypes.func,
@@ -1054,12 +1054,14 @@ Dropzone.defaultProps = {
 var Dropzone$1 = Context()(fieldGroup(Dropzone));
 
 const Password = props => {
-  const { input, isDisabled } = props;
+  const { input, isDisabled, placeholder, readOnly } = props;
   return React.createElement(
     FormControl,
     _extends({}, input, {
       type: "password",
-      disabled: isDisabled
+      disabled: isDisabled,
+      placeholder: placeholder,
+      readOnly: readOnly
     })
   );
 };
@@ -1077,6 +1079,7 @@ Password.propTypes = {
     ])
   }),
   disabled: PropTypes.func,
+  readOnly: PropTypes.bool,
   isDisabled: PropTypes.bool,
   placeholder: PropTypes.string,
   label: PropTypes.string,
@@ -1375,14 +1378,14 @@ Show.propTypes = {
 var Show$1 = Context()(Show);
 
 const Input = props => {
-  const { input, type, isDisabled, placeholder, readonly } = props;
+  const { input, type, isDisabled, placeholder, readOnly } = props;
   return React.createElement(
     FormControl,
     _extends({}, input, {
       type: type,
       disabled: isDisabled,
       placeholder: placeholder,
-      readonly: readonly
+      readOnly: readOnly
     })
   );
 };
@@ -1400,7 +1403,7 @@ Input.propTypes = {
     ])
   }),
   disabled: PropTypes.func,
-  readonly: PropTypes.bool,
+  readOnly: PropTypes.bool,
   isDisabled: PropTypes.bool,
   placeholder: PropTypes.string,
   addOn: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
@@ -1427,7 +1430,7 @@ Input.defaultProps = {
   placeholder: null,
   type: "text",
   disabled: null,
-  readonly: false,
+  readOnly: false,
   isDisabled: false,
   layout: null
 };

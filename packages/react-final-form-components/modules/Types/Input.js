@@ -5,14 +5,14 @@ import context from "../decorators/context";
 import fieldGroup from "./fieldGroup";
 
 const Input = props => {
-  const { input, type, isDisabled, placeholder, readonly } = props;
+  const { input, type, isDisabled, placeholder, readOnly } = props;
   return (
     <FormControl
       {...input}
       type={type}
       disabled={isDisabled}
       placeholder={placeholder}
-      readonly={readonly}
+      readOnly={readOnly}
     />
   );
 };
@@ -31,7 +31,7 @@ Input.propTypes = {
   }),
 
   disabled: PropTypes.func,
-  readonly: PropTypes.bool,
+  readOnly: PropTypes.bool,
   isDisabled: PropTypes.bool,
   placeholder: PropTypes.string,
   addOn: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
@@ -59,7 +59,7 @@ Input.defaultProps = {
   placeholder: null,
   type: "text",
   disabled: null,
-  readonly: false,
+  readOnly: false,
   isDisabled: false,
   layout: null
 };

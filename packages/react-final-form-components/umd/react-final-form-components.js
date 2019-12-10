@@ -2240,7 +2240,7 @@
     dirty: propTypes.bool,
     dirtySinceLastSubmit: propTypes.bool,
     errors: propTypes.oneOfType([propTypes.object]),
-    error: propTypes.string,
+    error: propTypes.any,
     invalid: propTypes.bool,
     pristine: propTypes.bool,
     submitError: propTypes.oneOfType([propTypes.bool, propTypes.string]),
@@ -16035,7 +16035,7 @@
       meta: propTypes.shape({
         submitFailed: propTypes.bool.isRequired,
         invalid: propTypes.bool.isRequired,
-        error: propTypes.string
+        error: propTypes.any
       }).isRequired,
       context: propTypes.shape({
         checkCondition: propTypes.func,
@@ -16717,12 +16717,14 @@
   var Dropzone$1 = Context()(fieldGroup(Dropzone));
 
   const Password = props => {
-    const { input, isDisabled } = props;
+    const { input, isDisabled, placeholder, readOnly } = props;
     return React__default.createElement(
       reactBootstrap.FormControl,
       _extends({}, input, {
         type: "password",
-        disabled: isDisabled
+        disabled: isDisabled,
+        placeholder: placeholder,
+        readOnly: readOnly
       })
     );
   };
@@ -16740,6 +16742,7 @@
       ])
     }),
     disabled: propTypes.func,
+    readOnly: propTypes.bool,
     isDisabled: propTypes.bool,
     placeholder: propTypes.string,
     label: propTypes.string,
@@ -17205,14 +17208,14 @@
   var Show$1 = Context()(Show);
 
   const Input = props => {
-    const { input, type, isDisabled, placeholder, readonly } = props;
+    const { input, type, isDisabled, placeholder, readOnly } = props;
     return React__default.createElement(
       reactBootstrap.FormControl,
       _extends({}, input, {
         type: type,
         disabled: isDisabled,
         placeholder: placeholder,
-        readonly: readonly
+        readOnly: readOnly
       })
     );
   };
@@ -17230,7 +17233,7 @@
       ])
     }),
     disabled: propTypes.func,
-    readonly: propTypes.bool,
+    readOnly: propTypes.bool,
     isDisabled: propTypes.bool,
     placeholder: propTypes.string,
     addOn: propTypes.oneOfType([propTypes.string, propTypes.element]),
@@ -17257,7 +17260,7 @@
     placeholder: null,
     type: "text",
     disabled: null,
-    readonly: false,
+    readOnly: false,
     isDisabled: false,
     layout: null
   };
