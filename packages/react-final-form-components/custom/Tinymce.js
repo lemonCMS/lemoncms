@@ -5,7 +5,7 @@ import { Editor } from "@tinymce/tinymce-react";
 export default function Tinymce(props) {
   return (
     <Custom {...props} control={false}>
-      {input => (
+      {({ input }) => (
         <Editor
           id={"tiny"}
           initialValue={input.value}

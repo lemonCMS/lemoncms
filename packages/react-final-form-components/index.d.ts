@@ -1,5 +1,7 @@
 /// <reference types="node" />
 
+import React from "react";
+
 type ColRange = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 
 interface bootStrapSizes {
@@ -48,6 +50,25 @@ interface Message {
   children: Element<any> | ReactElement<any>;
 }
 
+interface CustomInputProps extends DefaultInputProps {
+  constrol?: bool;
+}
+
+interface ShowProps {
+  condition: (values: any) => boolean;
+  children: ReactChild;
+}
+
+interface ConsumerInterface<T> {
+  (Component: React.ComponentType<T>): T;
+}
+
+interface ContextInterface<T, U> {
+  (config?: T): {
+    (Component: React.ComponentType<U>): U;
+  };
+}
+
 declare module "react-final-form-components" {
   import React from "react";
 
@@ -56,11 +77,13 @@ declare module "react-final-form-components" {
   export const Error: React.FunctionComponent<Message>;
   export const Success: React.FunctionComponent<Message>;
   export const Form: React.FunctionComponent<FormProps>;
-  export const Custom: React.FunctionComponent<DefaultInputProps>;
+  export const Custom: React.FunctionComponent<CustomInputProps>;
   export const DropZone: React.FunctionComponent<DefaultInputProps>;
   export const Checkbox: React.FunctionComponent<CheckboxProps>;
   export const Radio: React.FunctionComponent<CheckboxProps>;
   export const Select: React.FunctionComponent<DefaultInputProps>;
   export const Show: React.FunctionComponent<ShowProps>;
   export const Textarea: React.FunctionComponent<TextareaProps>;
+  export const consumer: ConsumerInterface<T>;
+  export const context: ContextInterface<T, U>;
 }

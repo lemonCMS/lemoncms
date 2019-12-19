@@ -5,7 +5,7 @@ import Custom from "../modules/Types/Custom";
 export default function DateTime(props) {
   return (
     <Custom {...props} control={false}>
-      {input => <Dt {...input} />}
+      {({ input }) => <Dt {...input} />}
     </Custom>
   );
 }

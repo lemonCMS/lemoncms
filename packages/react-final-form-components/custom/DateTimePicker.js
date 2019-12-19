@@ -4,6 +4,8 @@ import Custom from "../modules/Types/Custom";
 
 export default function DateTime(props) {
   return (
-    <Custom {...props}>{input => <DateTimePickerAlias {...input} />}</Custom>
+    <Custom {...props}>
+      {({ input }) => <DateTimePickerAlias {...input} />}
+    </Custom>
   );
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import context from "../decorators/context";
+import context from "../decorators/consumer";
 
 const Show = ({ condition, children, context: { checkCondition } }) => {
   if (condition && typeof condition === "function") {
@@ -9,6 +9,8 @@ const Show = ({ condition, children, context: { checkCondition } }) => {
     }
     return children;
   }
+
+  return null;
 };
 
 Show.propTypes = {
@@ -17,7 +19,6 @@ Show.propTypes = {
     PropTypes.array,
     PropTypes.string
   ]).isRequired,
-  hidden: PropTypes.func,
   condition: PropTypes.func
 };
-export default context()(Show);
+export default context(Show);

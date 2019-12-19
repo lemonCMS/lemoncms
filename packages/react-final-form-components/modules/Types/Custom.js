@@ -5,14 +5,14 @@ import fieldGroup from "./fieldGroup";
 import { FormControl } from "react-bootstrap";
 
 const Custom = props => {
-  const { control, input, isDisabled, children } = props;
+  const { control, input, isDisabled, children, context } = props;
   if (control) {
     return (
       <FormControl {...input} componentClass={children} disabled={isDisabled} />
     );
   }
 
-  return children(input, isDisabled);
+  return children({ input, context }, isDisabled);
 };
 
 Custom.propTypes = {

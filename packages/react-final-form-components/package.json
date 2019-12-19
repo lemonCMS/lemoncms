@@ -1,7 +1,7 @@
 {
   "name": "react-final-form-components",
-  "version": "2.0.0-alpha-18",
-  "repository": "https://github.com/lemonCMS/lemoncms/tree/master/packages/final-form-bootstrap3",
+  "version": "2.0.0-alpha-24",
+  "repository": "https://github.com/lemonCMS/lemoncms/tree/master/packages/react-final-form-components",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,7 +9,13 @@
     "rollup": "rollup -c"
   },
   "main": "index.js",
-  "module": "esm/react-final-form-components.js",
+  "browser": "lib/index.umd.js",
+  "module": "lib/index.es.js",
+  "files": [
+    "/lib",
+    "index.d.ts",
+    "index.js"
+  ],
   "sideEffects": false,
   "dependencies": {},
   "peerDependencies": {

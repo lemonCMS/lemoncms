@@ -10,6 +10,8 @@ import Input from "./Types/Input";
 import Error from "./Types/Error";
 import Success from "./Types/Success";
 import Textarea from "./Types/Textarea";
+import consumer from "./decorators/consumer";
+import context from "./decorators/context";
 
 export { Form };
 export { Checkbox };
@@ -23,3 +25,5 @@ export { Input };
 export { Error };
 export { Success };
 export { Textarea };
+export { consumer };
+export { context };

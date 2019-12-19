@@ -697,7 +697,7 @@ Checkbox.defaultProps = {
 var Checkbox$1 = Context()(fieldGroup(Checkbox));
 
 const Custom = props => {
-  const { control, input, isDisabled, children } = props;
+  const { control, input, isDisabled, children, context } = props;
 
   if (control) {
     return React.createElement(
@@ -709,7 +709,13 @@ const Custom = props => {
     );
   }
 
-  return children(input, isDisabled);
+  return children(
+    {
+      input,
+      context
+    },
+    isDisabled
+  );
 };
 
 Custom.propTypes = {
@@ -743,7 +749,7 @@ Custom.defaultProps = {
   isDisabled: false,
   layout: null
 };
-var Custom$1 = Context()(fieldGroup(Custom));
+var Custom$1 = Context(fieldGroup(Custom));
 
 class FileUpload extends React.Component {
   constructor(...args) {
@@ -1364,6 +1370,8 @@ const Show = ({ condition, children, context: { checkCondition } }) => {
 
     return children;
   }
+
+  return null;
 };
 
 Show.propTypes = {
@@ -1372,7 +1380,6 @@ Show.propTypes = {
     PropTypes.array,
     PropTypes.string
   ]).isRequired,
-  hidden: PropTypes.func,
   condition: PropTypes.func
 };
 var Show$1 = Context()(Show);
