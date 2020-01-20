@@ -101,6 +101,7 @@ const Home = () => (
                 disabled={values => values.radios === "mayson"}
               />
               <Checkbox
+                mandatory
                 name={"checkboxes"}
                 label={"Multiple checkboxes"}
                 columns={4}

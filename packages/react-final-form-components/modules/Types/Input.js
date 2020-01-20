@@ -37,6 +37,7 @@ Input.propTypes = {
   addOn: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   label: PropTypes.string,
   help: PropTypes.string,
+  mandatory: PropTypes.bool,
   computedInvalid: PropTypes.bool.isRequired,
   type: PropTypes.oneOf([
     "text",
@@ -61,6 +62,7 @@ Input.defaultProps = {
   disabled: null,
   readOnly: false,
   isDisabled: false,
+  mandatory: false,
   layout: null
 };
 

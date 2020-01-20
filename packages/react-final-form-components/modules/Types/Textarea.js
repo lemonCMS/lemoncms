@@ -37,6 +37,7 @@ Textarea.propTypes = {
   placeholder: PropTypes.string,
   addOn: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   label: PropTypes.string,
+  mandatory: PropTypes.bool,
   help: PropTypes.string,
   computedInvalid: PropTypes.bool.isRequired,
   layout: PropTypes.shape({
@@ -56,7 +57,8 @@ Textarea.defaultProps = {
   type: "text",
   disabled: null,
   isDisabled: false,
-  layout: null
+  layout: null,
+  mandatory: false
 };
 
 export default context()(fieldGroup(Textarea));

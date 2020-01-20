@@ -30,6 +30,7 @@ Custom.propTypes = {
   placeholder: PropTypes.string,
   label: PropTypes.string,
   help: PropTypes.string,
+  mandatory: PropTypes.bool,
   computedInvalid: PropTypes.bool.isRequired,
   layout: PropTypes.shape({
     label: PropTypes.object,
@@ -45,6 +46,7 @@ Custom.defaultProps = {
   control: true,
   disabled: null,
   isDisabled: false,
+  mandatory: false,
   layout: null
 };
 

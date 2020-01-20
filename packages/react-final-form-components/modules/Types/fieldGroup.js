@@ -14,6 +14,7 @@ export default function fieldGroup(Component) {
   const WrappedComponent = props => {
     const {
       label,
+      mandatory,
       addOn,
       help,
       disabled,
@@ -55,6 +56,7 @@ export default function fieldGroup(Component) {
         {label && (
           <Col componentClass={ControlLabel} {...layout.label}>
             {label}
+            {mandatory && "*"}
           </Col>
         )}
         <Col {...layout.field}>
@@ -74,6 +76,7 @@ export default function fieldGroup(Component) {
   WrappedComponent.propTypes = {
     name: PropTypes.string.isRequired,
     label: PropTypes.string,
+    mandatory: PropTypes.bool,
     addOn: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     help: PropTypes.string,
     type: PropTypes.string,
@@ -102,6 +105,7 @@ export default function fieldGroup(Component) {
 
   WrappedComponent.defaultProps = {
     label: null,
+    mandatory: false,
     addOn: null,
     text: null,
     type: null,

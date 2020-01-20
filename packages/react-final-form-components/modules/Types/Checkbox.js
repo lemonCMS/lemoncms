@@ -209,6 +209,7 @@ Checkbox.propTypes = {
   placeholderFilter: PropTypes.string,
   label: PropTypes.string,
   help: PropTypes.string,
+  mandatory: PropTypes.bool,
   columns: PropTypes.number,
   filter: PropTypes.bool,
   computedInvalid: PropTypes.bool.isRequired,
@@ -228,6 +229,7 @@ Checkbox.defaultProps = {
   placeholderFilter: "Filter",
   disabled: null,
   isDisabled: false,
+  mandatory: false,
   layout: null
 };
 

@@ -37,6 +37,7 @@ Select.propTypes = {
   placeholder: PropTypes.string,
   label: PropTypes.string,
   help: PropTypes.string,
+  mandatory: PropTypes.bool,
   computedInvalid: PropTypes.bool.isRequired,
   multiple: PropTypes.bool,
   layout: PropTypes.shape({
@@ -53,7 +54,8 @@ Select.defaultProps = {
   multiple: false,
   disabled: null,
   isDisabled: false,
-  layout: null
+  layout: null,
+  mandatory: null
 };
 
 export default context({ type: "select" })(fieldGroup(Select));

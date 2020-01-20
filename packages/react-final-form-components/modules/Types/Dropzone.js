@@ -125,6 +125,7 @@ Dropzone.propTypes = {
   disabled: PropTypes.func,
   isDisabled: PropTypes.bool,
   formControl: PropTypes.string,
+  mandatory: PropTypes.bool,
   computedInvalid: PropTypes.bool.isRequired,
   layout: PropTypes.shape({
     label: PropTypes.object,
@@ -138,6 +139,7 @@ Dropzone.defaultProps = {
   formControl: null,
   disabled: null,
   isDisabled: false,
+  mandatory: false,
   layout: null
 };
 
