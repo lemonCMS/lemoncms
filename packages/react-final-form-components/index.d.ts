@@ -13,7 +13,7 @@ interface bootStrapSizes {
 
 interface DefaultInputProps {
   label: string;
-  mandatory: boolean;
+  mandatory?: boolean;
   placeholder?: string;
   help?: string;
   disabled?: () => boolean;
