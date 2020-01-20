@@ -14,10 +14,15 @@ import "./react-datetime.css";
 import Complex, { Header, Footer } from "../modules/Types/Complex";
 import Panel from "react-bootstrap/lib/Panel";
 import ButtonGroup from "react-bootstrap/lib/ButtonGroup";
+import Row from "react-bootstrap/lib/Row";
+import Col from "react-bootstrap/lib/Col";
 import DropdownButton from "../modules/Types/DropdownButton";
 import { FORM_ERROR } from "final-form";
 import Textarea from "../modules/Types/Textarea";
 import Dropzone from "../modules/Types/Dropzone";
+import Slider from "rc-slider";
+import Custom from "../modules/Types/Custom";
+import "rc-slider/assets/index.css";
 
 const ipsy = name => (
   <DropdownButton
@@ -187,21 +192,46 @@ const Home = () => (
                 <option value={"mayson"}>Mayson</option>
               </Select>
 
-              <Select name={"select-multi"} label={"SelectBox"} multiple>
+              <Row>
+                <Col md={4}>Tijdstip:</Col>
+                <Col md={8}>
+                  <Row>
+                    <Col md={6}>
+                      <Select
+                        name={"select-multix"}
+                        label={""}
+                        addOn={":"}
+                        layout={{ field: { md: 12 } }}
+                      >
+                        <option value={"hailey"}>Hailey</option>
+                        <option value={"aiden"}>Aiden</option>
+                        <option value={"mayson"}>Mayson</option>
+                      </Select>
+                    </Col>
+                    <Col md={6}>
+                      <Select
+                        name={"select-multiy"}
+                        label={""}
+                        layout={{ field: { md: 12 } }}
+                      >
+                        <option value={"hailey"}>Hailey</option>
+                        <option value={"aiden"}>Aiden</option>
+                        <option value={"mayson"}>Mayson</option>
+                      </Select>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+
+              <DropdownButton
+                name={"dropdown"}
+                label={"SelectBox"}
+                placeholder={"dropdown title"}
+              >
                 <option value={"hailey"}>Hailey</option>
                 <option value={"aiden"}>Aiden</option>
                 <option value={"mayson"}>Mayson</option>
-              </Select>
-
-              {/*<DropdownButton*/}
-              {/*  name={"dropdown"}*/}
-              {/*  label={"SelectBox"}*/}
-              {/*  placeholder={"dropdown title"}*/}
-              {/*>*/}
-              {/*  <option value={"hailey"}>Hailey</option>*/}
-              {/*  <option value={"aiden"}>Aiden</option>*/}
-              {/*  <option value={"mayson"}>Mayson</option>*/}
-              {/*</DropdownButton>*/}
+              </DropdownButton>
 
               <Dropzone
                 name="dropzone"
@@ -250,6 +280,10 @@ const Home = () => (
               >
                 <span>I agree with the terms</span>
               </Radio>
+              <Custom name={"slider"}>
+                {({ input }) => <Slider min={0} max={20} defaultValue={3} />}
+              </Custom>
+
               <Error>Well, shit just hit the fan.</Error>
               <Success>Well, shit just hit the fan.</Success>
               <Button type={"submit"} bsStyle={"primary"}>

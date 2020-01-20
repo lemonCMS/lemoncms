@@ -16,6 +16,8 @@ interface DefaultInputProps {
   mandatory?: boolean;
   placeholder?: string;
   help?: string;
+  addOn?: string;
+  addOnBefore?: string;
   disabled?: () => boolean;
   name: string;
   readOnly?: boolean;
