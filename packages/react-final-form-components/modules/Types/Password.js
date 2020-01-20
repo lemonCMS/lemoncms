@@ -36,6 +36,8 @@ Password.propTypes = {
   placeholder: PropTypes.string,
   label: PropTypes.string,
   help: PropTypes.string,
+  addOn: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  addOnBefore: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   mandatory: PropTypes.bool,
   computedInvalid: PropTypes.bool.isRequired,
   layout: PropTypes.shape({
@@ -48,6 +50,8 @@ Password.defaultProps = {
   input: {},
   label: null,
   help: null,
+  addOn: null,
+  addOnBefore: null,
   placeholder: null,
   disabled: null,
   isDisabled: false,

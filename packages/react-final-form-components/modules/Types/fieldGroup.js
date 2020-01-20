@@ -15,6 +15,7 @@ export default function fieldGroup(Component) {
     const {
       label,
       mandatory,
+      addOnBefore,
       addOn,
       help,
       disabled,
@@ -26,7 +27,7 @@ export default function fieldGroup(Component) {
     const isDisabled = disabled && checkCondition(disabled);
     const layout = { ...contextLayout, ...inputLayout };
     const getComponent = () => {
-      if (addOn === null) {
+      if (addOn === null && addOnBefore === null) {
         return (
           <Component
             {...props}
@@ -38,13 +39,17 @@ export default function fieldGroup(Component) {
 
       return (
         <InputGroup>
+          {typeof addOnBefore === "string" && (
+            <InputGroup.Addon>{addOnBefore}</InputGroup.Addon>
+          )}
+          {typeof addOnBefore !== "string" && addOnBefore}
           <Component
             {...props}
             computedInvalid={computedInvalid}
             isDisabled={isDisabled}
           />
           {typeof addOn === "string" && (
-            <InputGroup.addOn>{addOn}</InputGroup.addOn>
+            <InputGroup.Addon>{addOn}</InputGroup.Addon>
           )}
           {typeof addOn !== "string" && addOn}
         </InputGroup>
@@ -78,6 +83,7 @@ export default function fieldGroup(Component) {
     label: PropTypes.string,
     mandatory: PropTypes.bool,
     addOn: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    addOnBefore: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     help: PropTypes.string,
     type: PropTypes.string,
     disabled: PropTypes.func,
@@ -107,6 +113,7 @@ export default function fieldGroup(Component) {
     label: null,
     mandatory: false,
     addOn: null,
+    addOnBefore: null,
     text: null,
     type: null,
     formGroup: null,

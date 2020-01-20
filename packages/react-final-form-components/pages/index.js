@@ -96,6 +96,7 @@ const Home = () => (
                 }}
               />
               <Password
+                addOnBefore={"#"}
                 name={"password"}
                 label={"Password"}
                 disabled={values => values.radios === "mayson"}

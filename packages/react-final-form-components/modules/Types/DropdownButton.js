@@ -81,6 +81,8 @@ DropdownButton.propTypes = {
       PropTypes.number
     ])
   }),
+  addOn: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  addOnBefore: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   disabled: PropTypes.func,
   isDisabled: PropTypes.bool,
   placeholder: PropTypes.string,
@@ -93,6 +95,8 @@ DropdownButton.propTypes = {
 DropdownButton.defaultProps = {
   input: {},
   placeholder: null,
+  addOn: null,
+  addOnBefore: null,
   disabled: null,
   isDisabled: false,
   layout: null
