@@ -3,7 +3,6 @@ import { mount } from "enzyme";
 import Form from "../../Provider/Form";
 import Select from "../Select";
 import React from "react";
-import Checkbox from "../Checkbox";
 
 describe("BS3 selectbox", () => {
   it("should render snapshot", () => {

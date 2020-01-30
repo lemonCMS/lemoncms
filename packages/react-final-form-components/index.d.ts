@@ -47,6 +47,9 @@ interface FormProps {
     label?: bootStrapSizes;
     field?: bootStrapSizes;
   };
+  debug?: boolean;
+  readonly?: boolean;
+  listen?: (values: any) => void;
 }
 
 interface Message {
