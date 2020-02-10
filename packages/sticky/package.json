@@ -1,13 +1,13 @@
 {
-  "name": "react-sticky",
-  "version": "1.0.0",
+  "name": "@wicked_query/react-sticky",
+  "version": "1.0.1",
   "description": "React sticky component",
   "repository": "http://github.com/lemoncms/lemoncms/sticky",
   "license": "MIT",
   "authors": [
     "Raymond van Vuuren"
   ],
-  "files": [],
+  "files": ["index.js"],
   "main": "index.js",
   "module": "esm/lemoncms-sticky.js",
   "sideEffects": false,
@@ -21,10 +21,10 @@
     "react": ">=16"
   },
   "dependencies": {
-    "@babel/runtime": "^7.1.2",
-    "prop-types": "^15.6.2"
+    "prop-types": ">=15"
   },
   "devDependencies": {
+    "@babel/runtime": "^7.1.2",
     "@babel/core": "^7.1.2",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/plugin-proposal-decorators": "^7.4.4",

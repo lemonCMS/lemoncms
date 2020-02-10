@@ -12,6 +12,26 @@ class Dropzone extends React.Component {
     upload: false
   };
 
+  guidGenerator = () => {
+    const S4 = () => {
+      return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+    };
+    return (
+      S4() +
+      S4() +
+      "-" +
+      S4() +
+      "-" +
+      S4() +
+      "-" +
+      S4() +
+      "-" +
+      S4() +
+      S4() +
+      S4()
+    );
+  };
+
   toBase64 = file =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -24,6 +44,8 @@ class Dropzone extends React.Component {
     const { queue } = this.state;
     return queue !== nextState.queue;
   }
+
+  getChunks(data, chunkSize) {}
 
   addData(file, data) {
     const {
@@ -38,7 +60,8 @@ class Dropzone extends React.Component {
       name,
       type,
       size,
-      data
+      data,
+      getChunks: chunkSize => this.getChunks(data, chunkSize)
     });
     tmpQueue.push(file);
 

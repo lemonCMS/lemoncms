@@ -84,7 +84,7 @@ declare module "react-final-form-components" {
   export const Success: React.FunctionComponent<Message>;
   export const Form: React.FunctionComponent<FormProps>;
   export const Custom: React.FunctionComponent<CustomInputProps>;
-  export const DropZone: React.FunctionComponent<DefaultInputProps>;
+  export const Dropzone: React.FunctionComponent<DefaultInputProps>;
   export const Checkbox: React.FunctionComponent<CheckboxProps>;
   export const Radio: React.FunctionComponent<CheckboxProps>;
   export const Select: React.FunctionComponent<DefaultInputProps>;

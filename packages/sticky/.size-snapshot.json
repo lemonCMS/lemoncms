@@ -105,18 +105,42 @@
         "import_statements": 183
       },
       "webpack": {
-        "code": 4619
+        "code": 4629
       }
     }
   },
   "umd/react-sticky.js": {
-    "bundled": 50051,
-    "minified": 17675,
-    "gzipped": 5400
+    "bundled": 52388,
+    "minified": 18106,
+    "gzipped": 5509
   },
   "umd/react-sticky.min.js": {
-    "bundled": 17653,
-    "minified": 7994,
-    "gzipped": 2691
+    "bundled": 18918,
+    "minified": 8192,
+    "gzipped": 2748
+  },
+  "esm/@wicked_query/react-sticky.js": {
+    "bundled": 5747,
+    "minified": 3725,
+    "gzipped": 1177,
+    "treeshaked": {
+      "rollup": {
+        "code": 3492,
+        "import_statements": 183
+      },
+      "webpack": {
+        "code": 4629
+      }
+    }
+  },
+  "umd/@wicked_query/react-sticky.js": {
+    "bundled": 52388,
+    "minified": 18106,
+    "gzipped": 5509
+  },
+  "umd/@wicked_query/react-sticky.min.js": {
+    "bundled": 18918,
+    "minified": 8192,
+    "gzipped": 2748
   }
 }
